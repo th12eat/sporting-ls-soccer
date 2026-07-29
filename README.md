@@ -1,49 +1,60 @@
-# Team Homework — Sporting LS 3rd Grade Girls
+# Sporting LS — Team Homework
 
 A tiny static website for practice homework: video clips + drill instructions +
-setup diagrams. No build step, no frameworks — just open `index.html`.
+setup diagrams. No build step, no frameworks. Hosts multiple teams under one
+GitHub Pages domain.
 
-## Files
+## Live URLs
 
-| File | What it's for |
-|------|----------------|
-| **`data.js`** | ⭐ **The only file you edit each week.** Add practices & drills here. |
-| `index.html` | Page structure + styling. |
-| `app.js` | Renders the page from `data.js`. You won't need to touch this. |
-| `drills/` | Diagram images (SVG/PNG/JPG) referenced by drills. |
+- **All teams (landing):** https://th12eat.github.io/sporting-ls-soccer/
+- **3rd Grade Girls:** https://th12eat.github.io/sporting-ls-soccer/3rd-grade-girls/
+- **1st Grade Girls:** https://th12eat.github.io/sporting-ls-soccer/1st-grade-girls/ (placeholder)
 
-## Adding a new week (the 30-second version)
+## Structure
 
-1. Open `data.js`.
+```
+/                     landing page linking to each team
+├── index.html        the team picker
+├── 3rd-grade-girls/  full team site
+│   ├── index.html    page structure + styling
+│   ├── app.js        renders the page from data.js (don't need to edit)
+│   ├── data.js       ⭐ THE ONLY FILE YOU EDIT each week for this team
+│   └── drills/       diagram images (SVG/PNG/JPG)
+└── 1st-grade-girls/  placeholder page (to be built out later)
+    └── index.html
+```
+
+## Adding a new week (for 3rd Grade Girls)
+
+1. Open `3rd-grade-girls/data.js`.
 2. Copy one whole `{ ... }` practice block.
 3. Paste it at the **top** of the `PRACTICES` list (newest first).
-4. Update the date, title, drills, and paste your YouTube link(s).
-5. Save. Refresh the page.
+4. Update: attendance, warm-up, drills, scrimmage, and homework. Paste YouTube
+   links (any normal format works) and reference diagrams in `drills/`.
+5. Save. Ask Claude to push, or push yourself (see below).
 
-YouTube links work in any normal form (`watch?v=`, `youtu.be/`, `/shorts/`).
-Videos only load when a parent taps play, so the page stays fast.
+## Adding a second team
+
+Copy the whole `3rd-grade-girls/` folder to a new folder (e.g. `1st-grade-girls/`),
+then edit that folder's `data.js`. Add a card for it on the root `index.html`.
 
 ## Preview locally
 
 ```bash
 cd soccer-homework
 python3 -m http.server 8000
-# then open http://localhost:8000
+# open http://localhost:8000
 ```
 
-## Publish free on GitHub Pages
+## Publishing updates
+
+The repo (`th12eat/sporting-ls-soccer`) allows direct pushes to `main`
+(force-push and branch deletion are blocked). To publish:
 
 ```bash
-cd soccer-homework
-git init && git add . && git commit -m "Team homework site"
-gh repo create sporting-ls-homework --public --source=. --push
+git add -A && git commit -m "Add practice N" && git push
 ```
 
-Then on GitHub: **Settings → Pages → Source: `main` / root**.
-Your site goes live at `https://<your-username>.github.io/sporting-ls-homework/`.
-
-Share that link with the other parents. To update, edit `data.js`, then:
-
-```bash
-git add . && git commit -m "Add practice N" && git push
-```
+Pushes go over SSH (the `github-personal` key), which the Claude sandbox blocks,
+so when Claude pushes it disables the sandbox for that one command.
+GitHub Pages rebuilds automatically (~1 min) — no Actions workflow file needed.

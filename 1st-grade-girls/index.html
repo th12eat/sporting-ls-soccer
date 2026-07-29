@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>1st Grade Girls · Sporting LS Team Homework</title>
+  <meta name="description" content="Practice homework for the Sporting LS 1st Grade Girls team — coming soon." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,600;0,9..144,900;1,9..144,600&family=Nunito:wght@400;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --sky:#93d5f0; --sky-bright:#b6e6fb; --navy:#002b5c; --navy-2:#01203f;
+      --chalk:#f3f8ec; --grass:#3c7a1e; --grass-deep:#2c5c14; --gold:#f2c14e; --ink:#0b1a2b;
+    }
+    * { box-sizing:border-box; margin:0; padding:0; }
+    body {
+      font-family:"Nunito",sans-serif; color:var(--chalk); min-height:100vh;
+      display:flex; align-items:center; justify-content:center; text-align:center; padding:2rem 1.4rem;
+      background:
+        radial-gradient(1000px 480px at 80% -10%, rgba(147,213,240,.28), transparent 60%),
+        repeating-linear-gradient(100deg, var(--grass) 0 70px, var(--grass-deep) 70px 140px);
+      -webkit-font-smoothing:antialiased;
+    }
+    body::before { content:""; position:fixed; inset:14px; border:3px solid rgba(243,248,236,.4); border-radius:12px; pointer-events:none; }
+    .card {
+      position:relative; max-width:520px; background:rgba(1,32,63,.55);
+      border:1px solid rgba(243,248,236,.3); border-radius:20px;
+      padding:clamp(2rem,6vw,3rem); backdrop-filter:blur(5px);
+    }
+    .badge {
+      display:inline-flex; align-items:center; gap:.5rem; font-family:"Space Mono",monospace;
+      font-size:.7rem; letter-spacing:.16em; text-transform:uppercase;
+      background:var(--gold); color:var(--navy-2); padding:.3rem .7rem; border-radius:999px; font-weight:700;
+    }
+    .ball { font-size:2.6rem; display:block; margin:1.2rem 0 .4rem; }
+    h1 {
+      font-family:"Fraunces",serif; font-weight:900; line-height:1;
+      font-size:clamp(2rem,7vw,3rem); letter-spacing:-.02em; text-shadow:0 3px 0 rgba(0,0,0,.18);
+    }
+    p { font-size:1.05rem; font-weight:600; color:rgba(243,248,236,.92); margin-top:.8rem; }
+    .back {
+      display:inline-block; margin-top:1.6rem; text-decoration:none;
+      font-family:"Space Mono",monospace; font-size:.8rem; font-weight:700;
+      color:var(--navy-2); background:var(--sky); padding:.6rem 1.1rem; border-radius:999px;
+      transition:transform .15s ease;
+    }
+    .back:hover { transform:translateY(-2px); }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <span class="badge">Coming soon</span>
+    <span class="ball">⚽</span>
+    <h1>1st Grade Girls</h1>
+    <p>This team's homework page is being set up. Practice history, drills, and videos will show up here soon!</p>
+    <a class="back" href="../">← Back to all teams</a>
+  </div>
+</body>
+</html>
