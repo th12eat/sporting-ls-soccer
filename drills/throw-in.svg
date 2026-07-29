@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240" font-family="'Space Mono', monospace">
+  <rect width="400" height="240" fill="#2c5c14"/>
+  <rect x="6" y="6" width="388" height="228" fill="none" stroke="#f3f8ec" stroke-opacity="0.5" stroke-width="2" rx="6"/>
+  <text x="20" y="28" fill="#f3f8ec" font-size="13" font-weight="700">THROW-IN · LEGAL FORM</text>
+
+  <!-- sideline -->
+  <line x1="70" y1="45" x2="70" y2="225" stroke="#f3f8ec" stroke-width="3"/>
+  <text x="76" y="60" fill="#f3f8ec" font-size="9" opacity="0.8">sideline</text>
+
+  <!-- player stick figure throwing overhead -->
+  <g stroke="#f3f8ec" stroke-width="3" fill="none" stroke-linecap="round">
+    <!-- head -->
+    <circle cx="150" cy="90" r="12" fill="#f3f8ec"/>
+    <!-- body -->
+    <line x1="150" y1="102" x2="150" y2="165"/>
+    <!-- arms up overhead holding ball -->
+    <path d="M150 118 L 128 92"/>
+    <path d="M150 118 L 172 92"/>
+    <!-- legs, both feet on ground behind line -->
+    <line x1="150" y1="165" x2="132" y2="205"/>
+    <line x1="150" y1="165" x2="168" y2="205"/>
+  </g>
+  <!-- ball overhead -->
+  <circle cx="150" cy="82" r="11" fill="#f3f8ec" stroke="#0b1a2b" stroke-width="1.5"/>
+  <circle cx="150" cy="82" r="3" fill="#0b1a2b"/>
+  <!-- throw arc -->
+  <path d="M165 78 Q 250 40 320 120" stroke="#f2c14e" stroke-width="3" stroke-dasharray="8 6" fill="none"/>
+  <polygon points="320,120 308,110 314,124" fill="#f2c14e"/>
+  <!-- feet on ground marker -->
+  <line x1="120" y1="210" x2="180" y2="210" stroke="#ff7a3d" stroke-width="3"/>
+  <text x="120" y="228" fill="#ff7a3d" font-size="9">both feet down, behind line</text>
+
+  <!-- checklist -->
+  <g fill="#f3f8ec" font-size="9.5" opacity="0.92">
+    <text x="235" y="150">✓ ball behind head</text>
+    <text x="235" y="167">✓ both hands, even</text>
+    <text x="235" y="184">✓ feet stay on ground</text>
+  </g>
+</svg>

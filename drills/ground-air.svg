@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240" font-family="'Space Mono', monospace">
+  <rect width="400" height="240" fill="#2c5c14"/>
+  <rect x="6" y="6" width="388" height="228" fill="none" stroke="#f3f8ec" stroke-opacity="0.5" stroke-width="2" rx="6"/>
+  <text x="20" y="28" fill="#f3f8ec" font-size="13" font-weight="700">GROUND vs. AIR · ON DEMAND</text>
+
+  <!-- kicking foot -->
+  <text x="30" y="150" font-size="30">🦵</text>
+
+  <!-- GROUND pass: low straight dashed line -->
+  <line x1="70" y1="170" x2="360" y2="170" stroke="#93d5f0" stroke-width="3" stroke-dasharray="9 6"/>
+  <polygon points="360,170 346,163 346,177" fill="#93d5f0"/>
+  <circle cx="70" cy="170" r="8" fill="#f3f8ec" stroke="#0b1a2b" stroke-width="1.4"/>
+  <text x="230" y="188" fill="#93d5f0" font-size="10">GROUND — strike the MIDDLE, ankle locked</text>
+
+  <!-- AIR pass: arc -->
+  <path d="M70 145 Q 215 40 360 120" stroke="#f2c14e" stroke-width="3" stroke-dasharray="9 6" fill="none"/>
+  <polygon points="360,120 348,110 353,124" fill="#f2c14e"/>
+  <circle cx="70" cy="145" r="8" fill="#f3f8ec" stroke="#0b1a2b" stroke-width="1.4"/>
+  <text x="150" y="70" fill="#f2c14e" font-size="10">AIR — get UNDER the ball, lean back</text>
+
+  <!-- distance flags -->
+  <g stroke="#f3f8ec" stroke-width="1.5">
+    <line x1="200" y1="205" x2="200" y2="220"/>
+    <line x1="300" y1="205" x2="300" y2="220"/>
+  </g>
+  <text x="180" y="234" fill="#f3f8ec" font-size="8" opacity="0.8">5 steps</text>
+  <text x="280" y="234" fill="#f3f8ec" font-size="8" opacity="0.8">10 steps</text>
+</svg>
