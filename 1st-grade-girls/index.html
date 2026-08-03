@@ -201,6 +201,22 @@
     .chevron { flex: none; transition: transform .3s ease; color: var(--navy); font-size: 1.2rem; }
     .practice.open .chevron { transform: rotate(180deg); }
 
+    /* bottom collapse button (inside an expanded card) */
+    .collapse-foot {
+      display: flex; justify-content: center;
+      padding: .6rem 1.3rem 1.3rem; margin-top: .4rem;
+      border-top: 1px dashed rgba(0,43,92,.15);
+    }
+    .collapse-btn {
+      font-family: "Space Mono", monospace; font-size: .74rem; font-weight: 700;
+      letter-spacing: .06em; cursor: pointer;
+      background: var(--navy); color: var(--chalk); border: 0;
+      padding: .5rem 1.2rem; border-radius: 999px;
+      box-shadow: 0 6px 16px -6px rgba(0,43,92,.6);
+      transition: transform .15s ease, background .15s ease;
+    }
+    .collapse-btn:hover { transform: translateY(-2px); background: var(--indigo); }
+
     .practice-body {
       display: grid; grid-template-rows: 0fr;
       transition: grid-template-rows .4s ease;

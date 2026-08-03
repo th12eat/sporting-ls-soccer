@@ -372,6 +372,7 @@
       p.homework.forEach(function (hw) { inner.appendChild(renderHomework(hw)); });
     }
 
+    inner.appendChild(collapseFooter(card, header));
     body.appendChild(inner); card.appendChild(body);
     wireToggle(card, header);
     return card;
@@ -422,6 +423,7 @@
       g.scorers.forEach(function (s) { ul.appendChild(el("li", null, esc(s))); });
       inner.appendChild(el("div", { class: "drill" }, "")).appendChild(ul);
     }
+    inner.appendChild(collapseFooter(card, header));
     body.appendChild(inner); card.appendChild(body);
     wireToggle(card, header);
     return card;
@@ -436,6 +438,23 @@
     header.addEventListener("keydown", function (e) {
       if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggle(); }
     });
+  }
+
+  // A "collapse" button placed at the bottom of an expanded card, so you can
+  // close it after scrolling instead of scrolling back to the top.
+  function collapseFooter(card, header) {
+    var foot = el("div", { class: "collapse-foot" });
+    var btn = el("button", { class: "collapse-btn", type: "button",
+      "aria-label": "Collapse this section" }, "▲ Close");
+    btn.addEventListener("click", function (e) {
+      e.stopPropagation();
+      card.classList.remove("open");
+      header.setAttribute("aria-expanded", "false");
+      // Bring the header back into view smoothly.
+      if (header.scrollIntoView) header.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+    foot.appendChild(btn);
+    return foot;
   }
 
   // ---- Collated (searchable) lists for Homework & Drills tabs ---------------

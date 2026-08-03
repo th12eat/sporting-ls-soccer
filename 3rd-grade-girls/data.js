@@ -150,8 +150,6 @@ const PRACTICES = [
       duration: "10 minutes",
     },
 
-    homeworkIntro:
-      "Three things to work on before next practice. Each has a game-theory idea (the 'why') and a quick drill — with an indoor option for hot or rainy days.",
     homework: [
       {
         name: "Head Up + Ball Control",
