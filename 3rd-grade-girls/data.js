@@ -157,7 +157,7 @@ const PRACTICES = [
         focus: "Dribble with control while scanning the field",
         concept:
           "In a game the field is always changing — teammates move, defenders close in. If your eyes are glued to the ball you can't see the pass or the space. Great players feel the ball with their feet so their eyes are free to READ the game.",
-        youtube: "https://www.youtube.com/watch?v=Dbj-B2mQ0AU",
+        youtube: "",
         diagram: "drills/dribble-gates.svg",
         time: "10 min",
         equipment: "1 ball + a few markers (cones, cups, shoes)",
