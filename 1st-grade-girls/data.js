@@ -38,11 +38,15 @@ const TEAM = {
   },
   venue: "Practices: Hawthorne Hill Elementary · Lee's Summit, MO",
 
+  // Practices are on WEDNESDAYS for this team.
+  practiceDay: "Wednesday",
+
   // Live forecast widget (National Weather Service — no API key needed).
-  // Set the NEXT upcoming practice/game here; the header shows its live forecast.
+  // Set the NEXT upcoming event here. type: "practice" or "game" controls which
+  // location the header links to. For a game, you can add location: {name, map}.
   // weatherGrid is the NWS grid for the Lee's Summit area — don't change it.
   weatherGrid: "EAX/51,43",
-  nextSession: { label: "Next practice", date: "2026-08-04", time: "6:00pm" },
+  nextSession: { label: "Next practice", type: "practice", date: "2026-08-05", time: "6:00pm" },
 };
 
 /* ---- PRACTICES (newest first). Add your first practice here. -------------

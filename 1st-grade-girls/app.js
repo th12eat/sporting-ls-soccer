@@ -60,64 +60,77 @@
     return (typeof TEAM !== "undefined" && TEAM.defaultTime) ? TEAM.defaultTime : "";
   }
 
-  // ---- Media block: diagram <-> video toggle (defaults to diagram) ----------
+  // Build one diagram panel (an image in a captioned frame).
+  function diagramPanel(src, caption, alt) {
+    var dg = el("div", { class: "diagram-wrap" });
+    dg.appendChild(el("img", { src: src, alt: alt || "diagram", loading: "lazy" }));
+    dg.appendChild(el("div", { class: "diagram-cap" }, caption || "Setup diagram"));
+    return dg;
+  }
+
+  // Build a lazy YouTube panel (loads the iframe only on click).
+  function videoPanel(yt, name) {
+    var vw = el("div", { class: "video-wrap" });
+    var facade = el("button", {
+      class: "video-facade", type: "button",
+      "aria-label": "Play video: " + esc(name),
+      style: "background-image:url('https://i.ytimg.com/vi/" + yt.id + "/hqdefault.jpg')"
+    }, '<span class="play-btn"></span>');
+    facade.addEventListener("click", function () {
+      var src = "https://www.youtube-nocookie.com/embed/" + yt.id +
+        "?autoplay=1&rel=0&modestbranding=1" + (yt.start ? "&start=" + yt.start : "");
+      var iframe = el("iframe", {
+        src: src, title: esc(name),
+        allow: "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture",
+        allowfullscreen: "true"
+      });
+      vw.innerHTML = ""; vw.appendChild(iframe);
+    });
+    vw.appendChild(facade);
+    return vw;
+  }
+
+  // ---- Media block: toggles between any diagrams + a video (first is default)
+  // An item may have: `diagram` (single), `diagrams` [{label, src}], `youtube`.
   function buildMedia(item) {
     var yt = parseYouTube(item.youtube);
-    var hasDiagram = !!item.diagram;
-    if (!yt && !hasDiagram) return null;
+    var panels = []; // { label, node }
 
+    if (item.diagrams && item.diagrams.length) {
+      item.diagrams.forEach(function (d) {
+        panels.push({ label: "▦ " + (d.label || "Diagram"),
+          node: diagramPanel(d.src, d.label || "Setup diagram", item.name + " — " + (d.label || "")) });
+      });
+    } else if (item.diagram) {
+      panels.push({ label: "▦ Diagram", node: diagramPanel(item.diagram, "Setup diagram", item.name + " diagram") });
+    }
+
+    if (yt) panels.push({ label: "▶ Video", node: videoPanel(yt, item.name) });
+
+    if (!panels.length) return null;
     var media = el("div", { class: "media" });
-    var both = yt && hasDiagram;
 
-    // Toggle bar (only when we have both a diagram and a video)
-    var panels = {};
-    if (both) {
+    if (panels.length > 1) {
       var toggle = el("div", { class: "media-toggle", role: "tablist" });
-      var bDia = el("button", { class: "mt-btn active", type: "button" }, "▦ Diagram");
-      var bVid = el("button", { class: "mt-btn", type: "button" }, "▶ Video");
-      toggle.appendChild(bDia); toggle.appendChild(bVid);
-      media.appendChild(toggle);
-
-      bDia.addEventListener("click", function () {
-        panels.dia.style.display = ""; panels.vid.style.display = "none";
-        bDia.classList.add("active"); bVid.classList.remove("active");
-      });
-      bVid.addEventListener("click", function () {
-        panels.dia.style.display = "none"; panels.vid.style.display = "";
-        bVid.classList.add("active"); bDia.classList.remove("active");
-      });
-    }
-
-    if (hasDiagram) {
-      var dg = el("div", { class: "diagram-wrap" });
-      dg.appendChild(el("img", { src: item.diagram, alt: item.name + " diagram", loading: "lazy" }));
-      dg.appendChild(el("div", { class: "diagram-cap" }, "Setup diagram"));
-      media.appendChild(dg);
-      panels.dia = dg;
-    }
-
-    if (yt) {
-      var vw = el("div", { class: "video-wrap" });
-      var facade = el("button", {
-        class: "video-facade", type: "button",
-        "aria-label": "Play video: " + esc(item.name),
-        style: "background-image:url('https://i.ytimg.com/vi/" + yt.id + "/hqdefault.jpg')"
-      }, '<span class="play-btn"></span>');
-      facade.addEventListener("click", function () {
-        var src = "https://www.youtube-nocookie.com/embed/" + yt.id +
-          "?autoplay=1&rel=0&modestbranding=1" + (yt.start ? "&start=" + yt.start : "");
-        var iframe = el("iframe", {
-          src: src, title: esc(item.name),
-          allow: "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture",
-          allowfullscreen: "true"
+      panels.forEach(function (p, i) {
+        var btn = el("button", { class: "mt-btn" + (i === 0 ? " active" : ""), type: "button" }, p.label);
+        btn.addEventListener("click", function () {
+          panels.forEach(function (q, j) {
+            q.node.style.display = (j === i) ? "" : "none";
+          });
+          var btns = toggle.children;
+          for (var k = 0; k < btns.length; k++) btns[k].classList.remove("active");
+          btn.classList.add("active");
         });
-        vw.innerHTML = ""; vw.appendChild(iframe);
+        toggle.appendChild(btn);
       });
-      vw.appendChild(facade);
-      media.appendChild(vw);
-      panels.vid = vw;
-      if (both) vw.style.display = "none"; // diagram is default
+      media.appendChild(toggle);
     }
+
+    panels.forEach(function (p, i) {
+      if (i !== 0) p.node.style.display = "none"; // first panel is default
+      media.appendChild(p.node);
+    });
     return media;
   }
 
@@ -516,6 +529,66 @@
       '<span class="mk yes">✓</span> yes &nbsp; <span class="mk no">✗</span> opted out &nbsp; <span class="mk neutral">–</span> not yet'));
   }
 
+  // ---- Weather Guidelines tab (Sporting LS official rules) -------------------
+  function renderGuidelines(mountId) {
+    var mount = document.getElementById(mountId);
+    if (!mount) return;
+    mount.innerHTML = "";
+
+    var intro = el("p", { class: "summary" },
+      "Sporting LS follows these National Weather Service–based rules for all games and practices. " +
+      "The zone that applies to a session's weather also shows on that session's card.");
+    intro.style.padding = "0 0 1rem";
+    mount.appendChild(intro);
+
+    // Heat index table
+    var heat = [
+      { z: "White", r: "65–80°F", a: "No special measures needed.", c: "#5b6b7c" },
+      { z: "Yellow", r: "81–98°F", a: "Hydration encouraged; frequent substitutions.", c: "#c9a100" },
+      { z: "Orange", r: "99–105°F", a: "Water coolers at fields; frequent breaks.", c: "#d35400" },
+      { z: "Red", r: "106–115°F", a: "Mandatory mid-half water break; games shortened (12–25 min halves by age).", c: "#c0392b" },
+      { z: "Black", r: "115°F+", a: "All games & practices CANCELLED.", c: "#1a1a1a" },
+    ];
+    mount.appendChild(el("h3", { class: "wg-h" }, "🌡️ Heat Index Zones"));
+    var table = el("div", { class: "wg-zones" });
+    heat.forEach(function (row) {
+      var r = el("div", { class: "wg-zone" });
+      r.appendChild(el("span", { class: "wg-badge", style: "background:" + row.c }, row.z));
+      r.appendChild(el("span", { class: "wg-range" }, row.r));
+      r.appendChild(el("span", { class: "wg-action" }, row.a));
+      table.appendChild(r);
+    });
+    mount.appendChild(table);
+
+    // Lightning
+    mount.appendChild(el("h3", { class: "wg-h" }, "⚡ Lightning"));
+    var lg = el("ul", { class: "tick-list wg-list" });
+    [
+      "One horn blast = clear the fields; players shelter in vehicles.",
+      "A strobe light means active lightning danger — shelter immediately.",
+      "Three horn blasts = all-clear, safe to return.",
+      "Must wait 30+ minutes after the last lightning strike within 10 miles.",
+      "In-progress games: past halftime counts as complete; first-half games reschedule.",
+    ].forEach(function (t) { lg.appendChild(el("li", null, t)); });
+    mount.appendChild(lg);
+
+    // Cold
+    mount.appendChild(el("h3", { class: "wg-h" }, "❄️ Cold Weather"));
+    var cg = el("ul", { class: "tick-list wg-list" });
+    [
+      "Play happens when wind chill is above 32°F and temperature above 40°F.",
+      "Wet conditions are playable when wind chill is above 40°F and temperature above 48°F.",
+    ].forEach(function (t) { cg.appendChild(el("li", null, t)); });
+    mount.appendChild(cg);
+
+    // Other + contact
+    mount.appendChild(el("h3", { class: "wg-h" }, "🚩 Other Unsafe Conditions"));
+    mount.appendChild(el("p", { class: "summary flush wg-p" },
+      "Field marshals also monitor for excessive field damage, standing water or snow, high winds, and hail."));
+    mount.appendChild(el("p", { class: "summary flush wg-p" },
+      "Check status: 816-473-1001 or the PlayMetrics app. Full rules: sportingls.org/weather-guidelines-2"));
+  }
+
   // ---- Live forecast for the next session (National Weather Service) --------
   function to24h(t) {
     // "6:00pm" -> 18 ; "9:00am" -> 9  (returns hour integer, best-effort)
@@ -700,7 +773,7 @@
   }
 
   // ---- Tabs ------------------------------------------------------------------
-  var EM_WORD = { practice: "Practices", games: "Games", homework: "Homework", drills: "Drills", roster: "Roster" };
+  var EM_WORD = { practice: "Practices", games: "Games", homework: "Homework", drills: "Drills", roster: "Roster", weather: "Weather Rules" };
 
   function showTab(name) {
     var panels = document.querySelectorAll(".tab-panel");
@@ -726,16 +799,18 @@
       setText("season-tag", TEAM.season);
       setText("league-badge", TEAM.league);
       if (TEAM.coaches && TEAM.coaches.length) setText("coach-list", TEAM.coaches.join(" · "));
-      // Venue line: link practice + game locations to their maps.
+      // Venue line: show ONLY the next event's location (practice or game),
+      // based on nextSession.type. A game may set its own field via ns.location.
       var venueEl = document.getElementById("venue");
       if (venueEl) {
         venueEl.innerHTML = "";
-        var pl = locationLink(TEAM.practiceLocation, "Practices: ");
-        var gl = locationLink(TEAM.gameLocation, "Games: ");
-        if (pl) venueEl.appendChild(pl);
-        if (pl && gl) venueEl.appendChild(document.createTextNode("  "));
-        if (gl) venueEl.appendChild(gl);
-        if (!pl && !gl && TEAM.venue) venueEl.textContent = "📍 " + TEAM.venue;
+        var ns = TEAM.nextSession || {};
+        var isGame = ns.type === "game";
+        var loc = ns.location ||
+          (isGame ? TEAM.gameLocation : TEAM.practiceLocation);
+        var link = locationLink(loc, (isGame ? "Game: " : "Practice: "));
+        if (link) venueEl.appendChild(link);
+        else if (TEAM.venue) venueEl.textContent = "📍 " + TEAM.venue;
       }
     }
 
@@ -762,6 +837,9 @@
 
     // Roster
     renderRoster("roster-list");
+
+    // Weather guidelines
+    renderGuidelines("weather-list");
 
     // Wire tab buttons
     var btns = document.querySelectorAll(".tab-btn");

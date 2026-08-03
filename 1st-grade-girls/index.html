@@ -526,6 +526,30 @@
     .legend { font-family: "Space Mono", monospace; font-size: .72rem; color: #6b7b8c; margin-top: 1rem; }
     .legend .mk { margin-right: .1rem; }
 
+    /* ---------- weather guidelines tab ---------- */
+    .wg-h {
+      font-family: "Fraunces", serif; font-weight: 900; font-size: 1.2rem;
+      color: var(--navy); margin: 1.6rem 0 .7rem;
+    }
+    .wg-zones { display: flex; flex-direction: column; gap: .5rem; }
+    .wg-zone {
+      display: grid; grid-template-columns: 84px 96px 1fr; gap: .7rem; align-items: center;
+      background: var(--paper); border: 1px solid rgba(0,43,92,.1);
+      border-radius: 12px; padding: .6rem .8rem; box-shadow: var(--shadow-card);
+    }
+    @media (max-width: 520px) {
+      .wg-zone { grid-template-columns: 74px 1fr; }
+      .wg-zone .wg-action { grid-column: 1 / -1; }
+    }
+    .wg-badge {
+      font-family: "Space Mono", monospace; font-size: .72rem; font-weight: 700;
+      color: #fff; text-align: center; padding: .3rem .4rem; border-radius: 999px;
+    }
+    .wg-range { font-family: "Space Mono", monospace; font-size: .8rem; font-weight: 700; color: var(--navy); }
+    .wg-action { font-size: .9rem; color: #33475b; }
+    .wg-list li { font-size: .92rem; }
+    .wg-p { padding: .2rem 0 !important; color: #33475b; font-size: .9rem; }
+
     /* ---------- footer ---------- */
     footer {
       text-align: center; padding: 2.5rem 1rem 3rem; color: #5b6b7c; font-size: .85rem;
@@ -568,6 +592,7 @@
       <button class="tab-btn" data-tab="homework">Homework</button>
       <button class="tab-btn" data-tab="drills">Drills</button>
       <button class="tab-btn" data-tab="roster">Roster</button>
+      <button class="tab-btn" data-tab="weather">Weather Rules</button>
       <button class="cal-btn" id="cal-btn" style="display:none" title="Download all practices &amp; games as a calendar file">📅 Add to calendar</button>
     </div>
   </nav>
@@ -604,6 +629,12 @@
     <section class="tab-panel" data-tab="roster" style="display:none">
       <div class="section-head"><h2>Team Roster</h2></div>
       <div id="roster-list"></div>
+    </section>
+
+    <!-- WEATHER GUIDELINES -->
+    <section class="tab-panel" data-tab="weather" style="display:none">
+      <div class="section-head"><h2>Weather Guidelines</h2></div>
+      <div id="weather-list"></div>
     </section>
   </main>
 

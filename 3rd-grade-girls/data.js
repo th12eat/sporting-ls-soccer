@@ -51,10 +51,11 @@ const TEAM = {
   venue: "Practices: Legacy Park Practice Soccer Fields · Lee's Summit, MO",
 
   // Live forecast widget (National Weather Service — no API key needed).
-  // Set the NEXT upcoming practice/game here; the header shows its live forecast.
+  // Set the NEXT upcoming event here. type: "practice" or "game" controls which
+  // location the header links to. For a game, you can add location: {name, map}.
   // weatherGrid is the NWS grid for Legacy Park, Lee's Summit MO — don't change it.
   weatherGrid: "EAX/51,43",
-  nextSession: { label: "Next practice", date: "2026-08-04", time: "6:00pm" },
+  nextSession: { label: "Next practice", type: "practice", date: "2026-08-04", time: "6:00pm" },
 };
 
 /* ---- PRACTICES (newest first; the top one shows as "This week") ---------- */
@@ -188,22 +189,27 @@ const PRACTICES = [
           "Ground passes only indoors! Use a soft/foam ball against a wall or a couch cushion 'goal'. Practice the lean-over-the-ball body position and inside-foot contact slowly. Save the 'air' half for outside.",
       },
       {
-        name: "Know Your Position (3×3 Grid)",
-        focus: "Understanding the 10 standard positions and roles",
+        name: "Know Your Position",
+        focus: "Our 7v7 shape (1–2–3) and how it maps to a full 11v11 team",
         concept:
-          "A soccer team covers the field like a 3×3 grid so no one bunches up. Each spot has a job: wings stay wide, midfielders link defense and attack, backs protect the goal, and the goalie guards the net. When everyone holds a lane, we have more passing options and fewer gaps.",
+          "Everyone spreads out to cover the field so we're not all chasing the ball. We play 7v7 with a 1–2–3 shape: 1 Forward up top, 2 Midfielders (LM, RM) to connect, and 3 Backs (LB, CB, RB) plus a Goalie to defend. The big-kid 11v11 game adds wings and splits the middle midfielder into an attacking CAM and a defending CDM — use the toggle to compare. When everyone holds their spot, we have more passing options and fewer gaps.",
         youtube: "",
-        diagram: "drills/positions-grid.svg",
+        // Toggle: our 7v7 shape shows first (default); 11v11 for comparison.
+        diagrams: [
+          { label: "Our 7v7 (1–2–3)", src: "drills/positions-7v7.svg" },
+          { label: "Full 11v11", src: "drills/positions-11v11.svg" },
+        ],
         time: "5 min",
         equipment: "Just the diagram (and a paper field if you want)",
         steps: [
-          "Study the grid: LW · F · RW  /  LM · CM · RM  /  LB · CB · RB  /  GK.",
+          "Our shape: F  /  LM · RM  /  LB · CB · RB  /  GK.",
           "Point to each spot and say the position name out loud.",
-          "Ask: 'If I'm Right Wing, do I stay wide or run to the middle?' (Wide!)",
-          "Name one job for each row: attack, connect, defend, guard the goal.",
+          "Ask: 'If I'm Right Mid, do I stay wide or run to the middle?' (Wide, then support!)",
+          "Name one job per line: attack, connect, defend, guard the goal.",
+          "Toggle to 11v11: see how CM splits into CAM (attack) and CDM (defend).",
         ],
         indoor:
-          "Lay out 9 pieces of paper on the floor in a 3×3 grid (plus one for the goalie). Stand on a square, name the position, and say its job. Move like that position would move.",
+          "Lay out paper on the floor in our 7v7 shape (F; LM, RM; LB, CB, RB; GK). Stand on a spot, name the position, and say its job. Move like that position would move.",
       },
       {
         name: "Throw-Ins",
