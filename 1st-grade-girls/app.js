@@ -5,7 +5,9 @@
   "use strict";
 
   // ---- YouTube link parsing --------------------------------------------------
-  function parseYouTube(url) {
+  // Optional `endSpec` (seconds or "1m30s") stops playback at that time. If it
+  // is a DURATION relative to start you can instead pass a duration via data.
+  function parseYouTube(url, endSpec) {
     if (!url) return null;
     var id = null, start = 0;
     try {
@@ -23,7 +25,8 @@
       }
     } catch (e) { id = String(url).trim(); }
     if (!id) return null;
-    return { id: id, start: start };
+    var end = (endSpec != null && endSpec !== "") ? parseTime(String(endSpec)) : 0;
+    return { id: id, start: start, end: end };
   }
 
   function parseTime(t) {
@@ -78,7 +81,9 @@
     }, '<span class="play-btn"></span>');
     facade.addEventListener("click", function () {
       var src = "https://www.youtube-nocookie.com/embed/" + yt.id +
-        "?autoplay=1&rel=0&modestbranding=1" + (yt.start ? "&start=" + yt.start : "");
+        "?autoplay=1&rel=0&modestbranding=1" +
+        (yt.start ? "&start=" + yt.start : "") +
+        (yt.end ? "&end=" + yt.end : "");
       var iframe = el("iframe", {
         src: src, title: esc(name),
         allow: "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture",
@@ -93,7 +98,7 @@
   // ---- Media block: toggles between any diagrams + a video (first is default)
   // An item may have: `diagram` (single), `diagrams` [{label, src}], `youtube`.
   function buildMedia(item) {
-    var yt = parseYouTube(item.youtube);
+    var yt = parseYouTube(item.youtube, item.youtubeEnd);
     var panels = []; // { label, node }
 
     if (item.diagrams && item.diagrams.length) {

@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 260" font-family="'Space Mono', monospace">
+  <rect width="400" height="260" fill="#2c5c14"/>
+  <rect x="6" y="6" width="388" height="248" fill="none" stroke="#f3f8ec" stroke-opacity="0.5" stroke-width="2" rx="6"/>
+  <text x="200" y="28" fill="#f3f8ec" font-size="13" font-weight="700" text-anchor="middle" textLength="260" lengthAdjust="spacingAndGlyphs">PROTECT &amp; KICK AWAY</text>
+
+  <!-- boundary -->
+  <rect x="60" y="45" width="280" height="175" fill="none" stroke="#f3f8ec" stroke-opacity="0.55" stroke-width="2" stroke-dasharray="6 5" rx="8"/>
+
+  <!-- player 1 shielding her ball, reaching to poke opponent's -->
+  <g stroke="#93d5f0" stroke-width="2.5" fill="none" stroke-linecap="round">
+    <circle cx="150" cy="100" r="9" fill="#93d5f0"/>
+    <line x1="150" y1="109" x2="150" y2="140"/>
+    <line x1="150" y1="116" x2="132" y2="128"/>
+    <line x1="150" y1="116" x2="172" y2="130"/>
+    <line x1="150" y1="140" x2="138" y2="162"/>
+    <line x1="150" y1="140" x2="162" y2="162"/>
+  </g>
+  <!-- her own ball, kept on the far side (protected) -->
+  <circle cx="128" cy="170" r="9" fill="#f3f8ec" stroke="#0b1a2b" stroke-width="1.4"/>
+  <text x="128" y="195" fill="#93d5f0" font-size="8" text-anchor="middle">shield YOUR ball</text>
+
+  <!-- player 2 -->
+  <g stroke="#ff7a3d" stroke-width="2.5" fill="none" stroke-linecap="round">
+    <circle cx="250" cy="100" r="9" fill="#ff7a3d"/>
+    <line x1="250" y1="109" x2="250" y2="140"/>
+    <line x1="250" y1="116" x2="232" y2="130"/>
+    <line x1="250" y1="116" x2="268" y2="128"/>
+    <line x1="250" y1="140" x2="238" y2="162"/>
+    <line x1="250" y1="140" x2="262" y2="162"/>
+  </g>
+  <circle cx="272" cy="170" r="9" fill="#f3f8ec" stroke="#0b1a2b" stroke-width="1.4"/>
+
+  <!-- poke arrow: player 1 kicks player 2's ball away -->
+  <path d="M172 150 Q 235 185 270 175" stroke="#f2c14e" stroke-width="3" stroke-dasharray="7 5" fill="none"/>
+  <polygon points="270,175 258,171 260,183" fill="#f2c14e"/>
+  <text x="200" y="242" fill="#f2c14e" font-size="8.5" text-anchor="middle">keep your ball · poke theirs out with the inside of your foot</text>
+</svg>

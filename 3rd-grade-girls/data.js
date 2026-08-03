@@ -95,6 +95,33 @@ const PRACTICES = [
         ],
       },
       {
+        name: "Protect & Kick Away",
+        focus: "Shielding your own ball while poking away an opponent's",
+        youtube: "",
+        diagram: "drills/protect-kick-away.svg",
+        steps: [
+          "Everyone dribbles in the grid with their OWN ball.",
+          "Keep your body between defenders and your ball (shield it!).",
+          "At the same time, try to kick OTHER players' balls out of the grid.",
+          "If your ball gets knocked out, do 3 toe-taps and come back in.",
+          "Last player with a ball in the grid wins the round.",
+        ],
+      },
+      {
+        name: "4v4 Transfer (5 Passes)",
+        focus: "Keeping possession under pressure, then switching the ball across",
+        youtube: "https://youtu.be/A-n82IYDq7M?t=98",
+        youtubeEnd: "158",
+        diagram: "drills/transfer-4v4.svg",
+        steps: [
+          "4 players on each end, 4 defenders in the middle (like group monkey-in-the-middle).",
+          "The end team must complete 5 passes among themselves first.",
+          "After 5 passes, they can transfer the ball across to the other end team.",
+          "Defenders try to win it; if they do, they swap with the team that lost it.",
+          "Stay spread out and call for the ball to make the 5 passes easier.",
+        ],
+      },
+      {
         name: "Set Pieces — Kick-offs, Corners & Goal Kicks",
         focus: "Restarting play with a plan and good spacing",
         youtube: "",
@@ -193,7 +220,7 @@ const PRACTICES = [
         focus: "Striking the ball cleanly for accuracy and distance",
         concept:
           "Good kicks come from your laces (the top of your shoe), a solid plant foot next to the ball, and a follow-through toward your target. Look where you want it to go!",
-        youtube: "",
+        youtube: "https://www.youtube.com/watch?v=zEg-cumP2kE",
         diagram: "",
         time: "10 min",
         equipment: "1 ball + a target (cones, a tree, a goal)",
