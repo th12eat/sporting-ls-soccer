@@ -424,8 +424,7 @@
     header.appendChild(el("div", { class: "cal" },
       '<div class="mo">' + d.mo + '</div><div class="day">' + d.day + '</div>'));
     var titles = el("div", { class: "practice-titles" });
-    titles.appendChild(el("h3", null,
-      esc(p.title) + (index === 0 && openFirst ? '<span class="thisweek-pill">This week</span>' : "")));
+    titles.appendChild(el("h3", null, esc(p.title)));
     var upcoming = isUpcomingEntry(p);
     // Practices are at the team's practice location (not a game field).
     var wxOpts = { isGame: false,
@@ -991,12 +990,12 @@
   function wireCalendarButton() {
     var btn = document.getElementById("cal-btn");
     if (!btn) return;
-    var evs = scheduleEvents();
-    if (!evs.length) { btn.style.display = "none"; return; }
+    // Temporarily disabled — the .ics export didn't import cleanly (esp. Google
+    // Calendar) and the schedule isn't finalized. Shown greyed out for now.
     btn.style.display = "";
-    btn.addEventListener("click", function () {
-      downloadICS("sporting-ls-schedule.ics", buildICS(evs));
-    });
+    btn.setAttribute("disabled", "disabled");
+    btn.setAttribute("title", "Calendar export coming soon");
+    btn.classList.add("is-disabled");
   }
 
   // ---- Tabs ------------------------------------------------------------------

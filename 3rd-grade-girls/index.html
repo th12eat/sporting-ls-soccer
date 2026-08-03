@@ -197,11 +197,6 @@
       font-size: clamp(1.05rem, 2.6vw, 1.3rem); color: var(--navy); line-height: 1.1;
     }
     .practice-titles .when { font-family: "Space Mono", monospace; font-size: .72rem; color: #5b6b7c; letter-spacing: .04em; }
-    .thisweek-pill {
-      display: inline-block; margin-left: .5rem; vertical-align: middle;
-      font-family: "Space Mono", monospace; font-size: .6rem; text-transform: uppercase; letter-spacing: .1em;
-      background: var(--gold); color: var(--navy-2); padding: .15rem .5rem; border-radius: 999px; font-weight: 700;
-    }
 
     .chevron { flex: none; transition: transform .3s ease; color: var(--navy); font-size: 1.2rem; }
     .practice.open .chevron { transform: rotate(180deg); }
@@ -430,6 +425,11 @@
     .loc-link:hover { color: #fff; }
     /* calendar button reuses .pill-link; just make it look like a button (gold) */
     button.cal-btn { cursor: pointer; border: 1px solid rgba(243,248,236,.5); }
+    button.cal-btn.is-disabled {
+      background: rgba(243,248,236,.28); color: rgba(243,248,236,.6);
+      cursor: not-allowed; border-color: rgba(243,248,236,.25);
+    }
+    button.cal-btn.is-disabled:hover { transform: none; }
     .forecast {
       margin-top: .9rem; max-width: 60ch;
       background: rgba(1,32,63,.55); border: 1px solid rgba(243,248,236,.28);
