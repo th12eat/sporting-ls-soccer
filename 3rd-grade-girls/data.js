@@ -210,7 +210,7 @@ const PRACTICES = [
         focus: "A legal, accurate throw-in to restart play",
         concept:
           "When the ball goes out on the sideline, a throw-in gives it back to a team. It's a free chance to keep possession — but only if it's legal. A foul throw hands the ball to the other team, so good form matters.",
-        youtube: "https://www.youtube.com/watch?v=6a4Z4Q0y8Zc",
+        youtube: "https://www.youtube.com/watch?v=Umku3eCWg9Y",
         diagram: "drills/throw-in.svg",
         time: "5 min",
         equipment: "1 ball + a partner or wall",
