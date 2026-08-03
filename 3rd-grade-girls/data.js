@@ -84,7 +84,7 @@ const PRACTICES = [
       {
         name: "Ground vs. Air — On Demand",
         focus: "Choosing to drive the ball low OR lift it, to a target distance",
-        youtube: "https://www.youtube.com/watch?v=8dxsBnRQ3Kg",
+        youtube: "https://www.youtube.com/watch?v=xIISidbW4TY",
         diagram: "drills/ground-air.svg",
         steps: [
           "Ground ball: strike through the middle of the ball, ankle locked.",
@@ -96,7 +96,7 @@ const PRACTICES = [
       {
         name: "Roll / Pullback",
         focus: "Changing direction to protect the ball and turn away from pressure",
-        youtube: "https://www.youtube.com/watch?v=sxAHmB8n8Kc",
+        youtube: "https://www.youtube.com/watch?v=fN4L3ypTTAY",
         diagram: "drills/pullback.svg",
         steps: [
           "Place the sole of your foot on top of the ball, toe up.",
@@ -160,7 +160,7 @@ const PRACTICES = [
         focus: "Consciously deciding where to put the ball, using foot & body position",
         concept:
           "A pass on the ground is faster and easier for a teammate to control. A ball in the air can travel OVER a defender's foot. Good players decide on purpose which one the moment calls for — it's not luck, it's a choice you make with your body position.",
-        youtube: "https://www.youtube.com/watch?v=8dxsBnRQ3Kg",
+        youtube: "https://www.youtube.com/watch?v=xIISidbW4TY",
         diagram: "drills/ground-air.svg",
         time: "10 min",
         equipment: "1 ball + a wall or a partner",

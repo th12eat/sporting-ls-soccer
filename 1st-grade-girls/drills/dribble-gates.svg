@@ -16,5 +16,5 @@
   <circle cx="40" cy="170" r="2.5" fill="#0b1a2b"/>
   <!-- player -->
   <text x="34" y="200" fill="#f3f8ec" font-size="18">🏃‍♀️</text>
-  <text x="20" y="28" fill="#f3f8ec" font-size="13" font-weight="700">DRIBBLE THROUGH THE GATES</text>
+  <text x="200" y="28" fill="#f3f8ec" font-size="13" font-weight="700" text-anchor="middle" textLength="250" lengthAdjust="spacingAndGlyphs">DRIBBLE THROUGH THE GATES</text>
 </svg>

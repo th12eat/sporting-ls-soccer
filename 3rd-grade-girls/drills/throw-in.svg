@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240" font-family="'Space Mono', monospace">
   <rect width="400" height="240" fill="#2c5c14"/>
   <rect x="6" y="6" width="388" height="228" fill="none" stroke="#f3f8ec" stroke-opacity="0.5" stroke-width="2" rx="6"/>
-  <text x="20" y="28" fill="#f3f8ec" font-size="13" font-weight="700">THROW-IN · LEGAL FORM</text>
+  <text x="200" y="28" fill="#f3f8ec" font-size="13" font-weight="700" text-anchor="middle">THROW-IN · LEGAL FORM</text>
 
   <!-- sideline -->
   <line x1="70" y1="45" x2="70" y2="225" stroke="#f3f8ec" stroke-width="3"/>
@@ -28,7 +28,7 @@
   <polygon points="320,120 308,110 314,124" fill="#f2c14e"/>
   <!-- feet on ground marker -->
   <line x1="120" y1="210" x2="180" y2="210" stroke="#ff7a3d" stroke-width="3"/>
-  <text x="120" y="228" fill="#ff7a3d" font-size="9">both feet down, behind line</text>
+  <text x="150" y="228" fill="#ff7a3d" font-size="9" text-anchor="middle">both feet down, behind line</text>
 
   <!-- checklist -->
   <g fill="#f3f8ec" font-size="9.5" opacity="0.92">
