@@ -884,10 +884,20 @@
         (w.pop ? ' · ' + w.pop + '% precip' : "");
       var g = weatherGuideline(w, wxOpts);
       if (g) {
-        var gb = el("div", { class: "wx-guideline in-forecast", style: "border-left-color:" + g.color });
-        gb.appendChild(el("span", { class: "wx-g-badge", style: "background:" + g.color }, esc(g.label)));
-        gb.appendChild(el("span", { class: "wx-g-text" }, esc(g.action)));
-        host.appendChild(gb);
+        // Compact clickable zone chip; tap to reveal the full guideline text.
+        // (The same info also appears in the practice summary/card below.)
+        var zoneBtn = el("button", { class: "fc-zone", type: "button",
+          style: "background:" + g.color, "aria-expanded": "false",
+          title: "Tap for the weather guideline" }, esc(g.label));
+        line.appendChild(zoneBtn);
+        var detail = el("div", { class: "fc-zone-detail" }, esc(g.action));
+        detail.style.display = "none";
+        host.appendChild(detail);
+        zoneBtn.addEventListener("click", function () {
+          var open = detail.style.display === "none";
+          detail.style.display = open ? "" : "none";
+          zoneBtn.setAttribute("aria-expanded", open ? "true" : "false");
+        });
       }
     }).catch(function () { val.textContent = "Live forecast unavailable right now."; });
   }
@@ -1009,6 +1019,30 @@
     if (typeof updateFloatingClose === "function") updateFloatingClose();
   }
 
+  // Horizontal-scrolling tabs: show edge fades + arrows when there's overflow.
+  function wireScrollingTabs() {
+    var scroll = document.getElementById("tabs-scroll");
+    var inner = document.getElementById("tabs-inner");
+    if (!scroll || !inner) return;
+
+    function update() {
+      var maxScroll = inner.scrollWidth - inner.clientWidth;
+      var x = inner.scrollLeft;
+      scroll.classList.toggle("more-left", x > 4);
+      scroll.classList.toggle("more-right", x < maxScroll - 4);
+    }
+    inner.addEventListener("scroll", update, { passive: true });
+    if (typeof window !== "undefined" && window.addEventListener)
+      window.addEventListener("resize", update);
+
+    function step(dir) { inner.scrollBy({ left: dir * Math.max(120, inner.clientWidth * 0.6), behavior: "smooth" }); }
+    var la = document.getElementById("tab-arrow-left");
+    var ra = document.getElementById("tab-arrow-right");
+    if (la) la.addEventListener("click", function () { step(-1); });
+    if (ra) ra.addEventListener("click", function () { step(1); });
+    update();
+  }
+
   // Apply a team's accent colors by overriding CSS custom properties.
   function applyTheme(theme) {
     if (!theme || typeof document === "undefined" || !document.documentElement) return;
@@ -1082,9 +1116,13 @@
     var btns = document.querySelectorAll(".tab-btn");
     for (var k = 0; k < btns.length; k++) {
       (function (b) {
-        b.addEventListener("click", function () { showTab(b.getAttribute("data-tab")); });
+        b.addEventListener("click", function () {
+          showTab(b.getAttribute("data-tab"));
+          if (b.scrollIntoView) b.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
+        });
       })(btns[k]);
     }
+    wireScrollingTabs();
 
     var start = location.hash.slice(1);
     showTab(EM_WORD[start] ? start : "practice");

@@ -59,7 +59,7 @@
       padding: clamp(2.2rem, 6vw, 4rem) clamp(1.2rem, 5vw, 3rem) clamp(3.5rem, 7vw, 5rem);
       box-shadow: inset 0 -8px 30px rgba(0,0,0,.25);
     }
-    /* chalk pitch markings */
+    /* chalk pitch markings — purely decorative, must sit BEHIND the text */
     header.hero::before {
       content: "";
       position: absolute;
@@ -67,6 +67,7 @@
       border: 3px solid rgba(243,248,236,.55);
       border-radius: 10px;
       pointer-events: none;
+      z-index: 0;
     }
     header.hero::after {
       content: "";
@@ -77,16 +78,10 @@
       border: 3px solid rgba(243,248,236,.55);
       border-radius: 50%;
       pointer-events: none;
+      z-index: 0;
     }
-    .hero-inner { position: relative; max-width: 1000px; margin: 0 auto; }
+    .hero-inner { position: relative; z-index: 1; max-width: 1000px; margin: 0 auto; }
     .hero-top { display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
-    .back-link {
-      font-family: "Space Mono", monospace; font-size: .74rem; font-weight: 700;
-      letter-spacing: .06em; text-decoration: none; color: var(--navy-2);
-      background: var(--sky-bright); padding: .35rem .8rem; border-radius: 999px;
-      border: 1px solid rgba(243,248,236,.5); transition: transform .15s ease;
-    }
-    .back-link:hover { transform: translateY(-2px); }
     .hero-links { display: flex; align-items: center; gap: .5rem; flex-wrap: wrap; }
     .pill-link {
       font-family: "Space Mono", monospace; font-size: .74rem; font-weight: 700;
@@ -422,10 +417,8 @@
     .coaches {
       margin-top: 1rem; display: flex; align-items: center; gap: .5rem; flex-wrap: wrap;
       font-family: "Space Mono", monospace; font-size: .82rem; letter-spacing: .03em;
-      color: rgba(243,248,236,.95);
+      color: rgba(243,248,236,.95); font-weight: 700;
     }
-    .coaches .whistle { font-size: 1rem; }
-    .coaches #coach-list { font-weight: 700; }
     .venue-line {
       margin-top: .5rem; font-family: "Space Mono", monospace; font-size: .76rem;
       color: rgba(243,248,236,.85);
@@ -435,37 +428,52 @@
       border-bottom: 1px dotted rgba(182,230,251,.6);
     }
     .loc-link:hover { color: #fff; }
-    .cal-btn {
-      font-family: "Space Mono", monospace; font-size: .78rem; font-weight: 700;
-      cursor: pointer; border: 0; margin-left: auto;
-      background: var(--gold); color: var(--navy-2);
-      padding: .5rem .9rem; border-radius: 999px; transition: transform .15s ease;
-      white-space: nowrap;
-    }
-    .cal-btn:hover { transform: translateY(-2px); }
+    /* calendar button reuses .pill-link; just make it look like a button (gold) */
+    button.cal-btn { cursor: pointer; border: 1px solid rgba(243,248,236,.5); }
     .forecast {
       margin-top: .9rem; max-width: 60ch;
       background: rgba(1,32,63,.55); border: 1px solid rgba(243,248,236,.28);
       border-left: 4px solid var(--sky); border-radius: 12px;
       padding: .7rem 1rem; backdrop-filter: blur(4px);
     }
+    /* forecast is LEFT-justified (val sits right after the label, not pushed right) */
     .fc-line { display: flex; align-items: center; gap: .5rem; flex-wrap: wrap;
       font-family: "Space Mono", monospace; font-size: .82rem; color: rgba(243,248,236,.95); }
     .fc-when { font-weight: 700; }
-    .fc-val { margin-left: auto; font-size: .9rem; color: var(--sky-bright); }
+    .fc-val { font-size: .9rem; color: var(--sky-bright); }
     .fc-val strong { color: #fff; }
+    /* clickable weather-zone chip in the forecast line */
+    .fc-zone {
+      cursor: pointer; border: 0; font-family: "Space Mono", monospace;
+      font-size: .68rem; font-weight: 700; color: #fff;
+      padding: .2rem .6rem; border-radius: 999px; display: inline-flex; align-items: center; gap: .3rem;
+    }
+    .fc-zone::after { content: "ⓘ"; font-size: .7rem; opacity: .85; }
+    .fc-zone-detail {
+      margin-top: .5rem; font-family: "Nunito", sans-serif; font-size: .85rem;
+      color: rgba(243,248,236,.95); background: rgba(0,0,0,.18);
+      border-radius: 8px; padding: .5rem .7rem;
+    }
 
-    /* ---------- tabs ---------- */
+    /* ---------- tabs (horizontal scroll on narrow screens) ---------- */
     .tabs {
       position: sticky; top: 0; z-index: 20;
-      display: flex; gap: .3rem; flex-wrap: wrap;
       padding: .6rem clamp(1.2rem, 5vw, 3rem);
       background: rgba(251,253,255,.92);
       backdrop-filter: blur(8px);
       border-bottom: 1px solid rgba(0,43,92,.12);
     }
-    .tabs-inner { max-width: 1000px; margin: 0 auto; display: flex; gap: .3rem; flex-wrap: wrap; width: 100%; }
+    .tabs-scroll { position: relative; max-width: 1000px; margin: 0 auto; }
+    .tabs-inner {
+      display: flex; gap: .3rem; width: 100%;
+      overflow-x: auto; scroll-behavior: smooth;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none; /* Firefox */
+      padding-bottom: 2px;
+    }
+    .tabs-inner::-webkit-scrollbar { display: none; } /* Chrome/Safari */
     .tab-btn {
+      flex: 0 0 auto; white-space: nowrap;
       font-family: "Space Mono", monospace; font-size: .8rem; font-weight: 700;
       letter-spacing: .04em; cursor: pointer;
       background: transparent; color: #5b6b7c; border: 0;
@@ -474,6 +482,25 @@
     }
     .tab-btn:hover { background: rgba(147,213,240,.2); color: var(--navy); }
     .tab-btn.active { background: var(--navy); color: var(--chalk); }
+    /* edge fades hint that there's more to scroll */
+    .tabs-scroll::before, .tabs-scroll::after {
+      content: ""; position: absolute; top: 0; bottom: 0; width: 28px; pointer-events: none;
+      z-index: 2; opacity: 0; transition: opacity .2s ease;
+    }
+    .tabs-scroll::before { left: 0; background: linear-gradient(90deg, rgba(251,253,255,.95), transparent); }
+    .tabs-scroll::after  { right: 0; background: linear-gradient(270deg, rgba(251,253,255,.95), transparent); }
+    .tabs-scroll.more-left::before  { opacity: 1; }
+    .tabs-scroll.more-right::after  { opacity: 1; }
+    /* scroll arrows */
+    .tab-arrow {
+      position: absolute; top: 50%; transform: translateY(-50%); z-index: 3;
+      width: 26px; height: 26px; border-radius: 50%; border: 0; cursor: pointer;
+      background: var(--navy); color: var(--chalk); font-size: .8rem; line-height: 1;
+      display: none; place-items: center; box-shadow: 0 3px 8px -2px rgba(0,0,0,.4);
+    }
+    .tab-arrow.left { left: -2px; } .tab-arrow.right { right: -2px; }
+    .tabs-scroll.more-left .tab-arrow.left { display: grid; }
+    .tabs-scroll.more-right .tab-arrow.right { display: grid; }
 
     /* ---------- header meta chips (time + weather) ---------- */
     .hdr-chips { display: inline-flex; gap: .35rem; margin-left: .5rem; vertical-align: middle; flex-wrap: wrap; }
@@ -645,27 +672,30 @@
         <a class="badge" id="league-link" href="https://www.sportingls.org/" target="_blank" rel="noopener"><span class="dot"></span> <span id="league-badge">Recreation League</span></a>
         <div class="hero-links">
           <a class="pill-link" href="https://app.playmetrics.com/" target="_blank" rel="noopener">📲 PlayMetrics</a>
-          <a class="back-link" href="../">← All teams</a>
+          <button class="pill-link cal-btn" id="cal-btn" type="button" style="display:none" title="Download all practices &amp; games as a calendar file">📅 Add to calendar</button>
         </div>
       </div>
       <h1 class="title">Team <span class="em" id="hero-em">Practices</span></h1>
       <p class="subtitle" id="team-sub">Loading team…</p>
-      <div class="coaches"><span class="whistle">📋</span> Coaches: <span id="coach-list">—</span></div>
+      <div class="coaches"><span id="coach-list">—</span></div>
       <div class="venue-line" id="venue"></div>
       <div class="forecast" id="forecast" style="display:none"></div>
     </div>
   </header>
 
   <nav class="tabs">
-    <div class="tabs-inner">
-      <button class="tab-btn active" data-tab="practice">Practices</button>
-      <button class="tab-btn" data-tab="games">Games</button>
-      <button class="tab-btn" data-tab="homework">Homework</button>
-      <button class="tab-btn" data-tab="drills">Drills</button>
-      <button class="tab-btn" data-tab="roster">Roster</button>
-      <button class="tab-btn" data-tab="weather">Weather Rules</button>
-      <button class="tab-btn" data-tab="snacks">Snacks</button>
-      <button class="cal-btn" id="cal-btn" style="display:none" title="Download all practices &amp; games as a calendar file">📅 Add to calendar</button>
+    <div class="tabs-scroll" id="tabs-scroll">
+      <button class="tab-arrow left" id="tab-arrow-left" type="button" aria-label="Scroll tabs left">‹</button>
+      <div class="tabs-inner" id="tabs-inner">
+        <button class="tab-btn active" data-tab="practice">Practices</button>
+        <button class="tab-btn" data-tab="games">Games</button>
+        <button class="tab-btn" data-tab="homework">Homework</button>
+        <button class="tab-btn" data-tab="drills">Drills</button>
+        <button class="tab-btn" data-tab="roster">Roster</button>
+        <button class="tab-btn" data-tab="weather">Weather Rules</button>
+        <button class="tab-btn" data-tab="snacks">Snacks</button>
+      </div>
+      <button class="tab-arrow right" id="tab-arrow-right" type="button" aria-label="Scroll tabs right">›</button>
     </div>
   </nav>
 
