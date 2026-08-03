@@ -433,11 +433,58 @@
     function toggle() {
       var open = card.classList.toggle("open");
       header.setAttribute("aria-expanded", open ? "true" : "false");
+      updateFloatingClose();
     }
     header.addEventListener("click", toggle);
     header.addEventListener("keydown", function (e) {
       if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggle(); }
     });
+    registerCard(card, header);
+  }
+
+  // ---- Floating "close" button --------------------------------------------
+  // Appears only when an OPEN card's header has scrolled off the top of the
+  // screen, so you can collapse from anywhere without scrolling to find it.
+  var _cards = [];          // { card, header }
+  var _floatBtn = null;
+
+  function registerCard(card, header) { _cards.push({ card: card, header: header }); }
+
+  function ensureFloatBtn() {
+    if (_floatBtn) return _floatBtn;
+    _floatBtn = el("button", { class: "float-close", type: "button",
+      "aria-label": "Close the open section" }, "▲ Close");
+    _floatBtn.style.display = "none";
+    _floatBtn.addEventListener("click", function () {
+      // Close the top-most open card whose header is above the viewport.
+      var target = currentFloatTarget();
+      if (target) {
+        target.card.classList.remove("open");
+        target.header.setAttribute("aria-expanded", "false");
+      }
+      updateFloatingClose();
+    });
+    document.body.appendChild(_floatBtn);
+    return _floatBtn;
+  }
+
+  // The open card whose header is scrolled above the top of the viewport.
+  function currentFloatTarget() {
+    for (var i = 0; i < _cards.length; i++) {
+      var c = _cards[i];
+      if (!c.card.classList.contains("open")) continue;
+      var r = c.header.getBoundingClientRect ? c.header.getBoundingClientRect() : null;
+      if (!r) continue;
+      // header top is above the viewport, but the card still occupies screen
+      var cr = c.card.getBoundingClientRect();
+      if (r.bottom < 8 && cr.bottom > 80) return c;
+    }
+    return null;
+  }
+
+  function updateFloatingClose() {
+    var btn = ensureFloatBtn();
+    btn.style.display = currentFloatTarget() ? "" : "none";
   }
 
   // A "collapse" button placed at the bottom of an expanded card, so you can
@@ -822,11 +869,28 @@
     if (location.hash.slice(1) !== name) {
       try { history.replaceState(null, "", "#" + name); } catch (e) {}
     }
+    if (typeof updateFloatingClose === "function") updateFloatingClose();
+  }
+
+  // Apply a team's accent colors by overriding CSS custom properties.
+  function applyTheme(theme) {
+    if (!theme || typeof document === "undefined" || !document.documentElement) return;
+    var root = document.documentElement.style;
+    if (!root || !root.setProperty) return;
+    // Hero stripes + primary surfaces take the team's primary color.
+    if (theme.primary)     { root.setProperty("--grass", theme.primary);
+                             root.setProperty("--navy", theme.primary); }
+    if (theme.primaryDeep) { root.setProperty("--grass-deep", theme.primaryDeep);
+                             root.setProperty("--navy-2", theme.primaryDeep); }
+    // Accent (whistle/captain highlights, calendar button, play button).
+    if (theme.accent)      root.setProperty("--gold", theme.accent);
+    if (theme.accentSoft)  root.setProperty("--sky-bright", theme.accentSoft);
   }
 
   // ---- Boot ------------------------------------------------------------------
   function init() {
     if (typeof TEAM !== "undefined") {
+      if (TEAM.theme) applyTheme(TEAM.theme);
       if (TEAM.name) document.title = "Sporting LS · " + TEAM.name.replace(/^Sporting LS\s*[—-]\s*/, "");
       setText("team-sub", TEAM.name);
       setText("season-tag", TEAM.season);
@@ -884,6 +948,14 @@
 
     var start = location.hash.slice(1);
     showTab(EM_WORD[start] ? start : "practice");
+
+    // Floating close button: recheck on scroll / resize.
+    ensureFloatBtn();
+    if (typeof window !== "undefined" && window.addEventListener) {
+      window.addEventListener("scroll", updateFloatingClose, { passive: true });
+      window.addEventListener("resize", updateFloatingClose);
+    }
+    updateFloatingClose();
   }
 
   function setText(id, txt) {

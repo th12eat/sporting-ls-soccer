@@ -36,6 +36,10 @@ const TEAM = {
   coaches: ["Coach Thomas", "Coach John"],
   defaultTime: "6:00pm",
 
+  // Team accent colors (3rd grade = black & mustard yellow). These tint the
+  // hero stripes, badges, and highlight accents. Leave off for the default look.
+  theme: { primary: "#1a1a1a", primaryDeep: "#000000", accent: "#e6b422", accentSoft: "#f4d774", onPrimary: "#ffffff" },
+
   // Locations. `map` can be a full Google Maps link, or leave it off and the
   // page will build a search link from the name. Practices are at one place;
   // games are at Legacy Park but the field # varies week to week (set per game).

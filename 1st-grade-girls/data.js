@@ -26,6 +26,10 @@ const TEAM = {
   coaches: ["Coach Thomas", "Coach Stephen", "Coach Lindsey"],
   defaultTime: "6:00pm",
 
+  // Team accent colors (1st grade = green & white). These tint the hero
+  // stripes, badges, and highlight accents. Leave off for the default look.
+  theme: { primary: "#1b7a3d", primaryDeep: "#125c2c", accent: "#ffffff", accentSoft: "#d8f0df", onPrimary: "#ffffff" },
+
   // Locations. Practices are at Hawthorne Hill Elementary; games at Legacy Park
   // (the field # varies week to week — set g.location per game when known).
   practiceLocation: {
@@ -78,7 +82,7 @@ const PRACTICES = [
         name: "\"Elsa\" (Freeze-Tag Keep-Away)",
         focus: "Dribbling under pressure, protecting the ball, and helping teammates",
         youtube: "",
-        diagram: "",
+        diagram: "drills/elsa.svg",
         steps: [
           "Everyone has a ball EXCEPT the 1–3 chosen 'Elsas' (the attackers).",
           "The Elsas try to kick other players' balls out past the boundary.",
@@ -91,7 +95,7 @@ const PRACTICES = [
         name: "Sharks & Minnows",
         focus: "Dribbling at speed while keeping control and dodging",
         youtube: "",
-        diagram: "",
+        diagram: "drills/sharks-minnows.svg",
         steps: [
           "'Minnows' each start with a ball on one side; 1–2 'sharks' are in the middle.",
           "On 'go', minnows dribble across without losing their ball to a shark.",
@@ -103,7 +107,7 @@ const PRACTICES = [
         name: "Lead & Pass (Moving Partners)",
         focus: "Passing to a moving teammate and leading the pass ahead of them",
         youtube: "",
-        diagram: "",
+        diagram: "drills/lead-pass.svg",
         steps: [
           "Partners line up about 8 feet apart, one line has the ball.",
           "Jog down the field together, passing back and forth.",
@@ -115,7 +119,7 @@ const PRACTICES = [
         name: "Shooting — Give & Go with Coach",
         focus: "Passing, running onto a return pass, and shooting",
         youtube: "",
-        diagram: "",
+        diagram: "drills/shooting-giveandgo.svg",
         steps: [
           "Pass the ball to the coach.",
           "Coach immediately passes it back, leading you toward the goal.",
@@ -130,7 +134,60 @@ const PRACTICES = [
       duration: "10 minutes",
     },
 
-    homework: [],
+    homework: [
+      {
+        name: "Make Friends With the Ball",
+        focus: "Lots of little touches to get comfortable",
+        concept:
+          "At this age the #1 thing is getting comfortable with the ball at your feet. The more you touch it, the braver and more confident you'll be in games. It should feel like a fun toy, not something scary!",
+        youtube: "",
+        diagram: "",
+        time: "5–10 min",
+        equipment: "1 ball",
+        steps: [
+          "Dribble around the yard with little taps — pretend the ball is stuck to your feet.",
+          "Tap the top of the ball back and forth between feet (toe-taps).",
+          "Stop the ball with the bottom of your foot when a grown-up yells 'freeze!'.",
+        ],
+        indoor:
+          "Use a rolled-up sock or a soft/foam ball on the carpet. Gentle taps only — great for the living room!",
+      },
+      {
+        name: "Pass & Lead a Partner",
+        focus: "Passing ahead of a moving teammate",
+        concept:
+          "In a game your teammates are always moving. If you pass right AT them they have to stop and wait. If you pass a little bit in FRONT of them, they can run onto it and keep going — that's how teams move the ball fast.",
+        youtube: "",
+        diagram: "drills/lead-pass.svg",
+        time: "5–10 min",
+        equipment: "1 ball + a partner (parent or sibling!)",
+        steps: [
+          "Stand a few steps apart and pass with the inside of your foot.",
+          "Now both walk slowly and keep passing — aim a little AHEAD of your partner.",
+          "Say your partner's name before you pass so they're ready.",
+        ],
+        indoor:
+          "Roll or gently pass a soft ball back and forth across the room while slowly walking side to side.",
+      },
+      {
+        name: "Shoot on Goal",
+        focus: "Kicking hard and on target",
+        concept:
+          "Scoring is the best part! Good shots come from planting your standing foot next to the ball and striking through the middle with your laces (the top of your shoe), looking where you want it to go.",
+        youtube: "",
+        diagram: "drills/shooting-giveandgo.svg",
+        time: "5–10 min",
+        equipment: "1 ball + a 'goal' (two shoes, a net, or a wall target)",
+        steps: [
+          "Set the ball a few steps from your goal.",
+          "Plant your non-kicking foot next to the ball.",
+          "Kick through the middle with your laces — follow through toward the goal.",
+          "Celebrate every goal! Then try from a little farther back.",
+        ],
+        indoor:
+          "Use a soft ball and aim at a couch-cushion 'goal'. Focus on the plant foot and a smooth kick, not power.",
+      },
+    ],
   },
 ];
 
