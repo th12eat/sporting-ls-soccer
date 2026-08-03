@@ -449,14 +449,13 @@ const ROSTER = [
 const SNACKS = {
   signupUrl: "https://forms.gle/7gMyJhQusDzDLSFM8",
   dates: [
-    { date: "2026-08-22", who: "" },
+    { date: "2026-08-22", who: "Noor" },
     { date: "2026-08-29", who: "" },
     { date: "2026-09-12", who: "" },
     { date: "2026-09-19", who: "" },
     { date: "2026-09-26", who: "" },
     { date: "2026-10-03", who: "" },
     { date: "2026-10-10", who: "" },
-    { date: "2026-10-22", who: "Noor" },
     { date: "2026-10-16", who: "", label: "TBD Tournament Game 1", tbd: true },
     { date: "2026-10-17", who: "", label: "TBD Tournament Game 2", tbd: true },
     { date: "2026-10-17", who: "", label: "TBD Tournament Game 3", tbd: true },
