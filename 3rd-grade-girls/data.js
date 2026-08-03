@@ -1,68 +1,59 @@
 /* =============================================================================
-   TEAM HOMEWORK DATA  —  this is the only file you need to edit each week.
+   TEAM DATA  —  this is the main file you edit.   (3rd Grade Girls)
    =============================================================================
 
-   Each practice has FIVE parts, top to bottom:
-     1. attendance  — who was present / missing
-     2. warmup      — stretching, warm-up games, team-building
-     3. drills      — the main skill work (with videos + diagrams)
-     4. scrimmage   — the game we bookend practice with
-     5. homework    — game-theory concept + a drill to do at home
-                      (each homework drill can list an INDOOR alternative)
+   FOUR lists live in this file:
+     TEAM       — team name, coaches, default practice time, venue
+     PRACTICES  — practice history (newest first) with drills + homework inline
+     GAMES      — game history (newest first)
+     ROSTER     — each player + season stats
 
    -------------------------------------------------------------------------
-   HOW TO ADD A NEW PRACTICE
+   ADD A NEW PRACTICE
    -------------------------------------------------------------------------
-   1. Copy the whole { ... } block for a practice below.
-   2. Paste it at the TOP of the PRACTICES list (newest first).
-   3. Edit the fields. Anything you don't need, set to "" or delete the line.
-   4. Save the file, refresh the page. Done.
+   1. Copy a { ... } block from PRACTICES and paste it at the TOP (newest first).
+   2. Edit date, title, summary, attendance, warm-up items, drills, homework.
+   3. time:     leave it off to use TEAM.defaultTime (6:00pm). Set it only if
+                a practice starts at a different time.
+   4. weather:  after a practice, fill in what it was: { emoji, tempF, condition }.
+   5. FORECAST: when you add a NEW practice, set the PREVIOUS (now-past) one's
+                weather to what actually happened, and put the FORECAST for the
+                new/upcoming practice in its weather field (mark it a forecast in
+                the condition text, e.g. "Forecast: Sunny"). See notes at bottom.
 
-   YOUTUBE LINKS — paste any normal link, all of these work:
-     https://www.youtube.com/watch?v=ABC123   |   https://youtu.be/ABC123
-     https://www.youtube.com/shorts/ABC123     (keep "&t=90s" to start partway)
+   DRILL / HOMEWORK media:
+     - Give a drill BOTH a `diagram` and a `youtube` link and the page shows a
+       Diagram ⇄ Video toggle (defaults to the diagram).
+     - Only one of them? It just shows that one.
 
-   DIAGRAMS — put an image in the drills/ folder and name it:
-     diagram: "drills/rondo.svg"      (or leave "" for none)
-
-   FIELD REFERENCE for a drill/homework item:
-     name:      title of the drill
-     focus:     one short line — the skill it builds
-     youtube:   a YouTube link, or ""
-     diagram:   an image path in drills/, or ""
-     steps:     [ "short instruction", "next step", ... ]
-     concept:   (homework only) the game-theory idea behind it
-     indoor:    (homework only) how to do it inside / with limited gear, or ""
-     time:      (homework only) e.g. "10 min"   equipment: e.g. "1 ball"
+   YOUTUBE: paste any normal link (watch?v=, youtu.be/, /shorts/).
    ============================================================================= */
 
 const TEAM = {
   name: "Sporting LS — 3rd Grade Girls",
   league: "Sporting LS Recreation League",
   season: "Fall 2026",
-  coachNote:
-    "Homework is 10–15 minutes, 2–3 times before next practice. Watch the clip together, then head outside — or use the indoor version on a rainy day. Touches on the ball matter more than getting it perfect. Have fun!",
+  coaches: ["Coach Thomas", "Coach John"],
+  defaultTime: "6:00pm",
+  venue: "Legacy Park Soccer Fields · Lee's Summit, MO",
 };
 
-/* Practices are listed NEWEST FIRST. The top one shows as "This week". */
+/* ---- PRACTICES (newest first; the top one shows as "This week") ---------- */
 const PRACTICES = [
   {
     date: "2026-07-28",
-    title: "Practice — Throw-ins, Rondo & choosing ground vs. air",
+    title: "Throw-ins, Rondo & choosing ground vs. air",
+    // time: "6:00pm",  // omitted -> uses TEAM.defaultTime
+    weather: { emoji: "☀️", tempF: 88, condition: "Clear & hot" },
     summary:
-      "A hot one with lots of water breaks! We opened with names, schools, and favorite ice cream to keep getting to know each other, then dug into throw-ins, keep-away (Rondo), and deciding on purpose whether to play the ball on the ground or in the air.",
+      "A hot one with lots of water breaks! We opened with names, schools, and favorite ice cream, then dug into throw-ins, keep-away (Rondo), and deciding on purpose whether to play the ball on the ground or in the air.",
 
-    // ---- who was here -------------------------------------------------------
     attendance: {
       present: ["Nora", "Nori", "Fiona", "Marlie", "Paige", "Adi", "Hailey", "Rose", "Riley"],
       absent: ["Orion", "Noor", "Reina"],
     },
 
-    // ---- warm-up / stretching / team-building ------------------------------
     warmup: {
-      description:
-        "Team circle: each player shared her name, school, and favorite ice cream. We then walked through a throw-in demonstration and talked about roles and spacing on the field — where we stand and why — as our moving warm-up. Frequent water breaks throughout on a hot day.",
-      diagram: "drills/throw-in.svg",
       items: [
         "Name / school / favorite ice cream circle",
         "Throw-in demonstration (proper form)",
@@ -71,12 +62,11 @@ const PRACTICES = [
       ],
     },
 
-    // ---- main drills --------------------------------------------------------
     drills: [
       {
         name: "3v1 & 4v1 Rondo (Keep-Away)",
         focus: "Passing under pressure, spacing, and supporting angles",
-        youtube: "https://www.youtube.com/watch?v=Xslpg4mQD1k",
+        youtube: "https://www.youtube.com/watch?v=VxTKNvfnyLs",
         diagram: "drills/rondo.svg",
         steps: [
           "Players form a circle/triangle with one defender in the middle.",
@@ -133,14 +123,12 @@ const PRACTICES = [
       },
     ],
 
-    // ---- scrimmage ----------------------------------------------------------
     scrimmage: {
       description:
         "We finished with a 10-minute scrimmage to put it all together — using throw-ins to restart, and looking for good spacing between teammates.",
       duration: "10 minutes",
     },
 
-    // ---- homework -----------------------------------------------------------
     homeworkIntro:
       "Three things to work on before next practice. Each has a game-theory idea (the 'why') and a quick drill — with an indoor option for hot or rainy days.",
     homework: [
@@ -217,98 +205,50 @@ const PRACTICES = [
       },
     ],
   },
-
-  {
-    date: "2026-09-08",
-    title: "Practice 2 — Passing to a partner",
-    summary:
-      "Inside-of-the-foot passing and 'showing' for the ball. Grab a parent or sibling as your partner for homework.",
-    attendance: { present: [], absent: [] },
-    warmup: {
-      description: "Light jog and toe-taps to get warm.",
-      diagram: "",
-      items: ["Jog two laps", "Toe-taps on the ball", "Ankle & calf stretches"],
-    },
-    drills: [
-      {
-        name: "Passing Gates",
-        focus: "Accuracy with the inside of the foot",
-        youtube: "https://www.youtube.com/watch?v=eLbn-C4gYlk",
-        diagram: "drills/passing-gates.svg",
-        steps: [
-          "Stand about 8–10 feet apart with one gate in the middle.",
-          "Pass the ball through the gate to your partner.",
-          "Plant your non-kicking foot next to the ball, point your toe up.",
-          "10 clean passes each = a point. First to 3 points wins.",
-        ],
-      },
-    ],
-    scrimmage: { description: "Short 3v3 to end.", duration: "10 minutes" },
-    homeworkIntro: "Practice passing with a partner this week.",
-    homework: [
-      {
-        name: "Wall Passes",
-        focus: "Inside-foot passing accuracy",
-        concept:
-          "Passing keeps the ball moving faster than any single player can dribble. The wall never gets tired — it's the perfect passing partner.",
-        youtube: "https://www.youtube.com/watch?v=eLbn-C4gYlk",
-        diagram: "",
-        time: "10 min",
-        equipment: "1 ball + a wall",
-        steps: [
-          "Pass the ball against a wall with the inside of your foot.",
-          "Control the rebound, then pass again.",
-          "Count how many you can do in a row.",
-        ],
-        indoor:
-          "Use a soft ball against a baseboard or couch. Focus on a clean first touch to control the return.",
-      },
-    ],
-  },
-
-  {
-    date: "2026-09-01",
-    title: "Practice 1 — First touches & stopping the ball",
-    summary:
-      "Welcome to the season! We learned how to stop the ball under our foot and dribble in open space.",
-    attendance: { present: [], absent: [] },
-    warmup: {
-      description: "Simple movement and stretching to start the season.",
-      diagram: "",
-      items: ["Jog", "Toe-taps", "Stretch"],
-    },
-    drills: [
-      {
-        name: "Red Light, Green Light",
-        focus: "Stopping the ball on command",
-        youtube: "https://www.youtube.com/shorts/8Zi6bnbnV3g",
-        diagram: "",
-        steps: [
-          "Dribble forward on 'green light'.",
-          "On 'red light', stop the ball by resting your foot gently on top.",
-          "The ball should stop completely — no rolling away!",
-        ],
-      },
-    ],
-    scrimmage: { description: "First scrimmage of the season!", duration: "10 minutes" },
-    homeworkIntro: "Get comfortable with the ball at your feet.",
-    homework: [
-      {
-        name: "Sole Rolls",
-        focus: "Ball familiarity and control",
-        concept:
-          "The more your feet know the ball, the less you have to look down — that frees your eyes to play the game.",
-        youtube: "",
-        diagram: "",
-        time: "5 min",
-        equipment: "1 ball",
-        steps: [
-          "Roll the ball side to side under one foot.",
-          "Switch feet. Keep the ball close.",
-          "Try it without looking down.",
-        ],
-        indoor: "Use a racquetball or rolled sock on carpet — same motion, softer touch.",
-      },
-    ],
-  },
 ];
+
+/* ---- GAMES (newest first). No games yet — add when the season starts. ----
+   Example shape:
+   {
+     date: "2026-09-05",
+     opponent: "Blue Thunder",
+     homeAway: "Home",
+     location: "Legacy Park Field 3",
+     time: "9:00am",                              // omit -> TEAM.defaultTime
+     weather: { emoji: "⛅", tempF: 72, condition: "Partly cloudy" },
+     scoreUs: 3, scoreThem: 1,                     // omit both if not played
+     summary: "Great teamwork and lots of shots on goal!",
+     scorers: ["Goal: Nora (assist Adi)", "Goal: Paige"],
+   }
+*/
+const GAMES = [];
+
+/* ---- ROSTER --------------------------------------------------------------
+   goalie / captain use one of: "yes" (checkmark), "no" (X, opted out),
+   "" (neutral dash, not yet). Captains never use "no" (everyone will be
+   captain at some point). number is optional (jersey #); null shows a ball. */
+const ROSTER = [
+  { name: "Nora",   number: null, goals: 0, assists: 0, saves: 0, games: 0, practices: 1, goalie: "", captain: "" },
+  { name: "Nori",   number: null, goals: 0, assists: 0, saves: 0, games: 0, practices: 1, goalie: "", captain: "" },
+  { name: "Fiona",  number: null, goals: 0, assists: 0, saves: 0, games: 0, practices: 1, goalie: "", captain: "" },
+  { name: "Marlie", number: null, goals: 0, assists: 0, saves: 0, games: 0, practices: 1, goalie: "", captain: "" },
+  { name: "Paige",  number: null, goals: 0, assists: 0, saves: 0, games: 0, practices: 1, goalie: "", captain: "" },
+  { name: "Adi",    number: null, goals: 0, assists: 0, saves: 0, games: 0, practices: 1, goalie: "", captain: "" },
+  { name: "Hailey", number: null, goals: 0, assists: 0, saves: 0, games: 0, practices: 1, goalie: "", captain: "" },
+  { name: "Rose",   number: null, goals: 0, assists: 0, saves: 0, games: 0, practices: 1, goalie: "", captain: "" },
+  { name: "Riley",  number: null, goals: 0, assists: 0, saves: 0, games: 0, practices: 1, goalie: "", captain: "" },
+  { name: "Orion",  number: null, goals: 0, assists: 0, saves: 0, games: 0, practices: 0, goalie: "", captain: "" },
+  { name: "Noor",   number: null, goals: 0, assists: 0, saves: 0, games: 0, practices: 0, goalie: "", captain: "" },
+  { name: "Reina",  number: null, goals: 0, assists: 0, saves: 0, games: 0, practices: 0, goalie: "", captain: "" },
+];
+
+/* -----------------------------------------------------------------------------
+   WEATHER WORKFLOW (per coach's note):
+   Each time you add a new practice, do two things:
+     (1) Update the practice that just PASSED so its weather = what actually
+         happened (real temp + condition).
+     (2) On the NEW upcoming practice, put the FORECAST — e.g.
+         weather: { emoji: "⛅", tempF: 90, condition: "Forecast: hot, PM storms" }
+         Then after that practice, come back and replace it with the actual.
+   Legacy Park Soccer Fields, Lee's Summit MO. Default practice time 6:00pm.
+----------------------------------------------------------------------------- */

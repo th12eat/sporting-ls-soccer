@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 220" font-family="'Space Mono', monospace">
+  <rect width="400" height="220" fill="#2c5c14"/>
+  <rect x="6" y="6" width="388" height="208" fill="none" stroke="#f3f8ec" stroke-opacity="0.5" stroke-width="2" rx="6"/>
+  <!-- dashed dribble path -->
+  <path d="M40 170 C 90 170, 90 60, 140 60 S 200 170, 250 130 S 330 60, 360 60"
+        fill="none" stroke="#f2c14e" stroke-width="3" stroke-dasharray="8 7" stroke-linecap="round"/>
+  <!-- gates (cone pairs) -->
+  <g fill="#ff7a3d">
+    <polygon points="120,45 128,68 112,68"/><polygon points="120,80 128,57 112,57"/>
+    <polygon points="245,110 253,133 237,133"/><polygon points="245,145 253,122 237,122"/>
+    <polygon points="345,45 353,68 337,68"/><polygon points="345,80 353,57 337,57"/>
+    <polygon points="95,155 103,178 87,178"/><polygon points="95,190 103,167 87,167"/>
+  </g>
+  <!-- ball at start -->
+  <circle cx="40" cy="170" r="9" fill="#f3f8ec" stroke="#0b1a2b" stroke-width="1.5"/>
+  <circle cx="40" cy="170" r="2.5" fill="#0b1a2b"/>
+  <!-- player -->
+  <text x="34" y="200" fill="#f3f8ec" font-size="18">🏃‍♀️</text>
+  <text x="20" y="28" fill="#f3f8ec" font-size="13" font-weight="700">DRIBBLE THROUGH THE GATES</text>
+</svg>

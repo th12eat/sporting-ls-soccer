@@ -16,27 +16,56 @@ GitHub Pages domain.
 /                     landing page linking to each team
 ├── index.html        the team picker
 ├── 3rd-grade-girls/  full team site
-│   ├── index.html    page structure + styling
-│   ├── app.js        renders the page from data.js (don't need to edit)
-│   ├── data.js       ⭐ THE ONLY FILE YOU EDIT each week for this team
+│   ├── index.html    page structure + styling  (shared, identical per team)
+│   ├── app.js        renders the page          (shared, identical per team)
+│   ├── data.js       ⭐ THE ONLY FILE YOU EDIT for this team
 │   └── drills/       diagram images (SVG/PNG/JPG)
-└── 1st-grade-girls/  placeholder page (to be built out later)
-    └── index.html
+└── 1st-grade-girls/  same structure; data.js starts mostly empty
+    ├── index.html
+    ├── app.js
+    ├── data.js       ⭐ edit this for the 1st-grade team
+    └── drills/
 ```
+
+`index.html` and `app.js` are the same in every team folder — only `data.js`
+differs. If you change the shared page/renderer, copy it to each team folder.
+
+## Tabs
+
+Each team page has five tabs: **Practice** (default) · **Games** · **Homework**
+· **Drills** · **Roster**. Homework & Drills also show inline inside each
+practice; the Homework/Drills tabs collate them all with a search box. The
+light-blue word in the header ("Team _Practice_") changes with the tab.
+
+## What's in `data.js`
+
+- `TEAM` — name, `coaches`, `defaultTime` (6:00pm), `venue`
+- `PRACTICES` — newest first; each has attendance, warm-up items, drills,
+  scrimmage, homework, plus `time` (optional) and `weather`
+- `GAMES` — newest first; opponent, score, scorers, weather
+- `ROSTER` — each player's goals/assists/saves/games/practices + goalie & captain
+  flags (`"yes"` ✓ / `"no"` ✗ / `""` neutral)
+
+## Weather workflow
+
+Each session stores its own weather. When you add a **new** practice/game:
+1. Set the practice that just happened to the **actual** weather.
+2. Put the **forecast** on the new upcoming one (e.g. `condition: "Forecast: Sunny"`),
+   then replace it with the actual afterward.
+Default time is 6:00pm; only set `time:` when a session differs.
 
 ## Adding a new week (for 3rd Grade Girls)
 
 1. Open `3rd-grade-girls/data.js`.
-2. Copy one whole `{ ... }` practice block.
-3. Paste it at the **top** of the `PRACTICES` list (newest first).
-4. Update: attendance, warm-up, drills, scrimmage, and homework. Paste YouTube
-   links (any normal format works) and reference diagrams in `drills/`.
-5. Save. Ask Claude to push, or push yourself (see below).
+2. Copy one whole `{ ... }` practice block, paste at the **top** of `PRACTICES`.
+3. Update attendance, warm-up items, drills, scrimmage, homework, weather.
+   A drill with BOTH a `diagram` and a `youtube` link gets a Diagram/Video toggle.
+4. Save. Ask Claude to push, or push yourself (see below).
 
-## Adding a second team
+## Adding a third team
 
-Copy the whole `3rd-grade-girls/` folder to a new folder (e.g. `1st-grade-girls/`),
-then edit that folder's `data.js`. Add a card for it on the root `index.html`.
+Copy any team folder to a new one, edit its `data.js`, and add a card on the
+root `index.html`.
 
 ## Preview locally
 

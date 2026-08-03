@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Team Homework · Sporting LS 3rd Grade Girls</title>
+  <title>Sporting LS · 3rd Grade Girls</title>
   <meta name="description" content="Practice homework, drills, and video clips for our recreation soccer team." />
 
   <!-- Distinctive type: Fraunces (characterful display) + Space Mono (coach's chalkboard) + Nunito (friendly body) -->
@@ -378,6 +378,114 @@
       text-transform: uppercase; color: #6b7b8c; padding: .4rem .6rem; background: #f4f8fb;
     }
 
+    /* ---------- coaches line ---------- */
+    .coaches {
+      margin-top: 1rem; display: flex; align-items: center; gap: .5rem; flex-wrap: wrap;
+      font-family: "Space Mono", monospace; font-size: .82rem; letter-spacing: .03em;
+      color: rgba(243,248,236,.95);
+    }
+    .coaches .whistle { font-size: 1rem; }
+    .coaches #coach-list { font-weight: 700; }
+    .venue-line {
+      margin-top: .5rem; font-family: "Space Mono", monospace; font-size: .76rem;
+      color: rgba(243,248,236,.85);
+    }
+
+    /* ---------- tabs ---------- */
+    .tabs {
+      position: sticky; top: 0; z-index: 20;
+      display: flex; gap: .3rem; flex-wrap: wrap;
+      padding: .6rem clamp(1.2rem, 5vw, 3rem);
+      background: rgba(251,253,255,.92);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid rgba(0,43,92,.12);
+    }
+    .tabs-inner { max-width: 1000px; margin: 0 auto; display: flex; gap: .3rem; flex-wrap: wrap; width: 100%; }
+    .tab-btn {
+      font-family: "Space Mono", monospace; font-size: .8rem; font-weight: 700;
+      letter-spacing: .04em; cursor: pointer;
+      background: transparent; color: #5b6b7c; border: 0;
+      padding: .55rem .95rem; border-radius: 999px;
+      transition: background .15s ease, color .15s ease;
+    }
+    .tab-btn:hover { background: rgba(147,213,240,.2); color: var(--navy); }
+    .tab-btn.active { background: var(--navy); color: var(--chalk); }
+
+    /* ---------- header meta chips (time + weather) ---------- */
+    .hdr-chips { display: inline-flex; gap: .35rem; margin-left: .5rem; vertical-align: middle; flex-wrap: wrap; }
+    .hdr-chip {
+      font-family: "Space Mono", monospace; font-size: .64rem; font-weight: 700;
+      padding: .15rem .5rem; border-radius: 999px; letter-spacing: .02em;
+    }
+    .hdr-chip.time { background: rgba(0,43,92,.1); color: var(--navy); }
+    .hdr-chip.wx { background: rgba(242,193,78,.22); color: #8a6a12; }
+
+    /* ---------- media diagram/video toggle ---------- */
+    .media-toggle { display: inline-flex; gap: .25rem; background: rgba(0,43,92,.08); padding: .2rem; border-radius: 999px; align-self: flex-start; }
+    .mt-btn {
+      font-family: "Space Mono", monospace; font-size: .68rem; font-weight: 700;
+      border: 0; cursor: pointer; background: transparent; color: #5b6b7c;
+      padding: .3rem .7rem; border-radius: 999px; transition: background .15s, color .15s;
+    }
+    .mt-btn.active { background: var(--navy); color: var(--chalk); }
+
+    /* ---------- collated / search ---------- */
+    .search-box {
+      width: 100%; font-family: "Nunito", sans-serif; font-size: 1rem;
+      padding: .7rem 1rem; margin-bottom: 1.2rem;
+      border: 2px solid rgba(0,43,92,.15); border-radius: 12px; background: #fff; color: var(--ink);
+    }
+    .search-box:focus { outline: none; border-color: var(--sky); }
+    .collated .drill, .collated .drill.homework {
+      background: var(--paper); border: 1px solid rgba(0,43,92,.1);
+      border-radius: var(--radius); box-shadow: var(--shadow-card);
+      margin-bottom: 1rem; border-top: 1px solid rgba(0,43,92,.1);
+    }
+    .from-tag {
+      font-family: "Space Mono", monospace; font-size: .66rem; letter-spacing: .06em;
+      color: #7787a0; margin-bottom: .3rem;
+    }
+    .empty { color: #5b6b7c; font-style: italic; padding: 1rem 0; }
+
+    /* ---------- game scores ---------- */
+    .score { font-family: "Fraunces", serif; font-weight: 900; margin-left: .4rem; padding: 0 .4rem; border-radius: 6px; }
+    .score.win  { color: var(--grass-deep); background: rgba(60,122,30,.15); }
+    .score.loss { color: #a24a2b; background: rgba(180,80,40,.12); }
+    .score.tie  { color: var(--navy); background: rgba(0,43,92,.1); }
+
+    /* ---------- roster ---------- */
+    .roster { display: grid; gap: 1rem; grid-template-columns: 1fr; }
+    @media (min-width: 640px) { .roster { grid-template-columns: 1fr 1fr; } }
+    .roster-card {
+      background: var(--paper); border: 1px solid rgba(0,43,92,.1);
+      border-radius: var(--radius); box-shadow: var(--shadow-card); padding: 1.1rem 1.2rem;
+    }
+    .roster-name {
+      font-family: "Fraunces", serif; font-weight: 900; font-size: 1.25rem; color: var(--navy);
+      display: flex; align-items: center; gap: .55rem; margin-bottom: .8rem;
+    }
+    .jersey {
+      flex: none; width: 30px; height: 30px; border-radius: 50%;
+      background: var(--sky); color: var(--navy-2);
+      display: grid; place-items: center;
+      font-family: "Space Mono", monospace; font-weight: 700; font-size: .82rem;
+    }
+    .roster-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: .5rem; }
+    @media (max-width: 380px) { .roster-stats { grid-template-columns: repeat(3, 1fr); } }
+    .stat {
+      display: flex; flex-direction: column; align-items: center; gap: .1rem;
+      background: rgba(147,213,240,.12); border-radius: 10px; padding: .5rem .3rem;
+    }
+    .stat.flag { background: rgba(242,193,78,.14); }
+    .stat-val { font-family: "Fraunces", serif; font-weight: 900; font-size: 1.15rem; color: var(--indigo); }
+    .stat-lbl { font-family: "Space Mono", monospace; font-size: .58rem; text-transform: uppercase; letter-spacing: .06em; color: #6b7b8c; }
+    .mk { font-weight: 900; }
+    .mk.yes { color: var(--grass); }
+    .mk.no { color: #c0492b; }
+    .mk.neutral { color: #9aa7b4; }
+    .legend { font-family: "Space Mono", monospace; font-size: .72rem; color: #6b7b8c; margin-top: 1rem; }
+    .legend .mk { margin-right: .1rem; }
+
     /* ---------- footer ---------- */
     footer {
       text-align: center; padding: 2.5rem 1rem 3rem; color: #5b6b7c; font-size: .85rem;
@@ -405,25 +513,60 @@
         <span class="badge"><span class="dot"></span> <span id="league-badge">Recreation League</span></span>
         <a class="back-link" href="../">← All teams</a>
       </div>
-      <h1 class="title">Team <span class="em">Homework</span></h1>
+      <h1 class="title">Team <span class="em" id="hero-em">Practice</span></h1>
       <p class="subtitle" id="team-sub">Loading team…</p>
-      <div class="coach-note">
-        <span class="whistle">📋</span>
-        <span id="coach-note">—</span>
-      </div>
+      <div class="coaches"><span class="whistle">📋</span> Coaches: <span id="coach-list">—</span></div>
+      <div class="venue-line" id="venue"></div>
     </div>
   </header>
 
-  <main>
-    <div class="section-head">
-      <h2>Practice History</h2>
-      <span class="season-tag" id="season-tag">Season</span>
+  <nav class="tabs">
+    <div class="tabs-inner">
+      <button class="tab-btn active" data-tab="practice">Practice</button>
+      <button class="tab-btn" data-tab="games">Games</button>
+      <button class="tab-btn" data-tab="homework">Homework</button>
+      <button class="tab-btn" data-tab="drills">Drills</button>
+      <button class="tab-btn" data-tab="roster">Roster</button>
     </div>
-    <div id="practices"><!-- rendered from data.js --></div>
+  </nav>
+
+  <main>
+    <!-- PRACTICE -->
+    <section class="tab-panel" data-tab="practice">
+      <div class="section-head">
+        <h2>Practice History</h2>
+        <span class="season-tag" id="season-tag">Season</span>
+      </div>
+      <div id="practices"></div>
+    </section>
+
+    <!-- GAMES -->
+    <section class="tab-panel" data-tab="games" style="display:none">
+      <div class="section-head"><h2>Game History</h2></div>
+      <div id="games"></div>
+    </section>
+
+    <!-- HOMEWORK (collated + searchable) -->
+    <section class="tab-panel" data-tab="homework" style="display:none">
+      <div class="section-head"><h2>All Homework</h2></div>
+      <div id="homework-list"></div>
+    </section>
+
+    <!-- DRILLS (collated + searchable) -->
+    <section class="tab-panel" data-tab="drills" style="display:none">
+      <div class="section-head"><h2>All Drills</h2></div>
+      <div id="drills-list"></div>
+    </section>
+
+    <!-- ROSTER -->
+    <section class="tab-panel" data-tab="roster" style="display:none">
+      <div class="section-head"><h2>Team Roster</h2></div>
+      <div id="roster-list"></div>
+    </section>
   </main>
 
   <footer>
-    Made for our players &amp; parents <span class="heart">⚽</span> Tap a practice to see the homework.
+    Made for our players &amp; parents <span class="heart">⚽</span>
   </footer>
 
   <script src="data.js"></script>
