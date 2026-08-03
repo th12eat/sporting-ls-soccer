@@ -65,6 +65,151 @@ const TEAM = {
 /* ---- PRACTICES (newest first; the top one shows as "This week") ---------- */
 const PRACTICES = [
   {
+    date: "2026-08-04",
+    title: "Set pieces, throw-ins, trapping & crossing",
+    // Forecast (upcoming practice) — replace with the actual after we play.
+    weather: { emoji: "☀️", tempF: 90, condition: "Forecast: mostly clear & hot", humidity: 50 },
+    summary:
+      "This week we'll cover set pieces (kick-offs, corners, goal kicks) and throw-ins, work on good body position (legal contact), trapping the ball with a clean first touch, and crossing. We'll talk positioning inside the drills, then finish with a scrimmage.",
+
+    attendance: { present: [], absent: [] },
+
+    warmup: {
+      items: [
+        "Dynamic warm-up + light dribbling",
+        "Quick review of positions & spacing (our 7v7 shape)",
+      ],
+    },
+
+    drills: [
+      {
+        name: "Body Position — Do's & Don'ts",
+        focus: "How to position relative to the ball, and legal give-and-take contact",
+        youtube: "",
+        diagram: "drills/body-position.svg",
+        steps: [
+          "Stay 'goal-side' — between the ball and our goal when defending.",
+          "Get side-on so you can see the ball AND the field.",
+          "Contact is legal shoulder-to-shoulder — lean, don't shove.",
+          "No pushing with hands/arms and no shoving from behind (that's a foul).",
+        ],
+      },
+      {
+        name: "Set Pieces — Kick-offs, Corners & Goal Kicks",
+        focus: "Restarting play with a plan and good spacing",
+        youtube: "",
+        diagram: "drills/set-pieces.svg",
+        steps: [
+          "Kick-off: start from the center, make a plan before the whistle.",
+          "Corner: deliver the ball into the box toward teammates.",
+          "Goal kick: spread wide and play out — don't bunch in the middle.",
+          "Everyone knows their spot before the ball is played.",
+        ],
+      },
+      {
+        name: "Throw-Ins",
+        focus: "A legal, accurate throw-in to keep possession",
+        youtube: "https://www.youtube.com/watch?v=Umku3eCWg9Y",
+        diagram: "drills/throw-in.svg",
+        steps: [
+          "Both hands on the ball, bring it behind your head.",
+          "Both feet stay on the ground (no stepping over the line).",
+          "Throw in one motion over the top of your head.",
+          "Aim for a teammate's feet or into space they're running to.",
+        ],
+      },
+      {
+        name: "Trapping — First Touch",
+        focus: "Cushioning the ball to control it with your first touch",
+        youtube: "",
+        diagram: "drills/trapping.svg",
+        steps: [
+          "Watch the ball all the way onto your foot.",
+          "Open the inside of your foot and 'give' a little as it arrives.",
+          "Try the sole (foot on top) and thigh/chest for higher balls.",
+          "Goal: the ball stays within one step of you (a 'soft' touch).",
+        ],
+      },
+      {
+        name: "Crossing",
+        focus: "Getting wide and delivering the ball into the box",
+        youtube: "",
+        diagram: "drills/crossing.svg",
+        steps: [
+          "Dribble wide down the side (the wing).",
+          "Look up to see teammates in the middle.",
+          "Drive the ball across the front of the goal.",
+          "Forwards: time your run to meet the cross.",
+        ],
+      },
+    ],
+
+    scrimmage: {
+      description: "10-minute scrimmage — use throw-ins and set pieces to restart, and hold your positions!",
+      duration: "10 minutes",
+    },
+
+    homework: [
+      {
+        name: "Play Your Position",
+        focus: "Knowing your job and holding your spot in our 7v7 shape",
+        concept:
+          "When everyone stays in their spot (1 Forward, 2 Mids, 3 Backs, GK), we cover the whole field and always have someone to pass to. If everyone chases the ball, we leave big gaps. Your job changes by position — wings stay wide, mids connect, backs protect.",
+        youtube: "",
+        diagrams: [
+          { label: "Our 7v7 (1–2–3)", src: "drills/positions-7v7.svg" },
+          { label: "Full 11v11", src: "drills/positions-11v11.svg" },
+        ],
+        time: "5 min",
+        equipment: "Just the diagram",
+        steps: [
+          "Look at our 7v7 shape and pick the spot you play most.",
+          "Say your job out loud (e.g., 'Right Mid: stay wide, help attack AND defense').",
+          "Ask a grown-up to call a position — you point to where you'd stand.",
+        ],
+        indoor:
+          "Lay out paper spots on the floor in our shape and walk to your position when someone calls it.",
+      },
+      {
+        name: "Trap It Soft",
+        focus: "A controlled first touch",
+        concept:
+          "A good first touch buys you time. If the ball bounces far away, a defender can steal it. If you 'cushion' it close, you're ready to dribble, pass, or shoot right away.",
+        youtube: "",
+        diagram: "drills/trapping.svg",
+        time: "10 min",
+        equipment: "1 ball + a wall or partner",
+        steps: [
+          "Toss or pass the ball to yourself off a wall.",
+          "Meet it with the inside of your foot and 'give' as it arrives.",
+          "See if you can stop it within one step — no chasing!",
+          "Try trapping with the sole and thigh too.",
+        ],
+        indoor:
+          "Use a soft/foam ball against a wall or couch. Focus on the gentle 'cushion' motion, not power.",
+      },
+      {
+        name: "Kick With Power & Aim",
+        focus: "Striking the ball cleanly for accuracy and distance",
+        concept:
+          "Good kicks come from your laces (the top of your shoe), a solid plant foot next to the ball, and a follow-through toward your target. Look where you want it to go!",
+        youtube: "",
+        diagram: "",
+        time: "10 min",
+        equipment: "1 ball + a target (cones, a tree, a goal)",
+        steps: [
+          "Plant your non-kicking foot next to the ball, pointing at the target.",
+          "Strike the middle of the ball with your laces.",
+          "Follow through toward where you want it to go.",
+          "Start close and accurate, then step back for more power.",
+        ],
+        indoor:
+          "Ground passes only inside — use a soft ball and aim at a pillow target. Save the big kicks for outside.",
+      },
+    ],
+  },
+
+  {
     date: "2026-07-28",
     title: "Throw-ins, Rondo & choosing ground vs. air",
     // time: "6:00pm",  // omitted -> uses TEAM.defaultTime

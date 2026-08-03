@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 430" font-family="'Space Mono', monospace">
+  <rect width="300" height="430" fill="#2c5c14"/>
+  <g fill="#347017" opacity="0.5">
+    <rect x="10" y="10" width="280" height="45"/>
+    <rect x="10" y="100" width="280" height="45"/>
+    <rect x="10" y="190" width="280" height="45"/>
+    <rect x="10" y="280" width="280" height="45"/>
+    <rect x="10" y="370" width="280" height="45"/>
+  </g>
+  <g fill="none" stroke="#f3f8ec" stroke-opacity="0.65" stroke-width="2">
+    <rect x="14" y="14" width="272" height="402" rx="4"/>
+    <line x1="14" y1="215" x2="286" y2="215"/>
+    <circle cx="150" cy="215" r="34"/>
+    <rect x="125" y="8" width="50" height="6" fill="#f3f8ec"/>
+    <rect x="125" y="416" width="50" height="6" fill="#f3f8ec"/>
+  </g>
+  <text x="150" y="30" fill="#f3f8ec" font-size="8" text-anchor="middle" opacity="0.8">THEIR GOAL ▲</text>
+  <text x="150" y="46" fill="#f2c14e" font-size="9" text-anchor="middle" font-weight="700">STAY SPREAD · 2 UP, 2 BACK</text>
+
+  <!-- offense (top half) -->
+  <g font-size="8.5" font-weight="700" text-anchor="middle">
+    <g><circle cx="95"  cy="120" r="19" fill="#f2c14e" stroke="#002b5c" stroke-width="2"/><text x="95"  y="116" fill="#002b5c">LEFT</text><text x="95" y="127" fill="#002b5c">ATK</text></g>
+    <g><circle cx="205" cy="120" r="19" fill="#f2c14e" stroke="#002b5c" stroke-width="2"/><text x="205" y="116" fill="#002b5c">RIGHT</text><text x="205" y="127" fill="#002b5c">ATK</text></g>
+    <g><circle cx="95"  cy="310" r="19" fill="#93d5f0" stroke="#002b5c" stroke-width="2"/><text x="95"  y="306" fill="#002b5c">LEFT</text><text x="95" y="317" fill="#002b5c">DEF</text></g>
+    <g><circle cx="205" cy="310" r="19" fill="#93d5f0" stroke="#002b5c" stroke-width="2"/><text x="205" y="306" fill="#002b5c">RIGHT</text><text x="205" y="317" fill="#002b5c">DEF</text></g>
+  </g>
+
+  <!-- dashed line showing the "stay in your area" idea -->
+  <text x="150" y="180" fill="#f2c14e" font-size="8" text-anchor="middle" opacity="0.9">↑ attackers push up &amp; look for goals</text>
+  <text x="150" y="255" fill="#93d5f0" font-size="8" text-anchor="middle" opacity="0.9">↓ defenders stay back &amp; protect</text>
+
+  <text x="150" y="405" fill="#f3f8ec" font-size="8" text-anchor="middle" opacity="0.8">OUR GOAL ▼ · no goalie — defenders hustle back!</text>
+</svg>
