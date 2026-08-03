@@ -35,7 +35,20 @@ const TEAM = {
   season: "Fall 2026",
   coaches: ["Coach Thomas", "Coach John"],
   defaultTime: "6:00pm",
-  venue: "Legacy Park Soccer Fields · Lee's Summit, MO",
+
+  // Locations. `map` can be a full Google Maps link, or leave it off and the
+  // page will build a search link from the name. Practices are at one place;
+  // games are at Legacy Park but the field # varies week to week (set per game).
+  practiceLocation: {
+    name: "Legacy Park Practice Soccer Fields",
+    map: "https://www.google.com/maps/search/?api=1&query=Legacy+Park+Practice+Soccer+Fields+Lee%27s+Summit+MO",
+  },
+  gameLocation: {
+    name: "Legacy Park Soccer Fields",
+    map: "https://www.google.com/maps/search/?api=1&query=Legacy+Park+Soccer+Fields+Lee%27s+Summit+MO",
+  },
+  // Shown in the hero as the general venue line.
+  venue: "Practices: Legacy Park Practice Soccer Fields · Lee's Summit, MO",
 
   // Live forecast widget (National Weather Service — no API key needed).
   // Set the NEXT upcoming practice/game here; the header shows its live forecast.
@@ -107,7 +120,7 @@ const PRACTICES = [
       {
         name: "Partner Passing — Every Surface",
         focus: "Inside-foot passing on the ground & in the air, plus outside-of-foot",
-        youtube: "https://youtu.be/eLbn-C4gYlk",
+        youtube: "https://www.youtube.com/watch?v=VbeasV7u_UQ",
         diagram: "drills/passing-gates.svg",
         steps: [
           "Pick a partner and stand about 8–10 feet apart.",
@@ -120,6 +133,7 @@ const PRACTICES = [
       {
         name: "Player Showcase — New Moves",
         focus: "Confidence & learning from teammates",
+        collate: false,   // shows inline here, but not on the Drills tab
         youtube: "",
         diagram: "",
         steps: [

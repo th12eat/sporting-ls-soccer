@@ -214,6 +214,63 @@
     return wrap;
   }
 
+  // ---- Sporting LS weather guidelines --------------------------------------
+  // Heat Index (NWS "feels like"). If humidity is present we compute the heat
+  // index; otherwise we fall back to the air temperature. Zones + actions and
+  // the cold/lightning rules come from sportingls.org/weather-guidelines-2.
+  function heatIndexF(T, RH) {
+    if (T == null) return null;
+    if (RH == null || T < 80) return T; // HI only meaningful when warm & humid
+    var HI = -42.379 + 2.04901523*T + 10.14333127*RH
+      - 0.22475541*T*RH - 0.00683783*T*T - 0.05481717*RH*RH
+      + 0.00122874*T*T*RH + 0.00085282*T*RH*RH - 0.00000199*T*T*RH*RH;
+    return Math.round(HI);
+  }
+
+  // Returns { zone, color, label, action } for a heat-index value, or null.
+  function heatZone(hi) {
+    if (hi == null) return null;
+    if (hi >= 115) return { zone: "Black", color: "#1a1a1a",
+      label: "Black (115°F+)", action: "All games & practices CANCELLED." };
+    if (hi >= 106) return { zone: "Red", color: "#c0392b",
+      label: "Red (106–115°F)", action: "Mandatory mid-half water break; games shortened." };
+    if (hi >= 99) return { zone: "Orange", color: "#d35400",
+      label: "Orange (99–105°F)", action: "Water coolers at fields; frequent breaks." };
+    if (hi >= 81) return { zone: "Yellow", color: "#c9a100",
+      label: "Yellow (81–98°F)", action: "Hydration encouraged; frequent substitutions." };
+    if (hi >= 65) return { zone: "White", color: "#5b6b7c",
+      label: "White (65–80°F)", action: "No special measures needed." };
+    return null; // below 65°F -> handled by cold-weather check
+  }
+
+  // Cold-weather playability (uses temp; wind chill if provided as w.windChillF).
+  function coldRule(w) {
+    var t = w.tempF, wc = (w.windChillF != null ? w.windChillF : t);
+    if (t == null) return null;
+    if (t <= 40 || wc <= 32)
+      return { color: "#2c6ca0", label: "Too cold", action: "Play requires temp above 40°F and wind chill above 32°F." };
+    if (t < 65)
+      return { color: "#2c6ca0", label: "Cool", action: "Dress in layers; playable (temp above 40°F, wind chill above 32°F)." };
+    return null;
+  }
+
+  // Build the guideline object for an entry's weather, or null.
+  function weatherGuideline(w) {
+    if (!w) return null;
+    var lightning = w.lightning
+      ? { color: "#6a1b9a", label: "⚡ Lightning", action: "Clear fields on the horn; shelter in vehicles. Return 30+ min after the last strike within 10 miles." }
+      : null;
+    if (lightning) return lightning;
+    var hi = heatIndexF(w.tempF, w.humidity != null ? w.humidity : null);
+    var hz = heatZone(hi);
+    if (hz) {
+      var extra = (w.humidity != null && hi !== w.tempF) ? " (heat index " + hi + "°F)" : "";
+      hz.action = hz.action + extra;
+      return hz;
+    }
+    return coldRule(w);
+  }
+
   // Weather + time chips for a practice/game header
   function metaChips(entry) {
     var frag = el("span", { class: "hdr-chips" });
@@ -225,8 +282,25 @@
         (w.tempF != null ? w.tempF + "°F" : "") +
         (w.condition ? (w.tempF != null ? " · " : "") + w.condition : "");
       if (label.trim()) frag.appendChild(el("span", { class: "hdr-chip wx" }, label));
+      var g = weatherGuideline(w);
+      if (g) {
+        var chip = el("span", { class: "hdr-chip zone", title: g.action,
+          style: "background:" + g.color + ";color:#fff" }, esc(g.label));
+        frag.appendChild(chip);
+      }
     }
     return frag;
+  }
+
+  // Full-width guideline banner shown inside a practice/game body.
+  function guidelineBanner(w) {
+    var g = weatherGuideline(w);
+    if (!g) return null;
+    var b = el("div", { class: "wx-guideline", style: "border-left-color:" + g.color });
+    b.appendChild(el("span", { class: "wx-g-badge", style: "background:" + g.color },
+      esc(g.label)));
+    b.appendChild(el("span", { class: "wx-g-text" }, esc(g.action)));
+    return b;
   }
 
   // ---- Practice card ---------------------------------------------------------
@@ -252,6 +326,8 @@
     var body = el("div", { class: "practice-body" });
     var inner = el("div", { class: "inner" });
 
+    var gb = p.weather ? guidelineBanner(p.weather) : null;
+    if (gb) inner.appendChild(gb);
     if (p.summary) inner.appendChild(el("p", { class: "summary" }, esc(p.summary)));
 
     var att = renderAttendance(p.attendance);
@@ -316,7 +392,16 @@
 
     var body = el("div", { class: "practice-body" });
     var inner = el("div", { class: "inner" });
-    if (g.location) inner.appendChild(el("p", { class: "summary" }, "📍 " + esc(g.location)));
+    var ggb = g.weather ? guidelineBanner(g.weather) : null;
+    if (ggb) inner.appendChild(ggb);
+    // Location: use the game's specific field, else the team's game venue. Link to map.
+    var gLoc = g.location || (TEAM.gameLocation || null);
+    var link = locationLink(gLoc);
+    if (link) {
+      var locP = el("p", { class: "summary" });
+      locP.appendChild(link);
+      inner.appendChild(locP);
+    }
     if (g.summary) inner.appendChild(el("p", { class: "summary" }, esc(g.summary)));
     if (g.scorers && g.scorers.length) {
       inner.appendChild(band("Goals & Assists", "⚽"));
@@ -346,6 +431,9 @@
     (typeof PRACTICES !== "undefined" ? PRACTICES : []).forEach(function (p) {
       var items = kind === "drills" ? p.drills : p.homework;
       (items || []).forEach(function (it) {
+        // Items flagged collate:false show inline in the practice but are kept
+        // out of the collated Drills/Homework tabs (e.g. "Player Showcase").
+        if (it.collate === false) return;
         out.push({ item: it, date: p.date, from: fmtDate(p.date).full });
       });
     });
@@ -492,14 +580,127 @@
           '<strong>' + match.temperature + "°" + (match.temperatureUnit || "F") + "</strong> · " +
           esc(match.shortForecast || "") +
           (pop ? ' · ' + pop + '% precip' : "");
+
+        // Apply Sporting LS guideline to the forecast too.
+        var rh = match.relativeHumidity && match.relativeHumidity.value;
+        var isTstorm = /thunder|t-storm|tstorm/i.test(match.shortForecast || "");
+        var g = weatherGuideline({
+          tempF: match.temperature, humidity: (rh != null ? rh : null),
+          lightning: isTstorm
+        });
+        if (g) {
+          var gb = el("div", { class: "wx-guideline in-forecast",
+            style: "border-left-color:" + g.color });
+          gb.appendChild(el("span", { class: "wx-g-badge", style: "background:" + g.color },
+            esc(g.label)));
+          gb.appendChild(el("span", { class: "wx-g-text" }, esc(g.action)));
+          host.appendChild(gb);
+        }
       })
       .catch(function () {
         val.textContent = "Live forecast unavailable right now.";
       });
   }
 
+  // ---- Location link helper --------------------------------------------------
+  // Accepts a location that's a string or { name, map }. Returns an <a> to the
+  // map (uses provided map URL, else builds a Google Maps search from the name).
+  function locationLink(loc, prefix) {
+    if (!loc) return null;
+    var name = typeof loc === "string" ? loc : (loc.name || "");
+    if (!name) return null;
+    var map = (typeof loc === "object" && loc.map) ? loc.map :
+      "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(name);
+    var a = el("a", { class: "loc-link", href: map, target: "_blank", rel: "noopener" },
+      "📍 " + esc((prefix || "") + name));
+    return a;
+  }
+
+  // ---- Calendar (.ics) export ------------------------------------------------
+  function icsDate(dateStr, timeStr) {
+    // dateStr "2026-08-04", timeStr "6:00pm" -> "20260804T180000" (local, floating)
+    var p = dateStr.split("-");
+    var h = to24h(timeStr), min = 0;
+    var mm = String(timeStr || "").match(/:(\d{2})/);
+    if (mm) min = parseInt(mm[1], 10);
+    function z(n){ return (n < 10 ? "0" : "") + n; }
+    return p[0] + z(+p[1]) + z(+p[2]) + "T" + z(h) + z(min) + "00";
+  }
+
+  function addHours(dateStr, timeStr, hours) {
+    var p = dateStr.split("-");
+    var d = new Date(+p[0], +p[1]-1, +p[2], to24h(timeStr), 0, 0);
+    d.setHours(d.getHours() + hours);
+    function z(n){ return (n < 10 ? "0" : "") + n; }
+    return d.getFullYear() + z(d.getMonth()+1) + z(d.getDate()) +
+      "T" + z(d.getHours()) + z(d.getMinutes()) + "00";
+  }
+
+  function buildICS(events) {
+    var lines = ["BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//Sporting LS//Team//EN", "CALSCALE:GREGORIAN"];
+    events.forEach(function (ev, i) {
+      lines.push("BEGIN:VEVENT");
+      lines.push("UID:sls-" + ev.date + "-" + i + "@sportingls");
+      lines.push("DTSTART:" + icsDate(ev.date, ev.time));
+      lines.push("DTEND:" + addHours(ev.date, ev.time, ev.durHours || 1));
+      lines.push("SUMMARY:" + icsEsc(ev.title));
+      if (ev.location) lines.push("LOCATION:" + icsEsc(ev.location));
+      if (ev.desc) lines.push("DESCRIPTION:" + icsEsc(ev.desc));
+      lines.push("END:VEVENT");
+    });
+    lines.push("END:VCALENDAR");
+    return lines.join("\r\n");
+  }
+
+  function icsEsc(s) {
+    return String(s == null ? "" : s)
+      .replace(/\\/g, "\\\\").replace(/;/g, "\\;").replace(/,/g, "\\,").replace(/\n/g, "\\n");
+  }
+
+  function downloadICS(filename, text) {
+    var blob = new Blob([text], { type: "text/calendar;charset=utf-8" });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement("a");
+    a.setAttribute("href", url);
+    a.setAttribute("download", filename);
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
+  }
+
+  // Gather all schedulable practices + games into calendar events.
+  function scheduleEvents() {
+    var evs = [];
+    var pLoc = TEAM.practiceLocation ? (TEAM.practiceLocation.name || TEAM.practiceLocation) : "";
+    (typeof PRACTICES !== "undefined" ? PRACTICES : []).forEach(function (p) {
+      if (!p.date) return;
+      evs.push({ date: p.date, time: p.time || TEAM.defaultTime, durHours: 1,
+        title: TEAM.name + " — Practice", location: pLoc, desc: p.title || "" });
+    });
+    (typeof GAMES !== "undefined" ? GAMES : []).forEach(function (g) {
+      if (!g.date) return;
+      var gLoc = g.location || (TEAM.gameLocation ? (TEAM.gameLocation.name || TEAM.gameLocation) : "");
+      evs.push({ date: g.date, time: g.time || TEAM.defaultTime, durHours: 1,
+        title: TEAM.name + " — Game" + (g.opponent ? " vs. " + g.opponent : ""),
+        location: gLoc, desc: "" });
+    });
+    return evs;
+  }
+
+  function wireCalendarButton() {
+    var btn = document.getElementById("cal-btn");
+    if (!btn) return;
+    var evs = scheduleEvents();
+    if (!evs.length) { btn.style.display = "none"; return; }
+    btn.style.display = "";
+    btn.addEventListener("click", function () {
+      downloadICS("sporting-ls-schedule.ics", buildICS(evs));
+    });
+  }
+
   // ---- Tabs ------------------------------------------------------------------
-  var EM_WORD = { practice: "Practice", games: "Game", homework: "Homework", drills: "Drills", roster: "Roster" };
+  var EM_WORD = { practice: "Practices", games: "Games", homework: "Homework", drills: "Drills", roster: "Roster" };
 
   function showTab(name) {
     var panels = document.querySelectorAll(".tab-panel");
@@ -511,7 +712,7 @@
       btns[j].classList.toggle("active", btns[j].getAttribute("data-tab") === name);
     }
     var em = document.getElementById("hero-em");
-    if (em) em.textContent = EM_WORD[name] || "Practice";
+    if (em) em.textContent = EM_WORD[name] || "Practices";
     if (location.hash.slice(1) !== name) {
       try { history.replaceState(null, "", "#" + name); } catch (e) {}
     }
@@ -525,10 +726,21 @@
       setText("season-tag", TEAM.season);
       setText("league-badge", TEAM.league);
       if (TEAM.coaches && TEAM.coaches.length) setText("coach-list", TEAM.coaches.join(" · "));
-      if (TEAM.venue) setText("venue", "📍 " + TEAM.venue);
+      // Venue line: link practice + game locations to their maps.
+      var venueEl = document.getElementById("venue");
+      if (venueEl) {
+        venueEl.innerHTML = "";
+        var pl = locationLink(TEAM.practiceLocation, "Practices: ");
+        var gl = locationLink(TEAM.gameLocation, "Games: ");
+        if (pl) venueEl.appendChild(pl);
+        if (pl && gl) venueEl.appendChild(document.createTextNode("  "));
+        if (gl) venueEl.appendChild(gl);
+        if (!pl && !gl && TEAM.venue) venueEl.textContent = "📍 " + TEAM.venue;
+      }
     }
 
     loadForecast();
+    wireCalendarButton();
 
     // Practice tab
     var practicesRoot = document.getElementById("practices");

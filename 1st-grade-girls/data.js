@@ -25,11 +25,22 @@ const TEAM = {
   season: "Fall 2026",
   coaches: ["Coach Thomas", "Coach Stephen", "Coach Lindsey"],
   defaultTime: "6:00pm",
-  venue: "Legacy Park Soccer Fields · Lee's Summit, MO",
+
+  // Locations. Practices are at Hawthorne Hill Elementary; games at Legacy Park
+  // (the field # varies week to week — set g.location per game when known).
+  practiceLocation: {
+    name: "Hawthorne Hill Elementary",
+    map: "https://www.google.com/maps/search/?api=1&query=Hawthorne+Hill+Elementary+Lee%27s+Summit+MO",
+  },
+  gameLocation: {
+    name: "Legacy Park Soccer Fields",
+    map: "https://www.google.com/maps/search/?api=1&query=Legacy+Park+Soccer+Fields+Lee%27s+Summit+MO",
+  },
+  venue: "Practices: Hawthorne Hill Elementary · Lee's Summit, MO",
 
   // Live forecast widget (National Weather Service — no API key needed).
   // Set the NEXT upcoming practice/game here; the header shows its live forecast.
-  // weatherGrid is the NWS grid for Legacy Park, Lee's Summit MO — don't change it.
+  // weatherGrid is the NWS grid for the Lee's Summit area — don't change it.
   weatherGrid: "EAX/51,43",
   nextSession: { label: "Next practice", date: "2026-08-04", time: "6:00pm" },
 };
