@@ -520,6 +520,23 @@
       mount.appendChild(el("p", { class: "empty" }, "Roster coming soon."));
       return;
     }
+    // Which stat columns to show. A team can override via TEAM.rosterFields
+    // (e.g. omit "saves"/"goalie" for a no-goalie team). Default = full set.
+    var ALL_FIELDS = [
+      { key: "goals",     label: "Goals" },
+      { key: "assists",   label: "Assists" },
+      { key: "saves",     label: "Saves" },
+      { key: "games",     label: "Games" },
+      { key: "practices", label: "Practices" },
+      { key: "goalie",    label: "Goalie", flag: true },
+      { key: "captain",   label: "Captain", flag: true },
+    ];
+    var wanted = (typeof TEAM !== "undefined" && TEAM.rosterFields) ? TEAM.rosterFields : null;
+    var fields = wanted
+      ? ALL_FIELDS.filter(function (f) { return wanted.indexOf(f.key) !== -1; })
+      : ALL_FIELDS;
+    var showGoalie = fields.some(function (f) { return f.key === "goalie"; });
+
     var grid = el("div", { class: "roster" });
     roster.forEach(function (pl) {
       var card = el("div", { class: "roster-card" });
@@ -532,18 +549,15 @@
         s.appendChild(el("span", { class: "stat-lbl" }, label));
         return s;
       }
-      stats.appendChild(stat("Goals", String(pl.goals || 0)));
-      stats.appendChild(stat("Assists", String(pl.assists || 0)));
-      stats.appendChild(stat("Saves", String(pl.saves || 0)));
-      stats.appendChild(stat("Games", String(pl.games || 0)));
-      stats.appendChild(stat("Practices", String(pl.practices || 0)));
-      stats.appendChild(stat("Goalie", mark(pl.goalie), "flag"));
-      stats.appendChild(stat("Captain", mark(pl.captain), "flag"));
+      fields.forEach(function (f) {
+        if (f.flag) stats.appendChild(stat(f.label, mark(pl[f.key]), "flag"));
+        else stats.appendChild(stat(f.label, String(pl[f.key] || 0)));
+      });
       card.appendChild(stats);
       grid.appendChild(card);
     });
     mount.appendChild(grid);
-    // legend
+    // legend (only meaningful when a flag column like Goalie/Captain is shown)
     mount.appendChild(el("p", { class: "legend" },
       '<span class="mk yes">✓</span> yes &nbsp; <span class="mk no">✗</span> opted out &nbsp; <span class="mk neutral">–</span> not yet'));
   }

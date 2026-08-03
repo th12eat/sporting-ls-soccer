@@ -41,6 +41,9 @@ const TEAM = {
   // Practices are on WEDNESDAYS for this team.
   practiceDay: "Wednesday",
 
+  // 4v4 with NO goalie — don't track Saves or Goalie on the roster.
+  rosterFields: ["goals", "assists", "games", "practices", "captain"],
+
   // Live forecast widget (National Weather Service — no API key needed).
   // Set the NEXT upcoming event here. type: "practice" or "game" controls which
   // location the header links to. For a game, you can add location: {name, map}.
@@ -49,22 +52,87 @@ const TEAM = {
   nextSession: { label: "Next practice", type: "practice", date: "2026-08-05", time: "6:00pm" },
 };
 
-/* ---- PRACTICES (newest first). Add your first practice here. -------------
-   Copy a block from the 3rd-grade data.js as a template. Example shape:
-   {
-     date: "2026-08-15",
-     title: "First practice — meeting the ball",
-     weather: { emoji: "☀️", tempF: 90, condition: "Sunny" },
-     summary: "...",
-     attendance: { present: [], absent: [] },
-     warmup: { items: ["Jog", "Toe-taps", "Stretch"] },
-     drills: [ { name, focus, youtube, diagram, steps: [] } ],
-     scrimmage: { description: "...", duration: "10 minutes" },
-     homeworkIntro: "...",
-     homework: [ { name, focus, concept, youtube, diagram, time, equipment, steps: [], indoor } ],
-   }
-*/
-const PRACTICES = [];
+/* ---- PRACTICES (newest first; the top one shows as "This week") ---------- */
+const PRACTICES = [
+  {
+    date: "2026-07-22",
+    title: "First practice — getting to know the ball (and each other!)",
+    weather: { emoji: "⛅", tempF: 77, condition: "Mostly cloudy" },
+    summary:
+      "Our very first practice! We got to know each other, played some fun chase-and-dribble games, worked on passing and leading a teammate, took some shots, and finished with a scrimmage.",
+
+    attendance: {
+      present: ["Ella", "Mia", "Bella", "Morgan", "Sutton", "Zuri", "Noelle", "Caroline", "Annistyn", "Aria"],
+      absent: ["Evalynn"],
+    },
+
+    warmup: {
+      items: [
+        "Circle: each player shared her name, school, and favorite ice cream",
+        "Light movement to get warm",
+      ],
+    },
+
+    drills: [
+      {
+        name: "\"Elsa\" (Freeze-Tag Keep-Away)",
+        focus: "Dribbling under pressure, protecting the ball, and helping teammates",
+        youtube: "",
+        diagram: "",
+        steps: [
+          "Everyone has a ball EXCEPT the 1–3 chosen 'Elsas' (the attackers).",
+          "The Elsas try to kick other players' balls out past the boundary.",
+          "If YOUR ball goes out, go get it, come back in, then hold it over your head and spread your feet — you're 'frozen'.",
+          "A teammate un-freezes you by dribbling their ball through your spread feet.",
+          "Game ends when time runs out (players with balls win!) OR the Elsas freeze everyone.",
+        ],
+      },
+      {
+        name: "Sharks & Minnows",
+        focus: "Dribbling at speed while keeping control and dodging",
+        youtube: "",
+        diagram: "",
+        steps: [
+          "'Minnows' each start with a ball on one side; 1–2 'sharks' are in the middle.",
+          "On 'go', minnows dribble across without losing their ball to a shark.",
+          "If a shark kicks your ball out, you become a shark too.",
+          "Last minnow with a ball wins!",
+        ],
+      },
+      {
+        name: "Lead & Pass (Moving Partners)",
+        focus: "Passing to a moving teammate and leading the pass ahead of them",
+        youtube: "",
+        diagram: "",
+        steps: [
+          "Partners line up about 8 feet apart, one line has the ball.",
+          "Jog down the field together, passing back and forth.",
+          "Pass slightly AHEAD of your partner so they run onto it — don't make them stop.",
+          "Switch who's leading as you go.",
+        ],
+      },
+      {
+        name: "Shooting — Give & Go with Coach",
+        focus: "Passing, running onto a return pass, and shooting",
+        youtube: "",
+        diagram: "",
+        steps: [
+          "Pass the ball to the coach.",
+          "Coach immediately passes it back, leading you toward the goal.",
+          "Run onto the ball and take your shot!",
+        ],
+      },
+    ],
+
+    scrimmage: {
+      description:
+        "We finished with a 10-minute scrimmage to put it all together and just play!",
+      duration: "10 minutes",
+    },
+
+    homework: [],
+  },
+];
 
 /* ---- GAMES (newest first). Add when the season starts. ------------------- */
 const GAMES = [];
@@ -74,5 +142,15 @@ const GAMES = [];
    "" (neutral dash). number optional (jersey #); null shows a ball.
    Add the 1st-grade players here.                                            */
 const ROSTER = [
-  // { name: "Player", number: null, goals: 0, assists: 0, saves: 0, games: 0, practices: 0, goalie: "", captain: "" },
+  { name: "Ella",     number: null, goals: 0, assists: 0, games: 0, practices: 1, captain: "" },
+  { name: "Mia",      number: null, goals: 0, assists: 0, games: 0, practices: 1, captain: "" },
+  { name: "Bella",    number: null, goals: 0, assists: 0, games: 0, practices: 1, captain: "" },
+  { name: "Evalynn",  number: null, goals: 0, assists: 0, games: 0, practices: 0, captain: "" },
+  { name: "Morgan",   number: null, goals: 0, assists: 0, games: 0, practices: 1, captain: "" },
+  { name: "Sutton",   number: null, goals: 0, assists: 0, games: 0, practices: 1, captain: "" },
+  { name: "Zuri",     number: null, goals: 0, assists: 0, games: 0, practices: 1, captain: "" },
+  { name: "Noelle",   number: null, goals: 0, assists: 0, games: 0, practices: 1, captain: "" },
+  { name: "Caroline", number: null, goals: 0, assists: 0, games: 0, practices: 1, captain: "" },
+  { name: "Annistyn", number: null, goals: 0, assists: 0, games: 0, practices: 1, captain: "" },
+  { name: "Aria",     number: null, goals: 0, assists: 0, games: 0, practices: 1, captain: "" },
 ];
