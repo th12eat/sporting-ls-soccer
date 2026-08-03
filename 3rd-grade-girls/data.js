@@ -36,6 +36,12 @@ const TEAM = {
   coaches: ["Coach Thomas", "Coach John"],
   defaultTime: "6:00pm",
   venue: "Legacy Park Soccer Fields · Lee's Summit, MO",
+
+  // Live forecast widget (National Weather Service — no API key needed).
+  // Set the NEXT upcoming practice/game here; the header shows its live forecast.
+  // weatherGrid is the NWS grid for Legacy Park, Lee's Summit MO — don't change it.
+  weatherGrid: "EAX/51,43",
+  nextSession: { label: "Next practice", date: "2026-08-04", time: "6:00pm" },
 };
 
 /* ---- PRACTICES (newest first; the top one shows as "This week") ---------- */

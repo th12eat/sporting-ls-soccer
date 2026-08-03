@@ -428,6 +428,76 @@
       '<span class="mk yes">✓</span> yes &nbsp; <span class="mk no">✗</span> opted out &nbsp; <span class="mk neutral">–</span> not yet'));
   }
 
+  // ---- Live forecast for the next session (National Weather Service) --------
+  function to24h(t) {
+    // "6:00pm" -> 18 ; "9:00am" -> 9  (returns hour integer, best-effort)
+    if (!t) return 18;
+    var m = String(t).trim().toLowerCase().match(/^(\d{1,2})(?::(\d{2}))?\s*(am|pm)?/);
+    if (!m) return 18;
+    var h = parseInt(m[1], 10);
+    var ap = m[3];
+    if (ap === "pm" && h < 12) h += 12;
+    if (ap === "am" && h === 12) h = 0;
+    return h;
+  }
+
+  function iconFor(shortForecast) {
+    var s = (shortForecast || "").toLowerCase();
+    if (s.indexOf("thunder") !== -1) return "⛈️";
+    if (s.indexOf("rain") !== -1 || s.indexOf("shower") !== -1) return "🌧️";
+    if (s.indexOf("snow") !== -1) return "🌨️";
+    if (s.indexOf("fog") !== -1) return "🌫️";
+    if (s.indexOf("cloud") !== -1 && s.indexOf("partly") !== -1) return "⛅";
+    if (s.indexOf("cloud") !== -1 || s.indexOf("overcast") !== -1) return "☁️";
+    if (s.indexOf("clear") !== -1 || s.indexOf("sunny") !== -1) return "☀️";
+    return "🌤️";
+  }
+
+  function loadForecast() {
+    if (typeof TEAM === "undefined" || !TEAM.nextSession || !TEAM.weatherGrid) return;
+    var host = document.getElementById("forecast");
+    if (!host) return;
+
+    var ns = TEAM.nextSession;
+    var d = fmtDate(ns.date);
+    var when = (ns.label || "Next session") + " · " + d.full +
+      " · " + (ns.time || TEAM.defaultTime || "");
+    host.style.display = "";
+    host.innerHTML = "";
+    var line = el("div", { class: "fc-line" },
+      '<span class="fc-icon">📅</span><span class="fc-when">' + esc(when) + "</span>");
+    var val = el("span", { class: "fc-val" }, "Loading forecast…");
+    line.appendChild(val);
+    host.appendChild(line);
+
+    var targetHour = to24h(ns.time || TEAM.defaultTime);
+    var url = "https://api.weather.gov/gridpoints/" + TEAM.weatherGrid + "/forecast/hourly";
+
+    fetch(url, { headers: { "Accept": "application/geo+json" } })
+      .then(function (r) { if (!r.ok) throw new Error("wx " + r.status); return r.json(); })
+      .then(function (j) {
+        var periods = (j && j.properties && j.properties.periods) || [];
+        var match = null;
+        for (var i = 0; i < periods.length; i++) {
+          var st = periods[i].startTime || "";
+          if (st.slice(0, 10) === ns.date) {
+            var hr = parseInt(st.slice(11, 13), 10);
+            if (hr === targetHour) { match = periods[i]; break; }
+            if (!match && hr >= targetHour) match = periods[i]; // nearest after
+          }
+        }
+        if (!match) { val.textContent = "Forecast not available yet (check back closer to the date)."; return; }
+        var pop = match.probabilityOfPrecipitation && match.probabilityOfPrecipitation.value;
+        val.innerHTML = iconFor(match.shortForecast) + " " +
+          '<strong>' + match.temperature + "°" + (match.temperatureUnit || "F") + "</strong> · " +
+          esc(match.shortForecast || "") +
+          (pop ? ' · ' + pop + '% precip' : "");
+      })
+      .catch(function () {
+        val.textContent = "Live forecast unavailable right now.";
+      });
+  }
+
   // ---- Tabs ------------------------------------------------------------------
   var EM_WORD = { practice: "Practice", games: "Game", homework: "Homework", drills: "Drills", roster: "Roster" };
 
@@ -450,12 +520,15 @@
   // ---- Boot ------------------------------------------------------------------
   function init() {
     if (typeof TEAM !== "undefined") {
+      if (TEAM.name) document.title = "Sporting LS · " + TEAM.name.replace(/^Sporting LS\s*[—-]\s*/, "");
       setText("team-sub", TEAM.name);
       setText("season-tag", TEAM.season);
       setText("league-badge", TEAM.league);
       if (TEAM.coaches && TEAM.coaches.length) setText("coach-list", TEAM.coaches.join(" · "));
       if (TEAM.venue) setText("venue", "📍 " + TEAM.venue);
     }
+
+    loadForecast();
 
     // Practice tab
     var practicesRoot = document.getElementById("practices");
