@@ -285,7 +285,7 @@
         ? { color: "#6a1b9a", label: "⚡ Lightning",
             action: "Legacy Park: clear the fields on the horn, shelter in vehicles. Return 30+ min after the last strike within 10 miles." }
         : { color: "#6a1b9a", label: "⚡ Lightning",
-            action: "Stop play and get to shelter (a building or car). Wait 30+ minutes after the last thunder/lightning before returning." };
+            action: "Stop play and get to shelter (a building or car). Wait 30+ minutes after the last lightning strike within 10 miles before returning." };
     }
     var hi = heatIndexF(w.tempF, w.humidity != null ? w.humidity : null);
     var hz = heatZone(hi, !!opts.isGame);
@@ -758,7 +758,7 @@
     ].forEach(function (t) { lg.appendChild(el("li", null, t)); });
     mount.appendChild(lg);
     mount.appendChild(el("p", { class: "summary flush wg-p" },
-      "At other fields (no horn): stop play, get to a building or car, and wait 30+ minutes after the last thunder or lightning before returning."));
+      "At other fields (no horn): stop play, get to a building or car, and wait 30+ minutes after the last lightning strike within 10 miles before returning."));
 
     // Cold
     mount.appendChild(el("h3", { class: "wg-h" }, "❄️ Cold Weather"));
