@@ -87,6 +87,14 @@
       border: 1px solid rgba(243,248,236,.5); transition: transform .15s ease;
     }
     .back-link:hover { transform: translateY(-2px); }
+    .hero-links { display: flex; align-items: center; gap: .5rem; flex-wrap: wrap; }
+    .pill-link {
+      font-family: "Space Mono", monospace; font-size: .74rem; font-weight: 700;
+      letter-spacing: .04em; text-decoration: none; color: var(--navy-2);
+      background: var(--gold); padding: .35rem .8rem; border-radius: 999px;
+      border: 1px solid rgba(243,248,236,.5); transition: transform .15s ease; white-space: nowrap;
+    }
+    .pill-link:hover { transform: translateY(-2px); }
 
     .badge {
       display: inline-flex; align-items: center; gap: .5rem;
@@ -96,7 +104,9 @@
       border: 1px solid rgba(243,248,236,.35);
       padding: .35rem .75rem; border-radius: 999px;
       backdrop-filter: blur(4px);
+      color: var(--chalk); text-decoration: none;
     }
+    a.badge:hover { border-color: rgba(243,248,236,.7); }
     .badge .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--gold); box-shadow: 0 0 10px var(--gold); }
 
     h1.title {
@@ -580,6 +590,34 @@
     .wg-list li { font-size: .92rem; }
     .wg-p { padding: .2rem 0 !important; color: #33475b; font-size: .9rem; }
 
+    /* ---------- snack signups ---------- */
+    .snack-intro { color: #33475b; font-size: .95rem; padding: 0 0 1rem; }
+    .snack-row {
+      display: grid; grid-template-columns: 64px 1fr auto; gap: .8rem; align-items: center;
+      background: var(--paper); border: 1px solid rgba(0,43,92,.1);
+      border-radius: 12px; padding: .7rem .9rem; margin-bottom: .6rem; box-shadow: var(--shadow-card);
+    }
+    .snack-row.open { border-left: 4px solid var(--gold); }
+    .snack-row.filled { border-left: 4px solid var(--grass); }
+    .snack-cal {
+      flex: none; text-align: center; background: var(--navy); color: var(--chalk);
+      border-radius: 10px; padding: .3rem 0 .35rem;
+    }
+    .snack-cal .mo { font-family: "Space Mono", monospace; font-size: .58rem; letter-spacing: .12em; text-transform: uppercase; color: var(--sky-bright); }
+    .snack-cal .day { font-family: "Fraunces", serif; font-weight: 900; font-size: 1.25rem; line-height: 1; }
+    .snack-label { font-weight: 700; color: var(--navy); }
+    .snack-sub { font-family: "Space Mono", monospace; font-size: .68rem; color: #6b7b8c; }
+    .snack-who {
+      font-family: "Space Mono", monospace; font-size: .78rem; font-weight: 700;
+      padding: .3rem .7rem; border-radius: 999px; white-space: nowrap;
+    }
+    .snack-who.taken { background: rgba(60,122,30,.14); color: var(--grass-deep); }
+    .snack-who.avail { background: rgba(242,193,78,.22); color: #8a6a12; }
+    @media (max-width: 480px) {
+      .snack-row { grid-template-columns: 52px 1fr; }
+      .snack-who { grid-column: 2; justify-self: start; }
+    }
+
     /* ---------- footer ---------- */
     footer {
       text-align: center; padding: 2.5rem 1rem 3rem; color: #5b6b7c; font-size: .85rem;
@@ -604,8 +642,11 @@
   <header class="hero">
     <div class="hero-inner">
       <div class="hero-top">
-        <span class="badge"><span class="dot"></span> <span id="league-badge">Recreation League</span></span>
-        <a class="back-link" href="../">← All teams</a>
+        <a class="badge" id="league-link" href="https://www.sportingls.org/" target="_blank" rel="noopener"><span class="dot"></span> <span id="league-badge">Recreation League</span></a>
+        <div class="hero-links">
+          <a class="pill-link" href="https://app.playmetrics.com/" target="_blank" rel="noopener">📲 PlayMetrics</a>
+          <a class="back-link" href="../">← All teams</a>
+        </div>
       </div>
       <h1 class="title">Team <span class="em" id="hero-em">Practices</span></h1>
       <p class="subtitle" id="team-sub">Loading team…</p>
@@ -623,6 +664,7 @@
       <button class="tab-btn" data-tab="drills">Drills</button>
       <button class="tab-btn" data-tab="roster">Roster</button>
       <button class="tab-btn" data-tab="weather">Weather Rules</button>
+      <button class="tab-btn" data-tab="snacks">Snacks</button>
       <button class="cal-btn" id="cal-btn" style="display:none" title="Download all practices &amp; games as a calendar file">📅 Add to calendar</button>
     </div>
   </nav>
@@ -665,6 +707,12 @@
     <section class="tab-panel" data-tab="weather" style="display:none">
       <div class="section-head"><h2>Weather Guidelines</h2></div>
       <div id="weather-list"></div>
+    </section>
+
+    <!-- SNACKS -->
+    <section class="tab-panel" data-tab="snacks" style="display:none">
+      <div class="section-head"><h2>Snack Signups</h2></div>
+      <div id="snacks-list"></div>
     </section>
   </main>
 

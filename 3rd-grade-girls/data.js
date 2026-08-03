@@ -270,6 +270,28 @@ const ROSTER = [
   { name: "Reina",  number: null, goals: 0, assists: 0, saves: 0, games: 0, practices: 0, goalie: "", captain: "" },
 ];
 
+/* ---- SNACK SIGNUPS --------------------------------------------------------
+   One row per game/tournament date. `who` = the family signed up, or "" if the
+   date is still open. `signupUrl` is the Google Form to claim a date.
+   Dates match the league weekends; tournament spots are 10/16–10/18.          */
+const SNACKS = {
+  signupUrl: "https://forms.gle/7gMyJhQusDzDLSFM8",
+  dates: [
+    { date: "2026-08-22", who: "" },
+    { date: "2026-08-29", who: "" },
+    { date: "2026-09-12", who: "" },
+    { date: "2026-09-19", who: "" },
+    { date: "2026-09-26", who: "" },
+    { date: "2026-10-03", who: "" },
+    { date: "2026-10-10", who: "" },
+    { date: "2026-10-22", who: "Noor" },
+    { date: "2026-10-16", who: "", label: "TBD Tournament Game 1", tbd: true },
+    { date: "2026-10-17", who: "", label: "TBD Tournament Game 2", tbd: true },
+    { date: "2026-10-17", who: "", label: "TBD Tournament Game 3", tbd: true },
+    { date: "2026-10-18", who: "", label: "TBD Tournament Game 4", tbd: true },
+  ],
+};
+
 /* -----------------------------------------------------------------------------
    WEATHER WORKFLOW (per coach's note):
    Each time you add a new practice, do two things:

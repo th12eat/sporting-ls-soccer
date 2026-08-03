@@ -669,6 +669,52 @@
       "Check status: 816-473-1001 or the PlayMetrics app. Full rules: sportingls.org/weather-guidelines-2"));
   }
 
+  // ---- Snack Signups tab -----------------------------------------------------
+  function renderSnacks(mountId) {
+    var mount = document.getElementById(mountId);
+    if (!mount) return;
+    mount.innerHTML = "";
+    var snacks = (typeof SNACKS !== "undefined" ? SNACKS : null);
+    if (!snacks || !snacks.dates || !snacks.dates.length) {
+      mount.appendChild(el("p", { class: "empty" }, "Snack schedule coming soon."));
+      return;
+    }
+
+    var open = snacks.dates.filter(function (d) { return !d.who; }).length;
+    var intro = el("p", { class: "snack-intro" },
+      "Bringing snacks for the team? Here's who's signed up. " + open + " date" +
+      (open === 1 ? "" : "s") + " still open" +
+      (snacks.signupUrl ? " — tap the button to claim one." : "."));
+    mount.appendChild(intro);
+
+    if (snacks.signupUrl) {
+      var cta = el("a", { class: "pill-link snack-cta", href: snacks.signupUrl,
+        target: "_blank", rel: "noopener" }, "🍎 Sign up for a snack date");
+      mount.appendChild(cta);
+    }
+
+    // Sort by date (keeps tournament rows in order); keep input order for ties.
+    var rows = snacks.dates.slice().sort(function (a, b) {
+      return a.date < b.date ? -1 : (a.date > b.date ? 1 : 0);
+    });
+    var list = el("div", { class: "snack-list" });
+    rows.forEach(function (d) {
+      var dt = fmtDate(d.date);
+      var taken = !!d.who;
+      var row = el("div", { class: "snack-row " + (taken ? "filled" : "open") });
+      row.appendChild(el("div", { class: "snack-cal" },
+        '<div class="mo">' + dt.mo + '</div><div class="day">' + dt.day + '</div>'));
+      var mid = el("div");
+      mid.appendChild(el("div", { class: "snack-label" }, d.label || "Game day"));
+      mid.appendChild(el("div", { class: "snack-sub" }, dt.full));
+      row.appendChild(mid);
+      row.appendChild(el("span", { class: "snack-who " + (taken ? "taken" : "avail") },
+        taken ? "🍪 " + d.who : "Open"));
+      list.appendChild(row);
+    });
+    mount.appendChild(list);
+  }
+
   // ---- Live forecast for the next session (National Weather Service) --------
   function to24h(t) {
     // "6:00pm" -> 18 ; "9:00am" -> 9  (returns hour integer, best-effort)
@@ -853,7 +899,7 @@
   }
 
   // ---- Tabs ------------------------------------------------------------------
-  var EM_WORD = { practice: "Practices", games: "Games", homework: "Homework", drills: "Drills", roster: "Roster", weather: "Weather Rules" };
+  var EM_WORD = { practice: "Practices", games: "Games", homework: "Homework", drills: "Drills", roster: "Roster", weather: "Weather Rules", snacks: "Snacks" };
 
   function showTab(name) {
     var panels = document.querySelectorAll(".tab-panel");
@@ -937,6 +983,9 @@
 
     // Weather guidelines
     renderGuidelines("weather-list");
+
+    // Snack signups
+    renderSnacks("snacks-list");
 
     // Wire tab buttons
     var btns = document.querySelectorAll(".tab-btn");

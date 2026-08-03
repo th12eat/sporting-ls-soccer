@@ -211,3 +211,23 @@ const ROSTER = [
   { name: "Annistyn", number: null, goals: 0, assists: 0, games: 0, practices: 1, captain: "" },
   { name: "Aria",     number: null, goals: 0, assists: 0, games: 0, practices: 1, captain: "" },
 ];
+
+/* ---- SNACK SIGNUPS --------------------------------------------------------
+   One row per game/tournament date. `who` = the family signed up, or "" if the
+   date is still open. `signupUrl` is the Google Form to claim a date.          */
+const SNACKS = {
+  signupUrl: "https://forms.gle/YE7DtKU3oFVoyWcW6",
+  dates: [
+    { date: "2026-08-22", who: "Sutton" },
+    { date: "2026-08-29", who: "Aria" },
+    { date: "2026-09-12", who: "" },
+    { date: "2026-09-19", who: "Zuri" },
+    { date: "2026-09-26", who: "" },
+    { date: "2026-10-03", who: "Caroline" },
+    { date: "2026-10-10", who: "" },
+    { date: "2026-10-16", who: "", label: "TBD Tournament Game 1", tbd: true },
+    { date: "2026-10-17", who: "", label: "TBD Tournament Game 2", tbd: true },
+    { date: "2026-10-17", who: "", label: "TBD Tournament Game 3", tbd: true },
+    { date: "2026-10-18", who: "", label: "TBD Tournament Game 4", tbd: true },
+  ],
+};
