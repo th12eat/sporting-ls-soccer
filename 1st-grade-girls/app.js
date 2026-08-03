@@ -241,16 +241,22 @@
   }
 
   // Returns { zone, color, label, action } for a heat-index value, or null.
-  function heatZone(hi) {
+  // Action wording adapts to practice vs. game (subs/shortened games are a
+  // game-only thing and don't apply at practice).
+  function heatZone(hi, isGame) {
     if (hi == null) return null;
     if (hi >= 115) return { zone: "Black", color: "#1a1a1a",
       label: "Black (115°F+)", action: "All games & practices CANCELLED." };
-    if (hi >= 106) return { zone: "Red", color: "#c0392b",
-      label: "Red (106–115°F)", action: "Mandatory mid-half water break; games shortened." };
-    if (hi >= 99) return { zone: "Orange", color: "#d35400",
-      label: "Orange (99–105°F)", action: "Water coolers at fields; frequent breaks." };
-    if (hi >= 81) return { zone: "Yellow", color: "#c9a100",
-      label: "Yellow (81–98°F)", action: "Hydration encouraged; frequent substitutions." };
+    if (hi >= 106) return { zone: "Red", color: "#c0392b", label: "Red (106–115°F)",
+      action: isGame
+        ? "Mandatory mid-half water break; games shortened."
+        : "Extreme heat — mandatory frequent water breaks; keep it light." };
+    if (hi >= 99) return { zone: "Orange", color: "#d35400", label: "Orange (99–105°F)",
+      action: "Water coolers on hand; frequent water breaks." };
+    if (hi >= 81) return { zone: "Yellow", color: "#c9a100", label: "Yellow (81–98°F)",
+      action: isGame
+        ? "Hydration encouraged; frequent substitutions."
+        : "Hydration encouraged; take regular water breaks." };
     if (hi >= 65) return { zone: "White", color: "#5b6b7c",
       label: "White (65–80°F)", action: "No special measures needed." };
     return null; // below 65°F -> handled by cold-weather check
@@ -268,14 +274,21 @@
   }
 
   // Build the guideline object for an entry's weather, or null.
-  function weatherGuideline(w) {
+  // opts: { isGame, atLegacyPark } — controls copy that's context-specific.
+  function weatherGuideline(w, opts) {
     if (!w) return null;
-    var lightning = w.lightning
-      ? { color: "#6a1b9a", label: "⚡ Lightning", action: "Clear fields on the horn; shelter in vehicles. Return 30+ min after the last strike within 10 miles." }
-      : null;
-    if (lightning) return lightning;
+    opts = opts || {};
+    if (w.lightning) {
+      // The horn/strobe protocol is specific to Legacy Park's fields; elsewhere
+      // there are no horns, so use the general "get to safety" guidance.
+      return opts.atLegacyPark
+        ? { color: "#6a1b9a", label: "⚡ Lightning",
+            action: "Legacy Park: clear the fields on the horn, shelter in vehicles. Return 30+ min after the last strike within 10 miles." }
+        : { color: "#6a1b9a", label: "⚡ Lightning",
+            action: "Stop play and get to shelter (a building or car). Wait 30+ minutes after the last thunder/lightning before returning." };
+    }
     var hi = heatIndexF(w.tempF, w.humidity != null ? w.humidity : null);
-    var hz = heatZone(hi);
+    var hz = heatZone(hi, !!opts.isGame);
     if (hz) {
       var extra = (w.humidity != null && hi !== w.tempF) ? " (heat index " + hi + "°F)" : "";
       hz.action = hz.action + extra;
@@ -284,36 +297,116 @@
     return coldRule(w);
   }
 
-  // Weather + time chips for a practice/game header
-  function metaChips(entry) {
+  function wxLabel(w) {
+    return (w.emoji ? w.emoji + " " : "") +
+      (w.tempF != null ? w.tempF + "°F" : "") +
+      (w.condition ? (w.tempF != null ? " · " : "") + w.condition : "");
+  }
+
+  // Is this practice/game the NEXT (upcoming) one? If so it uses the LIVE
+  // forecast (same source as the top banner) instead of a static typed value.
+  function isUpcomingEntry(entry) {
+    return typeof TEAM !== "undefined" && TEAM.nextSession &&
+      entry && entry.date === TEAM.nextSession.date;
+  }
+
+  // Shared, cached live forecast for the next session. Both the top banner and
+  // the upcoming card resolve from this, so they can never disagree.
+  var _liveWeatherPromise = null;
+  function getLiveWeather() {
+    if (_liveWeatherPromise) return _liveWeatherPromise;
+    if (typeof TEAM === "undefined" || !TEAM.nextSession || !TEAM.weatherGrid) {
+      _liveWeatherPromise = Promise.resolve(null);
+      return _liveWeatherPromise;
+    }
+    var ns = TEAM.nextSession;
+    var targetHour = to24h(ns.time || TEAM.defaultTime);
+    var url = "https://api.weather.gov/gridpoints/" + TEAM.weatherGrid + "/forecast/hourly";
+    _liveWeatherPromise = fetch(url, { headers: { "Accept": "application/geo+json" } })
+      .then(function (r) { if (!r.ok) throw new Error("wx " + r.status); return r.json(); })
+      .then(function (j) {
+        var periods = (j && j.properties && j.properties.periods) || [];
+        var match = null;
+        for (var i = 0; i < periods.length; i++) {
+          var st = periods[i].startTime || "";
+          if (st.slice(0, 10) === ns.date) {
+            var hr = parseInt(st.slice(11, 13), 10);
+            if (hr === targetHour) { match = periods[i]; break; }
+            if (!match && hr >= targetHour) match = periods[i];
+          }
+        }
+        if (!match) return null;
+        var rh = match.relativeHumidity && match.relativeHumidity.value;
+        var pop = match.probabilityOfPrecipitation && match.probabilityOfPrecipitation.value;
+        return {
+          tempF: match.temperature,
+          humidity: (rh != null ? rh : null),
+          condition: match.shortForecast || "",
+          emoji: iconFor(match.shortForecast),
+          lightning: /thunder|t-storm|tstorm/i.test(match.shortForecast || ""),
+          pop: pop, live: true
+        };
+      })
+      .catch(function () { return null; });
+    return _liveWeatherPromise;
+  }
+
+  // Resolve the weather to display for an entry: live forecast if upcoming
+  // (falling back to any typed value), else the recorded/static weather.
+  function resolveWeather(entry, upcoming) {
+    if (upcoming) return getLiveWeather().then(function (w) { return w || (entry && entry.weather) || null; });
+    return Promise.resolve((entry && entry.weather) || null);
+  }
+
+  // Does a location refer to Legacy Park (where the horn protocol applies)?
+  function isLegacyPark(loc) {
+    var name = !loc ? "" : (typeof loc === "string" ? loc : (loc.name || ""));
+    return /legacy park/i.test(name);
+  }
+
+  // Weather + time chips for a practice/game header.
+  // opts: { isGame, atLegacyPark }
+  function metaChips(entry, upcoming, opts) {
+    opts = opts || {};
     var frag = el("span", { class: "hdr-chips" });
     var time = entry.time || teamDefaultTime();
     if (time) frag.appendChild(el("span", { class: "hdr-chip time" }, "🕕 " + esc(time)));
-    if (entry.weather) {
-      var w = entry.weather;
-      var label = (w.emoji ? w.emoji + " " : "") +
-        (w.tempF != null ? w.tempF + "°F" : "") +
-        (w.condition ? (w.tempF != null ? " · " : "") + w.condition : "");
-      if (label.trim()) frag.appendChild(el("span", { class: "hdr-chip wx" }, label));
-      var g = weatherGuideline(w);
+
+    if (!upcoming && !entry.weather) return frag;
+
+    var wxChip = el("span", { class: "hdr-chip wx" },
+      upcoming ? "⏳ forecast…" : esc(wxLabel(entry.weather)));
+    frag.appendChild(wxChip);
+    var zoneChip = el("span", { class: "hdr-chip zone" }, "");
+    zoneChip.style.display = "none";
+    frag.appendChild(zoneChip);
+
+    resolveWeather(entry, upcoming).then(function (w) {
+      if (!w) { wxChip.textContent = "Forecast unavailable"; return; }
+      wxChip.textContent = wxLabel(w);
+      var g = weatherGuideline(w, opts);
       if (g) {
-        var chip = el("span", { class: "hdr-chip zone", title: g.action,
-          style: "background:" + g.color + ";color:#fff" }, esc(g.label));
-        frag.appendChild(chip);
+        zoneChip.style.display = "";
+        zoneChip.setAttribute("title", g.action);
+        zoneChip.setAttribute("style", "background:" + g.color + ";color:#fff");
+        zoneChip.textContent = g.label;
       }
-    }
+    });
     return frag;
   }
 
-  // Full-width guideline banner shown inside a practice/game body.
-  function guidelineBanner(w) {
-    var g = weatherGuideline(w);
-    if (!g) return null;
-    var b = el("div", { class: "wx-guideline", style: "border-left-color:" + g.color });
-    b.appendChild(el("span", { class: "wx-g-badge", style: "background:" + g.color },
-      esc(g.label)));
-    b.appendChild(el("span", { class: "wx-g-text" }, esc(g.action)));
-    return b;
+  // Full-width guideline banner shown inside a practice/game body. Fills async
+  // so upcoming entries reflect the live forecast.  opts: { isGame, atLegacyPark }
+  function guidelineBannerInto(holder, entry, upcoming, opts) {
+    resolveWeather(entry, upcoming).then(function (w) {
+      if (!w) return;
+      var g = weatherGuideline(w, opts || {});
+      if (!g) return;
+      var b = el("div", { class: "wx-guideline", style: "border-left-color:" + g.color });
+      b.appendChild(el("span", { class: "wx-g-badge", style: "background:" + g.color }, esc(g.label)));
+      b.appendChild(el("span", { class: "wx-g-text" }, esc(g.action)));
+      holder.appendChild(b);
+    });
   }
 
   // ---- Practice card ---------------------------------------------------------
@@ -328,9 +421,13 @@
     var titles = el("div", { class: "practice-titles" });
     titles.appendChild(el("h3", null,
       esc(p.title) + (index === 0 && openFirst ? '<span class="thisweek-pill">This week</span>' : "")));
+    var upcoming = isUpcomingEntry(p);
+    // Practices are at the team's practice location (not a game field).
+    var wxOpts = { isGame: false,
+      atLegacyPark: isLegacyPark(TEAM && TEAM.practiceLocation) };
     var when = el("div", { class: "when" });
     when.appendChild(document.createTextNode(d.full));
-    when.appendChild(metaChips(p));
+    when.appendChild(metaChips(p, upcoming, wxOpts));
     titles.appendChild(when);
     header.appendChild(titles);
     header.appendChild(el("div", { class: "chevron" }, "▾"));
@@ -339,8 +436,10 @@
     var body = el("div", { class: "practice-body" });
     var inner = el("div", { class: "inner" });
 
-    var gb = p.weather ? guidelineBanner(p.weather) : null;
-    if (gb) inner.appendChild(gb);
+    // Weather guideline banner (async: live forecast if upcoming, else recorded).
+    var gbHolder = el("div");
+    inner.appendChild(gbHolder);
+    if (upcoming || p.weather) guidelineBannerInto(gbHolder, p, upcoming, wxOpts);
     if (p.summary) inner.appendChild(el("p", { class: "summary" }, esc(p.summary)));
 
     var att = renderAttendance(p.attendance);
@@ -396,9 +495,13 @@
       scoreHtml = ' <span class="score ' + res + '">' + g.scoreUs + "–" + g.scoreThem + "</span>";
     }
     titles.appendChild(el("h3", null, esc(vs) + scoreHtml));
+    var upcoming = isUpcomingEntry(g);
+    // Games are at a game field; horn protocol only if it's Legacy Park.
+    var gWxLoc = g.location || (TEAM && TEAM.gameLocation) || null;
+    var wxOpts = { isGame: true, atLegacyPark: isLegacyPark(gWxLoc) };
     var when = el("div", { class: "when" });
     when.appendChild(document.createTextNode(d.full + (g.homeAway ? " · " + g.homeAway : "")));
-    when.appendChild(metaChips(g));
+    when.appendChild(metaChips(g, upcoming, wxOpts));
     titles.appendChild(when);
     header.appendChild(titles);
     header.appendChild(el("div", { class: "chevron" }, "▾"));
@@ -406,8 +509,9 @@
 
     var body = el("div", { class: "practice-body" });
     var inner = el("div", { class: "inner" });
-    var ggb = g.weather ? guidelineBanner(g.weather) : null;
-    if (ggb) inner.appendChild(ggb);
+    var ggbHolder = el("div");
+    inner.appendChild(ggbHolder);
+    if (upcoming || g.weather) guidelineBannerInto(ggbHolder, g, upcoming, wxOpts);
     // Location: use the game's specific field, else the team's game venue. Link to map.
     var gLoc = g.location || (TEAM.gameLocation || null);
     var link = locationLink(gLoc);
@@ -624,7 +728,7 @@
     // Heat index table
     var heat = [
       { z: "White", r: "65–80°F", a: "No special measures needed.", c: "#5b6b7c" },
-      { z: "Yellow", r: "81–98°F", a: "Hydration encouraged; frequent substitutions.", c: "#c9a100" },
+      { z: "Yellow", r: "81–98°F", a: "Hydration encouraged; regular water breaks (frequent subs in games).", c: "#c9a100" },
       { z: "Orange", r: "99–105°F", a: "Water coolers at fields; frequent breaks.", c: "#d35400" },
       { z: "Red", r: "106–115°F", a: "Mandatory mid-half water break; games shortened (12–25 min halves by age).", c: "#c0392b" },
       { z: "Black", r: "115°F+", a: "All games & practices CANCELLED.", c: "#1a1a1a" },
@@ -642,6 +746,8 @@
 
     // Lightning
     mount.appendChild(el("h3", { class: "wg-h" }, "⚡ Lightning"));
+    mount.appendChild(el("p", { class: "summary flush wg-p" },
+      "At Legacy Park (horn system):"));
     var lg = el("ul", { class: "tick-list wg-list" });
     [
       "One horn blast = clear the fields; players shelter in vehicles.",
@@ -651,6 +757,8 @@
       "In-progress games: past halftime counts as complete; first-half games reschedule.",
     ].forEach(function (t) { lg.appendChild(el("li", null, t)); });
     mount.appendChild(lg);
+    mount.appendChild(el("p", { class: "summary flush wg-p" },
+      "At other fields (no horn): stop play, get to a building or car, and wait 30+ minutes after the last thunder or lightning before returning."));
 
     // Cold
     mount.appendChild(el("h3", { class: "wg-h" }, "❄️ Cold Weather"));
@@ -757,48 +865,26 @@
     line.appendChild(val);
     host.appendChild(line);
 
-    var targetHour = to24h(ns.time || TEAM.defaultTime);
-    var url = "https://api.weather.gov/gridpoints/" + TEAM.weatherGrid + "/forecast/hourly";
+    // Context for the guideline copy: is the next session a game, and is it at
+    // Legacy Park (horn protocol) — based on nextSession.type/location.
+    var nsIsGame = ns.type === "game";
+    var nsLoc = ns.location || (nsIsGame ? (TEAM.gameLocation) : (TEAM.practiceLocation));
+    var wxOpts = { isGame: nsIsGame, atLegacyPark: isLegacyPark(nsLoc) };
 
-    fetch(url, { headers: { "Accept": "application/geo+json" } })
-      .then(function (r) { if (!r.ok) throw new Error("wx " + r.status); return r.json(); })
-      .then(function (j) {
-        var periods = (j && j.properties && j.properties.periods) || [];
-        var match = null;
-        for (var i = 0; i < periods.length; i++) {
-          var st = periods[i].startTime || "";
-          if (st.slice(0, 10) === ns.date) {
-            var hr = parseInt(st.slice(11, 13), 10);
-            if (hr === targetHour) { match = periods[i]; break; }
-            if (!match && hr >= targetHour) match = periods[i]; // nearest after
-          }
-        }
-        if (!match) { val.textContent = "Forecast not available yet (check back closer to the date)."; return; }
-        var pop = match.probabilityOfPrecipitation && match.probabilityOfPrecipitation.value;
-        val.innerHTML = iconFor(match.shortForecast) + " " +
-          '<strong>' + match.temperature + "°" + (match.temperatureUnit || "F") + "</strong> · " +
-          esc(match.shortForecast || "") +
-          (pop ? ' · ' + pop + '% precip' : "");
-
-        // Apply Sporting LS guideline to the forecast too.
-        var rh = match.relativeHumidity && match.relativeHumidity.value;
-        var isTstorm = /thunder|t-storm|tstorm/i.test(match.shortForecast || "");
-        var g = weatherGuideline({
-          tempF: match.temperature, humidity: (rh != null ? rh : null),
-          lightning: isTstorm
-        });
-        if (g) {
-          var gb = el("div", { class: "wx-guideline in-forecast",
-            style: "border-left-color:" + g.color });
-          gb.appendChild(el("span", { class: "wx-g-badge", style: "background:" + g.color },
-            esc(g.label)));
-          gb.appendChild(el("span", { class: "wx-g-text" }, esc(g.action)));
-          host.appendChild(gb);
-        }
-      })
-      .catch(function () {
-        val.textContent = "Live forecast unavailable right now.";
-      });
+    // Uses the SAME shared source the upcoming card uses, so they always agree.
+    getLiveWeather().then(function (w) {
+      if (!w) { val.textContent = "Forecast not available yet (check back closer to the date)."; return; }
+      val.innerHTML = (w.emoji ? w.emoji + " " : "") +
+        '<strong>' + w.tempF + "°F</strong> · " + esc(w.condition) +
+        (w.pop ? ' · ' + w.pop + '% precip' : "");
+      var g = weatherGuideline(w, wxOpts);
+      if (g) {
+        var gb = el("div", { class: "wx-guideline in-forecast", style: "border-left-color:" + g.color });
+        gb.appendChild(el("span", { class: "wx-g-badge", style: "background:" + g.color }, esc(g.label)));
+        gb.appendChild(el("span", { class: "wx-g-text" }, esc(g.action)));
+        host.appendChild(gb);
+      }
+    }).catch(function () { val.textContent = "Live forecast unavailable right now."; });
   }
 
   // ---- Location link helper --------------------------------------------------
