@@ -71,6 +71,7 @@ const PRACTICES = [
 
     warmup: {
       items: [
+        "Choosing a team name",
         "Dribbling warm-up",
         "Quick chat: which way are we going? Where's our goal?",
       ],

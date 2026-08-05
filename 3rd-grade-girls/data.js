@@ -163,16 +163,17 @@ const PRACTICES = [
 
   {
     date: "2026-08-04",
-    title: "Set pieces, throw-ins & trapping",
+    title: "Body position, protecting the ball & trapping",
     // Actual weather recorded after the practice.
     weather: { emoji: "☀️", tempF: 88, condition: "Clear & hot", humidity: 55 },
     summary:
-      "This week we'll cover set pieces (kick-offs, corners, goal kicks) and throw-ins, work on good body position (legal contact), trapping the ball with a clean first touch, and crossing. We'll talk positioning inside the drills, then finish with a scrimmage.",
+      "We worked on good body position (legal contact), protecting our own ball while winning others, keeping possession in a 4v4 transfer game, and trapping the ball with a clean first touch. Finished with a scrimmage.",
 
     attendance: { present: [], absent: [] },
 
     warmup: {
       items: [
+        "We chose our team name — the Lightning Bolts! ⚡",
         "Dynamic warm-up + light dribbling",
         "Quick review of positions & spacing (our 7v7 shape)",
       ],
@@ -219,30 +220,6 @@ const PRACTICES = [
         ],
       },
       {
-        name: "Set Pieces — Kick-offs, Corners & Goal Kicks",
-        focus: "Restarting play with a plan and good spacing",
-        youtube: "",
-        diagram: "drills/set-pieces.svg",
-        steps: [
-          "Kick-off: start from the center, make a plan before the whistle.",
-          "Corner: deliver the ball into the box toward teammates.",
-          "Goal kick: spread wide and play out — don't bunch in the middle.",
-          "Everyone knows their spot before the ball is played.",
-        ],
-      },
-      {
-        name: "Throw-Ins",
-        focus: "A legal, accurate throw-in to keep possession",
-        youtube: "https://www.youtube.com/watch?v=Umku3eCWg9Y",
-        diagram: "drills/throw-in.svg",
-        steps: [
-          "Both hands on the ball, bring it behind your head.",
-          "Both feet stay on the ground (no stepping over the line).",
-          "Throw in one motion over the top of your head.",
-          "Aim for a teammate's feet or into space they're running to.",
-        ],
-      },
-      {
         name: "Trapping — First Touch",
         focus: "Cushioning the ball to control it with your first touch",
         youtube: "",
@@ -257,7 +234,7 @@ const PRACTICES = [
     ],
 
     scrimmage: {
-      description: "10-minute scrimmage — use throw-ins and set pieces to restart, and hold your positions!",
+      description: "10-minute scrimmage — protect the ball, use good body position, and hold your spots!",
       duration: "10 minutes",
     },
 
