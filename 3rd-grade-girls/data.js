@@ -30,10 +30,13 @@
    ============================================================================= */
 
 const TEAM = {
-  name: "Sporting LS — 3rd Grade Girls",
+  name: "Lightning Bolts",
+  subName: "Sporting LS · 3rd Grade Girls",
+  logo: "logo.svg",
   league: "Sporting LS Recreation League",
   season: "Fall 2026",
   coaches: ["Coach Thomas", "Coach John"],
+  socialManager: "Amber Mann",
   defaultTime: "6:00pm",
 
   // Team accent colors (3rd grade = black & mustard yellow). These tint the

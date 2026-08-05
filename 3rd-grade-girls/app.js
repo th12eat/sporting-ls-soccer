@@ -1062,10 +1062,24 @@
     if (typeof TEAM !== "undefined") {
       if (TEAM.theme) applyTheme(TEAM.theme);
       if (TEAM.name) document.title = "Sporting LS · " + TEAM.name.replace(/^Sporting LS\s*[—-]\s*/, "");
-      setText("team-sub", TEAM.name);
+      setText("team-name", TEAM.name);
+      setText("team-sub", TEAM.subName || "");
       setText("season-tag", TEAM.season);
       setText("league-badge", TEAM.league);
+      // Logo (optional).
+      var logoEl = document.getElementById("hero-logo");
+      if (logoEl && TEAM.logo) {
+        logoEl.setAttribute("src", TEAM.logo);
+        logoEl.setAttribute("alt", (TEAM.name || "Team") + " crest");
+        logoEl.style.display = "";
+      }
       if (TEAM.coaches && TEAM.coaches.length) setText("coach-list", TEAM.coaches.join(" · "));
+      // Social manager (optional).
+      if (TEAM.socialManager) {
+        setText("social-manager", TEAM.socialManager);
+        var si = document.getElementById("social-item");
+        if (si) si.style.display = "";
+      }
       // Venue line: show ONLY the next event's location (practice or game),
       // based on nextSession.type. A game may set its own field via ns.location.
       var venueEl = document.getElementById("venue");

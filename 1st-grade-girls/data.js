@@ -24,6 +24,7 @@ const TEAM = {
   league: "Sporting LS Recreation League",
   season: "Fall 2026",
   coaches: ["Coach Thomas", "Coach Stephen", "Coach Lindsey"],
+  socialManager: "Rachel Mitchell",
   defaultTime: "6:00pm",
 
   // Team accent colors (1st grade = green & white). These tint the hero

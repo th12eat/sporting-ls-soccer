@@ -104,22 +104,46 @@
     a.badge:hover { border-color: rgba(243,248,236,.7); }
     .badge .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--gold); box-shadow: 0 0 10px var(--gold); }
 
+    /* hero identity row: logo + name/subtitle */
+    .hero-id { display: flex; align-items: center; gap: clamp(.8rem, 3vw, 1.4rem); margin-top: 1rem; }
+    .hero-logo {
+      flex: none; width: clamp(64px, 16vw, 104px); height: auto;
+      filter: drop-shadow(0 4px 10px rgba(0,0,0,.35));
+    }
+    .hero-id-text { min-width: 0; }
+    .hero-eyebrow {
+      font-family: "Space Mono", monospace; font-size: .8rem; font-weight: 700;
+      letter-spacing: .12em; text-transform: uppercase; color: rgba(243,248,236,.85);
+    }
+    .hero-eyebrow .em { color: var(--sky-bright); font-style: normal; }
+
     h1.title {
       font-family: "Fraunces", serif;
       font-weight: 900;
-      font-size: clamp(2.4rem, 7vw, 4.6rem);
+      font-size: clamp(2rem, 6.5vw, 4rem);
       line-height: .98;
-      margin: 1rem 0 .4rem;
+      margin: .15rem 0 .3rem;
       letter-spacing: -.02em;
       text-shadow: 0 3px 0 rgba(0,0,0,.18);
     }
-    h1.title .em { color: var(--sky-bright); font-style: italic; }
 
     .subtitle {
-      font-size: clamp(1rem, 2.4vw, 1.25rem);
+      font-family: "Space Mono", monospace;
+      font-size: clamp(.78rem, 2vw, .95rem);
       max-width: 46ch;
-      color: rgba(243,248,236,.92);
-      font-weight: 600;
+      color: rgba(243,248,236,.85);
+      font-weight: 400; letter-spacing: .03em;
+    }
+
+    /* coaches + social manager on one compact line */
+    .staff-line {
+      margin-top: 1rem; display: flex; flex-wrap: wrap; gap: .4rem 1.2rem;
+      font-family: "Space Mono", monospace; font-size: .8rem; color: rgba(243,248,236,.95);
+    }
+    .staff-item { font-weight: 700; }
+    .staff-label {
+      font-weight: 400; font-size: .66rem; letter-spacing: .1em; text-transform: uppercase;
+      color: rgba(243,248,236,.6); margin-right: .15rem;
     }
 
     .coach-note {
@@ -675,9 +699,18 @@
           <button class="pill-link cal-btn" id="cal-btn" type="button" style="display:none" title="Download all practices &amp; games as a calendar file">📅 Add to calendar</button>
         </div>
       </div>
-      <h1 class="title">Team <span class="em" id="hero-em">Practices</span></h1>
-      <p class="subtitle" id="team-sub">Loading team…</p>
-      <div class="coaches"><span id="coach-list">—</span></div>
+      <div class="hero-id">
+        <img class="hero-logo" id="hero-logo" alt="" style="display:none" />
+        <div class="hero-id-text">
+          <div class="hero-eyebrow">Team <span class="em" id="hero-em">Practices</span></div>
+          <h1 class="title" id="team-name">Loading…</h1>
+          <p class="subtitle" id="team-sub"></p>
+        </div>
+      </div>
+      <div class="staff-line">
+        <span class="staff-item"><span class="staff-label">Coaches</span> <span id="coach-list">—</span></span>
+        <span class="staff-item" id="social-item" style="display:none"><span class="staff-label">Social</span> <span id="social-manager"></span></span>
+      </div>
       <div class="venue-line" id="venue"></div>
       <div class="forecast" id="forecast" style="display:none"></div>
     </div>

@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" role="img" aria-label="Lightning Bolts crest">
+  <defs>
+    <linearGradient id="bolt" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#f4d774"/>
+      <stop offset="1" stop-color="#e6b422"/>
+    </linearGradient>
+  </defs>
+  <!-- crest shield -->
+  <path d="M60 6 L108 20 V60 C108 90 86 108 60 116 C34 108 12 90 12 60 V20 Z"
+        fill="#1a1a1a" stroke="#e6b422" stroke-width="4" stroke-linejoin="round"/>
+  <!-- inner ring -->
+  <path d="M60 16 L99 27 V60 C99 84 81 99 60 106 C39 99 21 84 21 60 V27 Z"
+        fill="none" stroke="#e6b422" stroke-width="1.5" opacity="0.5"/>
+  <!-- original lightning bolt -->
+  <path d="M70 26 L44 64 H58 L50 96 L82 52 H66 Z"
+        fill="url(#bolt)" stroke="#1a1a1a" stroke-width="2" stroke-linejoin="round"/>
+</svg>
