@@ -91,6 +91,7 @@ const PRACTICES = [
         youtube: "",
         diagram: "drills/offsides.svg",
         steps: [
+          "In our league, offside only counts between the opponent's goal and the build-out line (not the whole half).",
           "You're offside if you're ahead of the last defender AND the ball when it's played to you.",
           "Time your run: stay level with the last defender, then burst forward as the ball is kicked.",
           "Defenders can step up together to catch attackers offside.",
