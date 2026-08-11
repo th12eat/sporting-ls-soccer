@@ -197,6 +197,28 @@
 
     .practice.this-week { border: 2px solid var(--sky); box-shadow: 0 22px 50px -20px rgba(0,110,180,.5); }
 
+    /* cancelled practice: dimmed card, red accent, clear badge */
+    .practice.cancelled { border: 2px solid #c0392b; opacity: .92; }
+    .practice.cancelled .cal { background: #c0392b; }
+    .practice.cancelled .practice-header h3 { text-decoration: line-through; text-decoration-color: rgba(192,57,43,.6); }
+    .cancel-pill {
+      display: inline-block; margin-left: .5rem; vertical-align: middle;
+      font-family: "Space Mono", monospace; font-size: .6rem; text-transform: uppercase; letter-spacing: .1em;
+      background: #c0392b; color: #fff; padding: .15rem .5rem; border-radius: 999px; font-weight: 700;
+      text-decoration: none;
+    }
+    .cancel-banner {
+      display: flex; align-items: center; gap: .6rem; flex-wrap: wrap;
+      background: rgba(192,57,43,.08); border: 1px solid rgba(192,57,43,.3);
+      border-left: 5px solid #c0392b; border-radius: 10px;
+      padding: .6rem .8rem; margin: 0 1.3rem 1rem;
+    }
+    .cancel-badge {
+      flex: none; font-family: "Space Mono", monospace; font-size: .68rem; font-weight: 700;
+      letter-spacing: .04em; color: #fff; background: #c0392b; padding: .25rem .6rem; border-radius: 999px;
+    }
+    .cancel-text { font-size: .9rem; color: #8f2c20; font-weight: 600; }
+
     .practice-header {
       display: flex; align-items: center; gap: 1rem;
       padding: 1.1rem 1.3rem;

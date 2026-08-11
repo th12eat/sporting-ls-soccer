@@ -417,15 +417,19 @@
   // ---- Practice card ---------------------------------------------------------
   function renderPractice(p, index, openFirst) {
     var d = fmtDate(p.date);
-    var card = el("div", { class: "practice" + (index === 0 && openFirst ? " this-week open" : "") });
+    var cancelled = !!p.cancelled;
+    var card = el("div", { class: "practice" + (index === 0 && openFirst ? " this-week open" : "") +
+      (cancelled ? " cancelled" : "") });
 
     var header = el("div", { class: "practice-header", role: "button", tabindex: "0",
       "aria-expanded": index === 0 && openFirst ? "true" : "false" });
     header.appendChild(el("div", { class: "cal" },
       '<div class="mo">' + d.mo + '</div><div class="day">' + d.day + '</div>'));
     var titles = el("div", { class: "practice-titles" });
-    titles.appendChild(el("h3", null, esc(p.title)));
-    var upcoming = isUpcomingEntry(p);
+    var h3 = el("h3", null, esc(p.title));
+    if (cancelled) h3.appendChild(el("span", { class: "cancel-pill" }, "Cancelled"));
+    titles.appendChild(h3);
+    var upcoming = isUpcomingEntry(p) && !cancelled;
     // Practices are at the team's practice location (not a game field).
     var wxOpts = { isGame: false,
       atLegacyPark: isLegacyPark(TEAM && TEAM.practiceLocation) };
@@ -439,6 +443,15 @@
 
     var body = el("div", { class: "practice-body" });
     var inner = el("div", { class: "inner" });
+
+    // Cancellation banner (shows the reason if given).
+    if (cancelled) {
+      var cb = el("div", { class: "cancel-banner" });
+      cb.appendChild(el("span", { class: "cancel-badge" }, "⛔ Practice cancelled"));
+      cb.appendChild(el("span", { class: "cancel-text" },
+        typeof p.cancelled === "string" ? p.cancelled : "This practice was cancelled."));
+      inner.appendChild(cb);
+    }
 
     // Weather guideline banner (async: live forecast if upcoming, else recorded).
     var gbHolder = el("div");

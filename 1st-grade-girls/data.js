@@ -54,16 +54,127 @@ const TEAM = {
   // location the header links to. For a game, you can add location: {name, map}.
   // weatherGrid is the NWS grid for the Lee's Summit area — don't change it.
   weatherGrid: "EAX/51,43",
-  nextSession: { label: "Next practice", type: "practice", date: "2026-08-05", time: "6:00pm" },
+  nextSession: { label: "Next practice", type: "practice", date: "2026-08-12", time: "6:00pm" },
 };
 
 /* ---- PRACTICES (newest first; the top one shows as "This week") ---------- */
 const PRACTICES = [
   {
-    date: "2026-08-05",
+    date: "2026-08-12",
     title: "Offense vs. defense (no goalie!), body position, shooting & passing",
     // Forecast (upcoming practice) — replace with the actual after we play.
-    weather: { emoji: "⛈️", tempF: 85, condition: "Forecast: chance of storms", humidity: 67 },
+    weather: { emoji: "☀️", tempF: 96, condition: "Forecast: mostly clear & hot", humidity: 43 },
+    summary:
+      "Rescheduled from last week's rain-out. We'll learn how to split into offense and defense with no goalie — where to stand and how to hustle back. We'll practice good body position (using your body without pushing), then do a shooting drill and a passing drill, and finish with a scrimmage.",
+
+    attendance: { present: [], absent: [] },
+
+    warmup: {
+      items: [
+        "Choosing a team name",
+        "Dribbling warm-up",
+        "Quick chat: which way are we going? Where's our goal?",
+      ],
+    },
+
+    drills: [
+      {
+        name: "Offense & Defense — No Goalie",
+        focus: "Spreading out into 2 up / 2 back, and hustling to defend",
+        youtube: "",
+        diagram: "drills/split-def-off.svg",
+        steps: [
+          "2 players push up to attack, 2 stay back to defend.",
+          "Attackers: look for space and go toward THEIR goal.",
+          "Defenders: stay between the ball and OUR goal — with no goalie, hustle back fast!",
+          "When we win the ball, attackers run forward; when we lose it, everyone sprints back.",
+        ],
+      },
+      {
+        name: "Body Position — Use Your Body (Nicely!)",
+        focus: "Staying strong on the ball without pushing someone over",
+        youtube: "",
+        diagram: "drills/body-position.svg",
+        steps: [
+          "Get your body between the ball and the other player to keep it safe.",
+          "Lean shoulder-to-shoulder — that's allowed!",
+          "No pushing with your hands and no shoving from behind.",
+          "Stay low and balanced so you don't fall over.",
+        ],
+      },
+      {
+        name: "Shooting Drill",
+        focus: "Kicking on goal with a good plant foot",
+        youtube: "",
+        diagram: "drills/shooting-giveandgo.svg",
+        steps: [
+          "Dribble toward the goal.",
+          "Plant your standing foot next to the ball.",
+          "Kick through the middle with your laces and follow through.",
+          "Celebrate your goals!",
+        ],
+      },
+      {
+        name: "Passing Drill",
+        focus: "Passing to a partner and leading them (like last week)",
+        youtube: "",
+        diagram: "drills/lead-pass.svg",
+        steps: [
+          "Partners pass back and forth with the inside of the foot.",
+          "Now move together and pass a little AHEAD of your partner.",
+          "Call your partner's name before you pass.",
+        ],
+      },
+    ],
+
+    scrimmage: {
+      description: "10-minute scrimmage — remember to spread out, 2 up and 2 back!",
+      duration: "10 minutes",
+    },
+
+    homework: [
+      {
+        name: "Don't Bunch Up!",
+        focus: "Spreading out instead of everyone chasing the ball",
+        concept:
+          "When everyone runs to the ball it gets crowded and no one can score. If you SPREAD OUT — some in front, some behind — there's always someone open to pass to, and always someone back to defend. Think of it like sharing the field.",
+        youtube: "",
+        diagram: "drills/split-def-off.svg",
+        time: "5 min",
+        equipment: "Just the diagram (a yard helps!)",
+        steps: [
+          "Look at the picture: 2 players up front, 2 in the back.",
+          "With a grown-up, practice 'spread out!' — jog to your own space, not the ball.",
+          "Talk about it while watching a game: point out kids who are open.",
+        ],
+        indoor:
+          "Use stuffed animals or paper spots to show '2 up, 2 back' on the living room floor.",
+      },
+      {
+        name: "Strong But Gentle",
+        focus: "Using your body to protect the ball — no pushing",
+        concept:
+          "You're allowed to be strong and lean shoulder-to-shoulder to keep the ball safe, but pushing with your hands or shoving from behind is a foul. Staying low and balanced helps you stay on your feet.",
+        youtube: "",
+        diagram: "drills/body-position.svg",
+        time: "5 min",
+        equipment: "1 ball + a partner",
+        steps: [
+          "Put your body between the ball and your partner.",
+          "Gently lean shoulder-to-shoulder — hands stay to yourself.",
+          "Stay low and take small steps to keep your balance.",
+        ],
+        indoor:
+          "Practice a gentle shoulder-lean standing next to a grown-up — no ball needed, just the balance and 'no hands' idea.",
+      },
+    ],
+  },
+
+  {
+    date: "2026-08-05",
+    title: "Offense vs. defense (no goalie!), body position, shooting & passing",
+    cancelled: "Cancelled due to lightning in the area. This plan moved to the next practice.",
+    weather: { emoji: "⛈️", tempF: 85, condition: "Storms / lightning", humidity: 67 },
     summary:
       "This week we'll learn how to split into offense and defense with no goalie — where to stand and how to hustle back. We'll practice good body position (using your body without pushing), then do a shooting drill and a passing drill, and finish with a scrimmage.",
 
