@@ -265,7 +265,10 @@ const PRACTICES = [
     summary:
       "We worked on good body position (legal contact), protecting our own ball while winning others, keeping possession in a 4v4 transfer game, and trapping the ball with a clean first touch. Finished with a scrimmage.",
 
-    attendance: { present: [], absent: [] },
+    attendance: {
+      present: ["Nori", "Marlie", "Paige", "Adi", "Hailey", "Rose", "Riley", "Orion", "Reina"],
+      absent: ["Nora", "Fiona", "Noor"],
+    },
 
     warmup: {
       items: [
@@ -587,17 +590,17 @@ const GAMES = [];
    captain at some point). number is optional (jersey #); null shows a ball. */
 const ROSTER = [
   { name: "Nora",   number: null, goals: 0, assists: 0, saves: 0, games: 0, practices: 1, goalie: "", captain: "" },
-  { name: "Nori",   number: null, goals: 0, assists: 0, saves: 0, games: 0, practices: 1, goalie: "", captain: "" },
+  { name: "Nori",   number: null, goals: 0, assists: 0, saves: 0, games: 0, practices: 2, goalie: "", captain: "" },
   { name: "Fiona",  number: null, goals: 0, assists: 0, saves: 0, games: 0, practices: 1, goalie: "", captain: "" },
-  { name: "Marlie", number: null, goals: 0, assists: 0, saves: 0, games: 0, practices: 1, goalie: "", captain: "" },
-  { name: "Paige",  number: null, goals: 0, assists: 0, saves: 0, games: 0, practices: 1, goalie: "", captain: "" },
-  { name: "Adi",    number: null, goals: 0, assists: 0, saves: 0, games: 0, practices: 1, goalie: "", captain: "" },
-  { name: "Hailey", number: null, goals: 0, assists: 0, saves: 0, games: 0, practices: 1, goalie: "", captain: "" },
-  { name: "Rose",   number: null, goals: 0, assists: 0, saves: 0, games: 0, practices: 1, goalie: "", captain: "" },
-  { name: "Riley",  number: null, goals: 0, assists: 0, saves: 0, games: 0, practices: 1, goalie: "", captain: "" },
-  { name: "Orion",  number: null, goals: 0, assists: 0, saves: 0, games: 0, practices: 0, goalie: "", captain: "" },
+  { name: "Marlie", number: null, goals: 0, assists: 0, saves: 0, games: 0, practices: 2, goalie: "", captain: "" },
+  { name: "Paige",  number: null, goals: 0, assists: 0, saves: 0, games: 0, practices: 2, goalie: "", captain: "" },
+  { name: "Adi",    number: null, goals: 0, assists: 0, saves: 0, games: 0, practices: 2, goalie: "", captain: "" },
+  { name: "Hailey", number: null, goals: 0, assists: 0, saves: 0, games: 0, practices: 2, goalie: "", captain: "" },
+  { name: "Rose",   number: null, goals: 0, assists: 0, saves: 0, games: 0, practices: 2, goalie: "", captain: "" },
+  { name: "Riley",  number: null, goals: 0, assists: 0, saves: 0, games: 0, practices: 2, goalie: "", captain: "" },
+  { name: "Orion",  number: null, goals: 0, assists: 0, saves: 0, games: 0, practices: 1, goalie: "", captain: "" },
   { name: "Noor",   number: null, goals: 0, assists: 0, saves: 0, games: 0, practices: 0, goalie: "", captain: "" },
-  { name: "Reina",  number: null, goals: 0, assists: 0, saves: 0, games: 0, practices: 0, goalie: "", captain: "" },
+  { name: "Reina",  number: null, goals: 0, assists: 0, saves: 0, games: 0, practices: 1, goalie: "", captain: "" },
 ];
 
 /* ---- SNACK SIGNUPS --------------------------------------------------------
