@@ -582,7 +582,20 @@ const PRACTICES = [
      scorers: ["Goal: Nora (assist Adi)", "Goal: Paige"],
    }
 */
-const GAMES = [];
+const GAMES = [
+  // Tournament (Oct 16–18) — 3 games, times TBD.
+  { date: "2026-10-18", time: "TBD", title: "Tournament Game" },
+  { date: "2026-10-17", time: "TBD", title: "Tournament Game" },
+  { date: "2026-10-16", time: "TBD", title: "Tournament Game" },
+  { date: "2026-10-10", time: "12:40pm" },
+  { date: "2026-10-03", time: "11:30am" },
+  { date: "2026-09-26", time: "9:05am" },
+  { date: "2026-09-19", time: "11:30am" },
+  { date: "2026-09-12", time: "12:40pm", note: "📸 Picture Day" },
+  // Played:
+  { date: "2026-08-29", time: "12:40pm", scoreUs: 8, scoreThem: 1 },
+  { date: "2026-08-22", time: "12:40pm", scoreUs: 4, scoreThem: 8 },
+];
 
 /* ---- ROSTER --------------------------------------------------------------
    goalie / captain use one of: "yes" (checkmark), "no" (X, opted out),

@@ -525,8 +525,21 @@ const PRACTICES = [
   },
 ];
 
-/* ---- GAMES (newest first). Add when the season starts. ------------------- */
-const GAMES = [];
+/* ---- GAMES (newest first). ---------------------------------------------- */
+const GAMES = [
+  // Tournament (Oct 16–18) — 3 games, times TBD.
+  { date: "2026-10-18", time: "TBD", title: "Tournament Game" },
+  { date: "2026-10-17", time: "TBD", title: "Tournament Game" },
+  { date: "2026-10-16", time: "TBD", title: "Tournament Game" },
+  { date: "2026-10-10", time: "2:10pm" },
+  { date: "2026-10-03", time: "1:10pm" },
+  { date: "2026-09-26", time: "8:10am" },
+  { date: "2026-09-19", time: "10:10am", note: "📸 Picture Day" },
+  { date: "2026-09-12", time: "2:10pm" },
+  // Played:
+  { date: "2026-08-29", time: "11:10am", scoreUs: 0, scoreThem: 5 },
+  { date: "2026-08-22", time: "2:10pm", scoreUs: 0, scoreThem: 5 },
+];
 
 /* ---- ROSTER --------------------------------------------------------------
    goalie / captain: "yes" (check), "no" (X, opted out — captain never uses no),

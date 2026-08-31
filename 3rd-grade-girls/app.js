@@ -537,6 +537,7 @@
       locP.appendChild(link);
       inner.appendChild(locP);
     }
+    if (g.note) inner.appendChild(el("p", { class: "summary" }, esc(g.note)));
     if (g.summary) inner.appendChild(el("p", { class: "summary" }, esc(g.summary)));
     if (g.scorers && g.scorers.length) {
       inner.appendChild(band("Goals & Assists", "⚽"));
