@@ -54,21 +54,153 @@ const TEAM = {
   // location the header links to. For a game, you can add location: {name, map}.
   // weatherGrid is the NWS grid for the Lee's Summit area — don't change it.
   weatherGrid: "EAX/51,43",
-  nextSession: { label: "Next practice", type: "practice", date: "2026-08-19", time: "6:00pm" },
+  nextSession: { label: "Next practice", type: "practice", date: "2026-09-02", time: "6:00pm" },
+};
+
+/* ---- SKILL VIDEOS (from Coach's reference list) --------------------------
+   External demos on soccerdrive.com (can't be embedded), each opens in a new
+   tab via a "Watch demo" link. Spread into homework with ...SKILL_VIDEOS.    */
+const SKILL_VIDEOS = [
+  { name: "Throw-In", focus: "Proper two-hand, feet-down throw-in", watchUrl: "https://www.soccerdrive.com/soccer-drills/basic-fundamentals-soccer-throw" },
+  { name: "Passing", focus: "Basic inside-of-foot passing technique", watchUrl: "https://www.soccerdrive.com/soccer-drills/basic-passing-technique" },
+  { name: "Chip Pass", focus: "Lifting the ball with a chip pass", watchUrl: "https://www.soccerdrive.com/soccer-drills/chip-pass-fundamentals" },
+  { name: "Shot", focus: "Shooting with power", watchUrl: "https://www.soccerdrive.com/soccer-drills/shooting-power" },
+  { name: "Inside & Outside Touches", focus: "One-foot inside/outside dribbling touches", watchUrl: "https://www.soccerdrive.com/soccer-drills/inside-and-outside-touches-one-foot" },
+  { name: "Lateral Rolls", focus: "Rolling the ball side to side", watchUrl: "https://www.soccerdrive.com/soccer-drills/dribbling-exercise-lateral-rolls" },
+  { name: "Forward & Backward Roll", focus: "Rolling the ball forward and back", watchUrl: "https://www.soccerdrive.com/soccer-drills/forwards-backwards-roll" },
+  { name: "Juggling", focus: "Basic juggling fundamentals", watchUrl: "https://www.soccerdrive.com/soccer-drills/basic-fundamentals-juggling-soccer-ball" },
+  { name: "Pull Back", focus: "Turning with a pull-back", watchUrl: "https://www.soccerdrive.com/soccer-drills/turning-exercise-pull-back" },
+  { name: "Turning — The Chop", focus: "The chop turn", watchUrl: "https://www.soccerdrive.com/soccer-drills/turning-exercise-chop" },
+  { name: "Turning — The Cruyff", focus: "The Cruyff turn", watchUrl: "https://www.soccerdrive.com/soccer-drills/turning-exercise-cruyff" },
+  { name: "Turning — Hook & Pull", focus: "The hook-and-pull turn", watchUrl: "https://www.soccerdrive.com/soccer-drills/turning-exercise-hook-and-pull" },
+];
+
+/* A reusable copy of the offense/defense · body position · shooting · passing plan. */
+const PLAN_OFFDEF = {
+  title: "Offense vs. defense (no goalie!), body position, shooting & passing",
+  drills: [
+    {
+      name: "Offense & Defense — No Goalie",
+      focus: "Spreading out into 2 up / 2 back, and hustling to defend",
+      youtube: "",
+      diagram: "drills/split-def-off.svg",
+      steps: [
+        "2 players push up to attack, 2 stay back to defend.",
+        "Attackers: look for space and go toward THEIR goal.",
+        "Defenders: stay between the ball and OUR goal — with no goalie, hustle back fast!",
+        "When we win the ball, attackers run forward; when we lose it, everyone sprints back.",
+      ],
+    },
+    {
+      name: "Body Position — Use Your Body (Nicely!)",
+      focus: "Staying strong on the ball without pushing someone over",
+      youtube: "",
+      diagram: "drills/body-position.svg",
+      steps: [
+        "Get your body between the ball and the other player to keep it safe.",
+        "Lean shoulder-to-shoulder — that's allowed!",
+        "No pushing with your hands and no shoving from behind.",
+        "Stay low and balanced so you don't fall over.",
+      ],
+    },
+    {
+      name: "Shooting Drill",
+      focus: "Kicking on goal with a good plant foot",
+      youtube: "",
+      diagram: "drills/shooting-giveandgo.svg",
+      steps: [
+        "Dribble toward the goal.",
+        "Plant your standing foot next to the ball.",
+        "Kick through the middle with your laces and follow through.",
+        "Celebrate your goals!",
+      ],
+    },
+    {
+      name: "Passing Drill",
+      focus: "Passing to a partner and leading them (like the first practice)",
+      youtube: "",
+      diagram: "drills/lead-pass.svg",
+      steps: [
+        "Partners pass back and forth with the inside of the foot.",
+        "Now move together and pass a little AHEAD of your partner.",
+        "Call your partner's name before you pass.",
+      ],
+    },
+  ],
+  scrimmage: {
+    description: "10-minute scrimmage — remember to spread out, 2 up and 2 back!",
+    duration: "10 minutes",
+  },
+  homework: [
+    {
+      name: "Don't Bunch Up!",
+      focus: "Spreading out instead of everyone chasing the ball",
+      concept:
+        "When everyone runs to the ball it gets crowded and no one can score. If you SPREAD OUT — some in front, some behind — there's always someone open to pass to, and always someone back to defend. Think of it like sharing the field.",
+      youtube: "",
+      diagram: "drills/split-def-off.svg",
+      time: "5 min",
+      equipment: "Just the diagram (a yard helps!)",
+      steps: [
+        "Look at the picture: 2 players up front, 2 in the back.",
+        "With a grown-up, practice 'spread out!' — jog to your own space, not the ball.",
+        "Talk about it while watching a game: point out kids who are open.",
+      ],
+      indoor:
+        "Use stuffed animals or paper spots to show '2 up, 2 back' on the living room floor.",
+    },
+    {
+      name: "Strong But Gentle",
+      focus: "Using your body to protect the ball — no pushing",
+      concept:
+        "You're allowed to be strong and lean shoulder-to-shoulder to keep the ball safe, but pushing with your hands or shoving from behind is a foul. Staying low and balanced helps you stay on your feet.",
+      youtube: "",
+      diagram: "drills/body-position.svg",
+      time: "5 min",
+      equipment: "1 ball + a partner",
+      steps: [
+        "Put your body between the ball and your partner.",
+        "Gently lean shoulder-to-shoulder — hands stay to yourself.",
+        "Stay low and take small steps to keep your balance.",
+      ],
+      indoor:
+        "Practice a gentle shoulder-lean standing next to a grown-up — no ball needed, just the balance and 'no hands' idea.",
+    },
+    ...SKILL_VIDEOS,
+  ],
 };
 
 /* ---- PRACTICES (newest first; the top one shows as "This week") ---------- */
 const PRACTICES = [
   {
-    date: "2026-08-19",
-    title: "Offense vs. defense (no goalie!), body position, shooting & passing",
-    // Forecast (upcoming practice) — replace with the actual after we play.
-    weather: { emoji: "⛅", tempF: 81, condition: "Forecast: mostly cloudy", humidity: 77 },
+    date: "2026-09-02",
+    title: PLAN_OFFDEF.title,
+    // Forecast placeholder (beyond NWS range until ~a week out).
+    weather: { emoji: "☀️", tempF: 84, condition: "Forecast: warm & clear", humidity: 55 },
     summary:
-      "Rescheduled again after last week's cancellation. We'll learn how to split into offense and defense with no goalie — where to stand and how to hustle back. We'll practice good body position (using your body without pushing), then do a shooting drill and a passing drill, and finish with a scrimmage.",
-
+      "We'll keep working offense vs. defense (no goalie), body position, shooting, and passing, and finish with a scrimmage. New at-home skill videos added to the homework below!",
     attendance: { present: [], absent: [] },
+    warmup: {
+      items: [
+        "Dribbling warm-up",
+        "Quick chat: which way are we going? Where's our goal?",
+      ],
+    },
+    drills: PLAN_OFFDEF.drills,
+    scrimmage: PLAN_OFFDEF.scrimmage,
+    homework: PLAN_OFFDEF.homework,
+  },
 
+  {
+    date: "2026-08-26",
+    title: PLAN_OFFDEF.title,
+    weather: { emoji: "☀️", tempF: 87, condition: "Clear", humidity: 48 },
+    summary:
+      "Rescheduled after the cancellations. We learned how to split into offense and defense with no goalie, worked on good body position, did a shooting drill and a passing drill, and finished with a scrimmage.",
+    attendance: {
+      present: ["Mia", "Bella", "Evalynn", "Morgan", "Sutton", "Zuri", "Noelle", "Annistyn", "Aria"],
+      absent: ["Caroline"],
+    },
     warmup: {
       items: [
         "Choosing a team name",
@@ -76,98 +208,29 @@ const PRACTICES = [
         "Quick chat: which way are we going? Where's our goal?",
       ],
     },
+    drills: PLAN_OFFDEF.drills,
+    scrimmage: PLAN_OFFDEF.scrimmage,
+    homework: PLAN_OFFDEF.homework,
+  },
 
-    drills: [
-      {
-        name: "Offense & Defense — No Goalie",
-        focus: "Spreading out into 2 up / 2 back, and hustling to defend",
-        youtube: "",
-        diagram: "drills/split-def-off.svg",
-        steps: [
-          "2 players push up to attack, 2 stay back to defend.",
-          "Attackers: look for space and go toward THEIR goal.",
-          "Defenders: stay between the ball and OUR goal — with no goalie, hustle back fast!",
-          "When we win the ball, attackers run forward; when we lose it, everyone sprints back.",
-        ],
-      },
-      {
-        name: "Body Position — Use Your Body (Nicely!)",
-        focus: "Staying strong on the ball without pushing someone over",
-        youtube: "",
-        diagram: "drills/body-position.svg",
-        steps: [
-          "Get your body between the ball and the other player to keep it safe.",
-          "Lean shoulder-to-shoulder — that's allowed!",
-          "No pushing with your hands and no shoving from behind.",
-          "Stay low and balanced so you don't fall over.",
-        ],
-      },
-      {
-        name: "Shooting Drill",
-        focus: "Kicking on goal with a good plant foot",
-        youtube: "",
-        diagram: "drills/shooting-giveandgo.svg",
-        steps: [
-          "Dribble toward the goal.",
-          "Plant your standing foot next to the ball.",
-          "Kick through the middle with your laces and follow through.",
-          "Celebrate your goals!",
-        ],
-      },
-      {
-        name: "Passing Drill",
-        focus: "Passing to a partner and leading them (like the first practice)",
-        youtube: "",
-        diagram: "drills/lead-pass.svg",
-        steps: [
-          "Partners pass back and forth with the inside of the foot.",
-          "Now move together and pass a little AHEAD of your partner.",
-          "Call your partner's name before you pass.",
-        ],
-      },
-    ],
-
-    scrimmage: {
-      description: "10-minute scrimmage — remember to spread out, 2 up and 2 back!",
-      duration: "10 minutes",
+  {
+    date: "2026-08-19",
+    title: PLAN_OFFDEF.title,
+    cancelled: "Cancelled due to weather. This plan moved to the next practice.",
+    weather: { emoji: "⛈️", tempF: 81, condition: "Storms", humidity: 77 },
+    summary:
+      "This plan (offense/defense with no goalie, body position, shooting, and passing) moved to the next practice.",
+    attendance: { present: [], absent: [] },
+    warmup: {
+      items: [
+        "Choosing a team name",
+        "Dribbling warm-up",
+        "Quick chat: which way are we going? Where's our goal?",
+      ],
     },
-
-    homework: [
-      {
-        name: "Don't Bunch Up!",
-        focus: "Spreading out instead of everyone chasing the ball",
-        concept:
-          "When everyone runs to the ball it gets crowded and no one can score. If you SPREAD OUT — some in front, some behind — there's always someone open to pass to, and always someone back to defend. Think of it like sharing the field.",
-        youtube: "",
-        diagram: "drills/split-def-off.svg",
-        time: "5 min",
-        equipment: "Just the diagram (a yard helps!)",
-        steps: [
-          "Look at the picture: 2 players up front, 2 in the back.",
-          "With a grown-up, practice 'spread out!' — jog to your own space, not the ball.",
-          "Talk about it while watching a game: point out kids who are open.",
-        ],
-        indoor:
-          "Use stuffed animals or paper spots to show '2 up, 2 back' on the living room floor.",
-      },
-      {
-        name: "Strong But Gentle",
-        focus: "Using your body to protect the ball — no pushing",
-        concept:
-          "You're allowed to be strong and lean shoulder-to-shoulder to keep the ball safe, but pushing with your hands or shoving from behind is a foul. Staying low and balanced helps you stay on your feet.",
-        youtube: "",
-        diagram: "drills/body-position.svg",
-        time: "5 min",
-        equipment: "1 ball + a partner",
-        steps: [
-          "Put your body between the ball and your partner.",
-          "Gently lean shoulder-to-shoulder — hands stay to yourself.",
-          "Stay low and take small steps to keep your balance.",
-        ],
-        indoor:
-          "Practice a gentle shoulder-lean standing next to a grown-up — no ball needed, just the balance and 'no hands' idea.",
-      },
-    ],
+    drills: PLAN_OFFDEF.drills,
+    scrimmage: PLAN_OFFDEF.scrimmage,
+    homework: PLAN_OFFDEF.homework,
   },
 
   {
@@ -546,17 +609,16 @@ const GAMES = [
    "" (neutral dash). number optional (jersey #); null shows a ball.
    Add the 1st-grade players here.                                            */
 const ROSTER = [
-  { name: "Ella",     number: null, goals: 0, assists: 0, games: 0, practices: 1, captain: "" },
-  { name: "Mia",      number: null, goals: 0, assists: 0, games: 0, practices: 1, captain: "" },
-  { name: "Bella",    number: null, goals: 0, assists: 0, games: 0, practices: 1, captain: "" },
-  { name: "Evalynn",  number: null, goals: 0, assists: 0, games: 0, practices: 0, captain: "" },
-  { name: "Morgan",   number: null, goals: 0, assists: 0, games: 0, practices: 1, captain: "" },
-  { name: "Sutton",   number: null, goals: 0, assists: 0, games: 0, practices: 1, captain: "" },
-  { name: "Zuri",     number: null, goals: 0, assists: 0, games: 0, practices: 1, captain: "" },
-  { name: "Noelle",   number: null, goals: 0, assists: 0, games: 0, practices: 1, captain: "" },
+  { name: "Mia",      number: null, goals: 0, assists: 0, games: 0, practices: 2, captain: "" },
+  { name: "Bella",    number: null, goals: 0, assists: 0, games: 0, practices: 2, captain: "" },
+  { name: "Evalynn",  number: null, goals: 0, assists: 0, games: 0, practices: 1, captain: "" },
+  { name: "Morgan",   number: null, goals: 0, assists: 0, games: 0, practices: 2, captain: "" },
+  { name: "Sutton",   number: null, goals: 0, assists: 0, games: 0, practices: 2, captain: "" },
+  { name: "Zuri",     number: null, goals: 0, assists: 0, games: 0, practices: 2, captain: "" },
+  { name: "Noelle",   number: null, goals: 0, assists: 0, games: 0, practices: 2, captain: "" },
   { name: "Caroline", number: null, goals: 0, assists: 0, games: 0, practices: 1, captain: "" },
-  { name: "Annistyn", number: null, goals: 0, assists: 0, games: 0, practices: 1, captain: "" },
-  { name: "Aria",     number: null, goals: 0, assists: 0, games: 0, practices: 1, captain: "" },
+  { name: "Annistyn", number: null, goals: 0, assists: 0, games: 0, practices: 2, captain: "" },
+  { name: "Aria",     number: null, goals: 0, assists: 0, games: 0, practices: 2, captain: "" },
 ];
 
 /* ---- SNACK SIGNUPS --------------------------------------------------------
@@ -567,12 +629,12 @@ const SNACKS = {
   dates: [
     { date: "2026-08-22", who: "Sutton" },
     { date: "2026-08-29", who: "Aria" },
-    { date: "2026-09-12", who: "" },
+    { date: "2026-09-12", who: "Mia" },
     { date: "2026-09-19", who: "Zuri" },
-    { date: "2026-09-26", who: "" },
+    { date: "2026-09-26", who: "Evalynn" },
     { date: "2026-10-03", who: "Caroline" },
-    { date: "2026-10-10", who: "" },
-    { date: "2026-10-16", who: "", label: "TBD Tournament Game 1", tbd: true },
+    { date: "2026-10-10", who: "Bella" },
+    { date: "2026-10-16", who: "Caroline", label: "TBD Tournament Game 1", tbd: true },
     { date: "2026-10-17", who: "", label: "TBD Tournament Game 2", tbd: true },
     { date: "2026-10-17", who: "", label: "TBD Tournament Game 3", tbd: true },
     { date: "2026-10-18", who: "", label: "TBD Tournament Game 4", tbd: true },

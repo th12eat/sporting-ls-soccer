@@ -369,6 +369,15 @@
     .indoor p { font-size: .9rem; color: #2c3e50; }
     .drill.scrimmage { border-top: none; }
 
+    /* external "Watch demo" link (non-embeddable video sites) */
+    .watch-demo {
+      display: inline-flex; align-items: center; gap: .3rem; margin-top: .7rem;
+      font-family: "Space Mono", monospace; font-size: .78rem; font-weight: 700;
+      text-decoration: none; color: var(--navy-2); background: var(--sky);
+      padding: .4rem .8rem; border-radius: 999px; transition: transform .15s ease;
+    }
+    .watch-demo:hover { transform: translateY(-2px); }
+
     /* ---------- Drills ---------- */
     .drill {
       border-top: 1px dashed rgba(0,43,92,.18);

@@ -139,6 +139,13 @@
     return media;
   }
 
+  // External "Watch demo" link (for non-embeddable sites like soccerdrive.com).
+  function watchLink(url) {
+    if (!url) return null;
+    return el("a", { class: "watch-demo", href: url, target: "_blank", rel: "noopener" },
+      "▶ Watch demo ↗");
+  }
+
   function stepsList(steps) {
     var ol = el("ol", { class: "steps" });
     (steps || []).forEach(function (s) { ol.appendChild(el("li", null, esc(s))); });
@@ -155,6 +162,8 @@
     if (drill.focus) text.appendChild(el("span", { class: "drill-focus" }, esc(drill.focus)));
     if (meta) text.appendChild(el("div", { class: "from-tag" }, esc(meta)));
     if (drill.steps && drill.steps.length) text.appendChild(stepsList(drill.steps));
+    var wl = watchLink(drill.watchUrl);
+    if (wl) text.appendChild(wl);
     wrap.appendChild(text);
     if (media) wrap.appendChild(media);
     return wrap;
@@ -189,6 +198,8 @@
       ind.appendChild(el("p", null, esc(hw.indoor)));
       text.appendChild(ind);
     }
+    var hwl = watchLink(hw.watchUrl);
+    if (hwl) text.appendChild(hwl);
     wrap.appendChild(text);
     if (media) wrap.appendChild(media);
     return wrap;

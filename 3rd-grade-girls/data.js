@@ -62,104 +62,167 @@ const TEAM = {
   // location the header links to. For a game, you can add location: {name, map}.
   // weatherGrid is the NWS grid for Legacy Park, Lee's Summit MO — don't change it.
   weatherGrid: "EAX/51,43",
-  nextSession: { label: "Next practice", type: "practice", date: "2026-08-18", time: "6:00pm" },
+  nextSession: { label: "Next practice", type: "practice", date: "2026-09-01", time: "6:00pm" },
+};
+
+/* ---- SKILL VIDEOS (from Coach's reference list) --------------------------
+   These are external demos on soccerdrive.com. That site can't be embedded,
+   so each opens in a new tab via a "Watch demo" link. Spread into a practice's
+   homework with ...SKILL_VIDEOS.                                             */
+const SKILL_VIDEOS = [
+  { name: "Throw-In", focus: "Proper two-hand, feet-down throw-in", watchUrl: "https://www.soccerdrive.com/soccer-drills/basic-fundamentals-soccer-throw" },
+  { name: "Passing", focus: "Basic inside-of-foot passing technique", watchUrl: "https://www.soccerdrive.com/soccer-drills/basic-passing-technique" },
+  { name: "Chip Pass", focus: "Lifting the ball with a chip pass", watchUrl: "https://www.soccerdrive.com/soccer-drills/chip-pass-fundamentals" },
+  { name: "Shot", focus: "Shooting with power", watchUrl: "https://www.soccerdrive.com/soccer-drills/shooting-power" },
+  { name: "Inside & Outside Touches", focus: "One-foot inside/outside dribbling touches", watchUrl: "https://www.soccerdrive.com/soccer-drills/inside-and-outside-touches-one-foot" },
+  { name: "Lateral Rolls", focus: "Rolling the ball side to side", watchUrl: "https://www.soccerdrive.com/soccer-drills/dribbling-exercise-lateral-rolls" },
+  { name: "Forward & Backward Roll", focus: "Rolling the ball forward and back", watchUrl: "https://www.soccerdrive.com/soccer-drills/forwards-backwards-roll" },
+  { name: "Juggling", focus: "Basic juggling fundamentals", watchUrl: "https://www.soccerdrive.com/soccer-drills/basic-fundamentals-juggling-soccer-ball" },
+  { name: "Pull Back", focus: "Turning with a pull-back", watchUrl: "https://www.soccerdrive.com/soccer-drills/turning-exercise-pull-back" },
+  { name: "Turning — The Chop", focus: "The chop turn", watchUrl: "https://www.soccerdrive.com/soccer-drills/turning-exercise-chop" },
+  { name: "Turning — The Cruyff", focus: "The Cruyff turn", watchUrl: "https://www.soccerdrive.com/soccer-drills/turning-exercise-cruyff" },
+  { name: "Turning — Hook & Pull", focus: "The hook-and-pull turn", watchUrl: "https://www.soccerdrive.com/soccer-drills/turning-exercise-hook-and-pull" },
+];
+
+/* A reusable copy of the offsides / set-pieces / Rondo / crossing plan. */
+const PLAN_OFFSIDES_SETPIECES = {
+  title: "Offsides, set pieces with goalies, Rondo & crossing",
+  drills: [
+    {
+      name: "Offsides",
+      focus: "Staying onside — level with or behind the last defender",
+      youtube: "",
+      diagram: "drills/offsides.svg",
+      steps: [
+        "In our league, offside only counts between the opponent's goal and the build-out line (not the whole half).",
+        "You're offside if you're ahead of the last defender AND the ball when it's played to you.",
+        "Time your run: stay level with the last defender, then burst forward as the ball is kicked.",
+        "Defenders can step up together to catch attackers offside.",
+        "If you're unsure — check where the last defender is before you sprint.",
+      ],
+    },
+    {
+      name: "Set Pieces with Goalies",
+      focus: "Goal kicks and defending corners — the goalie's job",
+      youtube: "",
+      diagram: "drills/set-pieces-goalie.svg",
+      steps: [
+        "Goal kick: spread wide, the goalie/back plays out to the sides — not up the middle.",
+        "Defending a corner: the goalie owns the box — call 'keeper!' loud and go get it.",
+        "Field players: mark up and clear the ball AWAY from our goal, out to the sides.",
+        "Everyone knows their spot before the ball is played.",
+      ],
+    },
+    {
+      name: "3v1 & 4v1 Rondo (Keep-Away)",
+      focus: "Passing under pressure, spacing, and supporting angles",
+      youtube: "https://www.youtube.com/watch?v=VxTKNvfnyLs",
+      diagram: "drills/rondo.svg",
+      steps: [
+        "Players form a circle/triangle with one defender in the middle.",
+        "Keep the ball away from the defender with quick, accurate passes.",
+        "Move to an open angle so your teammate always has a pass.",
+        "When the defender touches the ball, swap her out.",
+      ],
+    },
+    {
+      name: "Crossing",
+      focus: "Getting wide and delivering the ball into the box",
+      youtube: "",
+      diagram: "drills/crossing.svg",
+      steps: [
+        "Dribble wide down the side (the wing).",
+        "Look up to see teammates in the middle.",
+        "Drive the ball across the front of the goal.",
+        "Forwards: time your run to meet the cross.",
+      ],
+    },
+  ],
+  scrimmage: {
+    description: "10-minute scrimmage — watch for offsides, and use the goalie on goal kicks & corners.",
+    duration: "10 minutes",
+  },
+  homework: [
+    {
+      name: "Understand Offsides",
+      focus: "Knowing the offside rule and timing your runs",
+      concept:
+        "Offside stops attackers from just standing by the goal waiting for a pass. You're offside if you're ahead of the last defender (and the ball) when a teammate plays it to you. Good attackers stay level with the last defender, then time their run to burst forward AS the ball is kicked.",
+      youtube: "",
+      diagram: "drills/offsides.svg",
+      time: "5 min",
+      equipment: "Just the diagram (a couch cushion 'defender' helps!)",
+      steps: [
+        "Look at the diagram: find the last defender's line.",
+        "Point to the ✓ onside player and the ✗ offside player and say why.",
+        "Practice the idea: a grown-up is the 'last defender' — don't run past them until the 'ball' is played.",
+      ],
+      indoor:
+        "Line up toys or cushions as defenders; walk through 'onside vs. offside' by standing level with the last one.",
+    },
+    ...SKILL_VIDEOS,
+  ],
 };
 
 /* ---- PRACTICES (newest first; the top one shows as "This week") ---------- */
 const PRACTICES = [
   {
-    date: "2026-08-18",
-    title: "Offsides, set pieces with goalies, Rondo & crossing",
-    // Forecast (upcoming practice) — replace with the actual after we play.
-    weather: { emoji: "☀️", tempF: 89, condition: "Forecast: mostly clear & hot", humidity: 59 },
+    date: "2026-09-01",
+    title: PLAN_OFFSIDES_SETPIECES.title,
+    // Forecast placeholder (beyond NWS range until ~a week out).
+    weather: { emoji: "☀️", tempF: 86, condition: "Forecast: warm & clear", humidity: 55 },
     summary:
-      "Rescheduled from last week's rain-out. We'll learn offsides and work set pieces with our goalies (goal kicks and defending corners). We'll bring back the Rondo keep-away and finally get to crossing. Finish with a scrimmage.",
-
+      "We'll keep working offsides and set pieces with our goalies, bring back the Rondo keep-away, and practice crossing. Finish with a scrimmage. New at-home skill videos added to the homework below!",
     attendance: { present: [], absent: [] },
-
     warmup: {
       items: [
         "Dynamic warm-up + light dribbling",
         "Quick review: positions & staying onside",
       ],
     },
+    drills: PLAN_OFFSIDES_SETPIECES.drills,
+    scrimmage: PLAN_OFFSIDES_SETPIECES.scrimmage,
+    homework: PLAN_OFFSIDES_SETPIECES.homework,
+  },
 
-    drills: [
-      {
-        name: "Offsides",
-        focus: "Staying onside — level with or behind the last defender",
-        youtube: "",
-        diagram: "drills/offsides.svg",
-        steps: [
-          "In our league, offside only counts between the opponent's goal and the build-out line (not the whole half).",
-          "You're offside if you're ahead of the last defender AND the ball when it's played to you.",
-          "Time your run: stay level with the last defender, then burst forward as the ball is kicked.",
-          "Defenders can step up together to catch attackers offside.",
-          "If you're unsure — check where the last defender is before you sprint.",
-        ],
-      },
-      {
-        name: "Set Pieces with Goalies",
-        focus: "Goal kicks and defending corners — the goalie's job",
-        youtube: "",
-        diagram: "drills/set-pieces-goalie.svg",
-        steps: [
-          "Goal kick: spread wide, the goalie/back plays out to the sides — not up the middle.",
-          "Defending a corner: the goalie owns the box — call 'keeper!' loud and go get it.",
-          "Field players: mark up and clear the ball AWAY from our goal, out to the sides.",
-          "Everyone knows their spot before the ball is played.",
-        ],
-      },
-      {
-        name: "3v1 & 4v1 Rondo (Keep-Away)",
-        focus: "Passing under pressure, spacing, and supporting angles",
-        youtube: "https://www.youtube.com/watch?v=VxTKNvfnyLs",
-        diagram: "drills/rondo.svg",
-        steps: [
-          "Players form a circle/triangle with one defender in the middle.",
-          "Keep the ball away from the defender with quick, accurate passes.",
-          "Move to an open angle so your teammate always has a pass.",
-          "When the defender touches the ball, swap her out.",
-        ],
-      },
-      {
-        name: "Crossing",
-        focus: "Getting wide and delivering the ball into the box",
-        youtube: "",
-        diagram: "drills/crossing.svg",
-        steps: [
-          "Dribble wide down the side (the wing).",
-          "Look up to see teammates in the middle.",
-          "Drive the ball across the front of the goal.",
-          "Forwards: time your run to meet the cross.",
-        ],
-      },
-    ],
-
-    scrimmage: {
-      description: "10-minute scrimmage — watch for offsides, and use the goalie on goal kicks & corners.",
-      duration: "10 minutes",
+  {
+    date: "2026-08-25",
+    title: PLAN_OFFSIDES_SETPIECES.title,
+    weather: { emoji: "☀️", tempF: 85, condition: "Clear", humidity: 67 },
+    summary:
+      "Rescheduled from the rain-out. We learned offsides and worked set pieces with our goalies (goal kicks and defending corners), brought back the Rondo keep-away, and got to crossing. Finished with a scrimmage.",
+    attendance: {
+      present: ["Nora", "Nori", "Fiona", "Marlie", "Paige", "Adi", "Rose", "Riley", "Orion", "Reina"],
+      absent: ["Hailey"],
     },
+    warmup: {
+      items: [
+        "Dynamic warm-up + light dribbling",
+        "Quick review: positions & staying onside",
+      ],
+    },
+    drills: PLAN_OFFSIDES_SETPIECES.drills,
+    scrimmage: PLAN_OFFSIDES_SETPIECES.scrimmage,
+    homework: PLAN_OFFSIDES_SETPIECES.homework,
+  },
 
-    homework: [
-      {
-        name: "Understand Offsides",
-        focus: "Knowing the offside rule and timing your runs",
-        concept:
-          "Offside stops attackers from just standing by the goal waiting for a pass. You're offside if you're ahead of the last defender (and the ball) when a teammate plays it to you. Good attackers stay level with the last defender, then time their run to burst forward AS the ball is kicked.",
-        youtube: "",
-        diagram: "drills/offsides.svg",
-        time: "5 min",
-        equipment: "Just the diagram (a couch cushion 'defender' helps!)",
-        steps: [
-          "Look at the diagram: find the last defender's line.",
-          "Point to the ✓ onside player and the ✗ offside player and say why.",
-          "Practice the idea: a grown-up is the 'last defender' — don't run past them until the 'ball' is played.",
-        ],
-        indoor:
-          "Line up toys or cushions as defenders; walk through 'onside vs. offside' by standing level with the last one.",
-      },
-    ],
+  {
+    date: "2026-08-18",
+    title: PLAN_OFFSIDES_SETPIECES.title,
+    cancelled: "Cancelled due to weather. This plan moved to the next practice.",
+    weather: { emoji: "⛈️", tempF: 89, condition: "Storms", humidity: 59 },
+    summary:
+      "This plan (offsides, set pieces with goalies, Rondo keep-away, and crossing) was rescheduled to the next practice.",
+    attendance: { present: [], absent: [] },
+    warmup: {
+      items: [
+        "Dynamic warm-up + light dribbling",
+        "Quick review: positions & staying onside",
+      ],
+    },
+    drills: PLAN_OFFSIDES_SETPIECES.drills,
+    scrimmage: PLAN_OFFSIDES_SETPIECES.scrimmage,
+    homework: PLAN_OFFSIDES_SETPIECES.homework,
   },
 
   {
@@ -602,18 +665,17 @@ const GAMES = [
    "" (neutral dash, not yet). Captains never use "no" (everyone will be
    captain at some point). number is optional (jersey #); null shows a ball. */
 const ROSTER = [
-  { name: "Nora",   number: null, goals: 0, assists: 0, saves: 0, games: 0, practices: 1, goalie: "", captain: "" },
-  { name: "Nori",   number: null, goals: 0, assists: 0, saves: 0, games: 0, practices: 2, goalie: "", captain: "" },
-  { name: "Fiona",  number: null, goals: 0, assists: 0, saves: 0, games: 0, practices: 1, goalie: "", captain: "" },
-  { name: "Marlie", number: null, goals: 0, assists: 0, saves: 0, games: 0, practices: 2, goalie: "", captain: "" },
-  { name: "Paige",  number: null, goals: 0, assists: 0, saves: 0, games: 0, practices: 2, goalie: "", captain: "" },
-  { name: "Adi",    number: null, goals: 0, assists: 0, saves: 0, games: 0, practices: 2, goalie: "", captain: "" },
+  { name: "Nora",   number: null, goals: 0, assists: 0, saves: 0, games: 0, practices: 2, goalie: "", captain: "" },
+  { name: "Nori",   number: null, goals: 0, assists: 0, saves: 0, games: 0, practices: 3, goalie: "", captain: "" },
+  { name: "Fiona",  number: null, goals: 0, assists: 0, saves: 0, games: 0, practices: 2, goalie: "", captain: "" },
+  { name: "Marlie", number: null, goals: 0, assists: 0, saves: 0, games: 0, practices: 3, goalie: "", captain: "" },
+  { name: "Paige",  number: null, goals: 0, assists: 0, saves: 0, games: 0, practices: 3, goalie: "", captain: "" },
+  { name: "Adi",    number: null, goals: 0, assists: 0, saves: 0, games: 0, practices: 3, goalie: "", captain: "" },
   { name: "Hailey", number: null, goals: 0, assists: 0, saves: 0, games: 0, practices: 2, goalie: "", captain: "" },
-  { name: "Rose",   number: null, goals: 0, assists: 0, saves: 0, games: 0, practices: 2, goalie: "", captain: "" },
-  { name: "Riley",  number: null, goals: 0, assists: 0, saves: 0, games: 0, practices: 2, goalie: "", captain: "" },
-  { name: "Orion",  number: null, goals: 0, assists: 0, saves: 0, games: 0, practices: 1, goalie: "", captain: "" },
-  { name: "Noor",   number: null, goals: 0, assists: 0, saves: 0, games: 0, practices: 0, goalie: "", captain: "" },
-  { name: "Reina",  number: null, goals: 0, assists: 0, saves: 0, games: 0, practices: 1, goalie: "", captain: "" },
+  { name: "Rose",   number: null, goals: 0, assists: 0, saves: 0, games: 0, practices: 3, goalie: "", captain: "" },
+  { name: "Riley",  number: null, goals: 0, assists: 0, saves: 0, games: 0, practices: 3, goalie: "", captain: "" },
+  { name: "Orion",  number: null, goals: 0, assists: 0, saves: 0, games: 0, practices: 2, goalie: "", captain: "" },
+  { name: "Reina",  number: null, goals: 0, assists: 0, saves: 0, games: 0, practices: 2, goalie: "", captain: "" },
 ];
 
 /* ---- SNACK SIGNUPS --------------------------------------------------------
